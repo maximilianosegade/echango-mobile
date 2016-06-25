@@ -1,0 +1,26 @@
+<ion-view title="Login" id="page4" class=" ">
+    <ion-content padding="true" class="has-header">
+        <form id="login-form3" class="list ">
+            <ion-list id="login-list3" class=" ">
+                <label class="item item-input " id="login-input1" name="nombre">
+                    <input type="text" placeholder="Usuario">
+                </label>
+                <label class="item item-input " id="login-input2" name="password">
+                    <input type="password" placeholder="Password">
+                </label>
+            </ion-list>
+            <ion-item class="item-thumbnail-left  " id="login-list-item6" ui-sref="menu.socialLogin">
+                <img src="img/BFrgW45sRipGx7hgOrnv_face.png">
+                <h2>Facebook</h2>
+            </ion-item>
+            <ion-item class="item-thumbnail-left  " id="login-list-item8" ui-sref="menu.socialLogin">
+                <img src="img/doD3rF0lR5eZrNJZIFCB_goog.png">
+                <h2>Google</h2>
+            </ion-item>
+            <div class="spacer" style="height: 40px;"></div>
+            <a ui-sref="menu.datosAdicionales" id="login-button1" class=" button button-stable  button-block icon-left ion-android-done ">Log in</a>
+            <div class="spacer" style="height: 40px;"></div>
+            <a href="#" onclick="window.open('/signup', '_system', 'location=yes'); return false;" id="login-button2" class=" button button-positive  button-block button-clear ">Or create an account</a>
+        </form>
+    </ion-content>
+</ion-view>
