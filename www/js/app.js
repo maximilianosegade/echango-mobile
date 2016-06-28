@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.medioPago'])
 
-.run(function($ionicPlatform) {
+.run(function($ionicPlatform, BaseLocal) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -19,5 +19,63 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
+    
+    //mock de base de datos
+    //Busca el documento 'ubicaciones'
+    BaseLocal.get('ubicaciones').then(function(doc){
+      //si lo encuentra lo borra
+      BaseLocal.remove(doc._id, doc._rev).then(function(){
+        //si lo borra bien lo vuelve a crear
+        BaseLocal.put({
+                _id: 'ubicaciones',
+              "ubicaciones": [{
+              id: 1,
+              nombre: 'Coto Castrobarros',
+              direccion: 'Castrobarros 66, caba, Argentina',
+              latitud: '-34.612020',
+              longitud:  '-58.420792'
+            }, {
+              id: 0,
+              nombre: 'Disco Castrobarros',
+              direccion: 'Castrobarros 166, caba, Argentina',
+              latitud: '-34.613968',
+              longitud:  '-58.420387' 
+            },
+            {
+              id: 2,
+              nombre: 'Disco UTN',
+              direccion: 'Medrano 850, caba, Argentina',
+              latitud: '-34.598658',
+              longitud:  '-58.420187' 
+            }
+            ]});
+      });
+    }).catch(function (error) {
+           //Si no lo encuentra, lo crea
+           BaseLocal.put({
+                _id: 'ubicaciones',
+              "ubicaciones": [{
+              id: 0,
+              nombre: 'Coto Castrobarros',
+              direccion: 'Castrobarros 66, caba, Argentina',
+              latitud: '-34.612020',
+              longitud:  '-58.420792'
+            }, {
+              id: 1,
+              nombre: 'Disco Castrobarros',
+              direccion: 'Castrobarros 166, caba, Argentina',
+              latitud: '-34.613968',
+              longitud:  '-58.420387' 
+            },
+            {
+              id: 2,
+              nombre: 'Disco UTN',
+              direccion: 'MEdrano 850, caba, Argentina',
+              latitud: '-34.598658',
+              longitud:  '-58.420187' 
+            }
+            ]});
+         });
+    
   });
 })

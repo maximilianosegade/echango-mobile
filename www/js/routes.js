@@ -176,6 +176,16 @@ angular.module('app.routes', [])
     controller: 'relevamientoCtrl'
   })
 
+  .state('menu.ubicaciones', {
+    url: '/page21',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/ubicaciones.html',
+        controller: 'ubicacionesCtrl'
+      }
+    }
+  })
+
 $urlRouterProvider.otherwise('/side-menu21/page1')
 
   

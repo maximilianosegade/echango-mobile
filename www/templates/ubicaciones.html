@@ -1,0 +1,17 @@
+<ion-view title="Ubicaciones" id="page21" class=" ">
+    <ion-content padding="true" class="has-header">
+        <ion-list id="ubicaciones-list11" class=" ">
+            <ion-item class="" ng-repeat="ubicacion in ubicaciones" type="item-text-wrap" href="">
+        
+        <h2>{{ubicacion.nombre}}</h2>
+        <p>{{ubicacion.direccion}}</p>
+        <i class="icon ion-chevron-right icon-accessory"></i>
+
+        <ion-option-button class="" ng-click="borrar(ubicacion)">
+          Borrar
+        </ion-option-button>
+      </ion-item>
+        </ion-list>
+        <a ui-sref="menu.agregarUbicaciN" id="ubicaciones-button10" class=" button button-balanced  button-block icon-left ion-android-add ">Agregar otra Ubicación</a>
+    </ion-content>
+</ion-view>
