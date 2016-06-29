@@ -1,8 +1,8 @@
    
 angular.module('app.controllers.medioPago', [])
-.controller('agregarMedioDePagoCtrl', ['$scope','pouchdb','$ionicModal', function($scope,pouchdb,$ionicModal) {
+.controller('agregarMedioDePagoCtrl', ['$scope','BaseLocal','$ionicModal', function($scope,pouchdb,$ionicModal) {
   
-    var dbLocal = new PouchDB('dbname');
+    var dbLocal = BaseLocal;
 
     //var dbRemote = new PouchDB('http://localhost:5984/dbname');
 
