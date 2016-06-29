@@ -1,6 +1,6 @@
    
 angular.module('app.controllers.medioPago', [])
-.controller('agregarMedioDePagoCtrl', ['$scope','BaseLocal','$ionicModal', function($scope,pouchdb,$ionicModal) {
+.controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal) {
   
     var dbLocal = BaseLocal;
 
@@ -73,4 +73,4 @@ dbLocal.allDocs({
 }).catch(function (err) {
     console.log(err);
 });
-}])
+})

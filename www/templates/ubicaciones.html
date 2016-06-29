@@ -5,11 +5,9 @@
         
         <h2>{{ubicacion.nombre}}</h2>
         <p>{{ubicacion.direccion}}</p>
-        <i class="icon ion-chevron-right icon-accessory"></i>
 
-        <ion-option-button class="" ng-click="borrar(ubicacion)">
-          Borrar
-        </ion-option-button>
+<a ng-click="borrar(ubicacion)" id="ubicaciones-button10" class=" button button-assertive icon-left ion-android-remove ">Borrar</a>
+        
       </ion-item>
         </ion-list>
         <a ui-sref="menu.agregarUbicaciN" id="ubicaciones-button10" class=" button button-balanced  button-block icon-left ion-android-add ">Agregar otra Ubicación</a>

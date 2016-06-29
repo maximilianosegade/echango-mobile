@@ -1,20 +1,5 @@
 angular.module('app.services', [])
-.service("ServiciosBD", function($rootScope, $q, BaseLocal) {
-   var database = BaseLocal;
-   
-  this.getUbicaciones = function() {
-        return database.get('ubicaciones').then(function(doc){
-           return doc.ubicaciones;
-         });
-    }
-    this.agregarUbicacion = function(ubicacion) {
-        return database.get('ubicaciones').then(function(doc){
-            doc.ubicaciones.push(ubicacion);
-            database.put(doc,doc._id,doc._rev);
-            return doc;
-         });
-    }
-})
+
 .factory('BaseLocal', function() {
   var pouchdb = new PouchDB('baseLocal');
   /*pouchdb.put({
