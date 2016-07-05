@@ -1,26 +1,17 @@
 <ion-view title="Agregar Medio de pago" id="page15" class=" ">
     <ion-content padding="true" class="has-header">
         <form id="agregarMedioDePago-form6" class="list ">
-            <label class="item item-select " id="agregarMedioDePago-select6">
-                <span class="input-label">Banco</span>
-                <select ng-click="openModal(2)">
-                   <option>
-                    <ion-option>
-                      {{bancoSeleccionado.nombre}}
-                    </ion-option>
-                  </option>
-                </select>
-            </label>
+        <ion-item ng-click="openModal(1)">
             <label class="item item-select " id="agregarMedioDePago-select7">
-                <span class="input-label">Tarjeta</span>
-                <select ng-click="openModal(1)">
-                  <option>
-                    <ion-option>
-                      {{tarjetaSeleccionada.nombre}}
-                    </ion-option>
-                  </option>
-                </select>
+                <span class="input-label" >Tarjeta: {{tarjetaSeleccionada.nombre}}</span>
             </label>
+          </ion-item>
+                  <ion-item ng-click="openModal(2)">
+            <label class="item item-select " id="agregarMedioDePago-select7">
+                <span class="input-label" >Banco: {{bancoSeleccionado.nombre}}</span>
+            </label>
+          </ion-item>
+
         </form>
         <button ng-click="agregar()" id="agregarMedioDePago-button20" class=" button button-balanced  button-block icon-left ion-plus ">Agregar</button>
         <ion-item>
@@ -36,6 +27,7 @@
             {{item.tarjeta.nombre}} {{item.banco.nombre}}
           </ion-item>
         </ion-list>
+
     </ion-content>
     
     
