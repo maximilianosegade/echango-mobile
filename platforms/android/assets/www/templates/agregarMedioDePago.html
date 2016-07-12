@@ -1,0 +1,52 @@
+<ion-view title="Agregar Medio de pago" id="page15" class=" ">
+    <ion-content padding="true" class="has-header">
+        <form id="agregarMedioDePago-form6" class="list ">
+            <label class="item item-select " id="agregarMedioDePago-select6">
+                <span class="input-label">Banco</span>
+                <select>
+                    <option>Visa</option>
+                    <option>Mastercard</option>
+                    <option>Nativa</option>
+                    <option>Cabal</option>
+                </select>
+            </label>
+            <label class="item item-select " id="agregarMedioDePago-select7">
+                <span class="input-label">Tarjeta</span>
+                <select>
+                    <option>Visa</option>
+                    <option>Mastercard</option>
+                    <option>Nativa</option>
+                    <option>Cabal</option>
+                </select>
+            </label>
+        </form>
+        <button ng-click="openModal()" id="agregarMedioDePago-button20" class=" button button-balanced  button-block icon-left ion-plus ">Agregar</button>
+    </ion-content>
+    
+    
+    <script id="my-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Add Expense</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <label class="item item-input">
+                <input type="text" ng-model="item.expense" placeholder="Expense">
+              </label>
+              <label class="item item-input">
+                <input type="number" ng-model="item.amount" placeholder="Amount">
+              </label>
+              <button ng-click="agregar()" class="button button-full button-positive">
+                Add Expense
+              </button>
+              
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+</ion-view>
+

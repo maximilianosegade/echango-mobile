@@ -1,4 +1,4 @@
-angular.module('starter.directives', [])
+angular.module('app.directives', [])
 
 .directive('map', function() {
   return {
@@ -9,7 +9,7 @@ angular.module('starter.directives', [])
     link: function ($scope, $element, $attr) {
       function initialize() {
         var mapOptions = {
-          center: new google.maps.LatLng(43.07493, -89.381388),
+          center: new google.maps.LatLng(-34.598658, -58.420187),
           zoom: 16,
           mapTypeId: google.maps.MapTypeId.ROADMAP
         };
@@ -32,3 +32,4 @@ angular.module('starter.directives', [])
     }
   }
 });
+
