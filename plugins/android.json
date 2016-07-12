@@ -24,6 +24,10 @@
         },
         "ionic-plugin-keyboard": {
             "PACKAGE_NAME": "com.ionicframework.mapa606841"
+        },
+        "plugin.google.maps": {
+            "API_KEY_FOR_ANDROID": "AIzaSyC5K92e_yJ4u3_s49OpFdIy4_sFT2smoHE",
+            "PACKAGE_NAME": "com.ionicframework.mapa606841"
         }
     },
     "dependent_plugins": {}
