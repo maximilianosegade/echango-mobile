@@ -1,61 +1,119 @@
 <ion-view title="Datos Adicionales" id="page6" class=" ">
     <ion-content padding="true" class="has-header">
         <form id="datosAdicionales-form4" class="list ">
-            <ion-list id="datosAdicionales-list5" class=" ">
                 <label class="item item-input " id="datosAdicionales-input6" name="nombre">
-                    <input type="text" placeholder="Nombre">
+                    <input type="text" placeholder="Nombre" ng-model="datosAdicionales.nombre">
                 </label>
                 <label class="item item-input " id="datosAdicionales-input8" name="password">
-                    <input type="text" placeholder="password">
+                    <input type="password" placeholder="password" ng-model="datosAdicionales.password">
                 </label>
-            </ion-list>
+        <ion-item ng-click="openModal(1)">
+            <label class="item item-select " id="datosAdicionales-select1">
+                <span class="input-label" >Sexo: {{datosAdicionales.sexo}}</span>
+            </label>
+          </ion-item>
+        <ion-item ng-click="openModal(2)">
             <label class="item item-select " id="datosAdicionales-select2">
-                <span class="input-label">Sexo</span>
-                <select>
-                    <option>Masculino</option>
-                    <option>Femenino</option>
-                    <option>No informa</option>
-                </select>
+                <span class="input-label" >Edad: {{datosAdicionales.edad}}</span>
             </label>
-            <label class="item item-select " id="datosAdicionales-select3" name="edad">
-                <span class="input-label">Edad</span>
-                <select>
-                    <option>0 - 10 Años</option>
-                    <option>11- 17 Años</option>
-                    <option>18 - 22 Años</option>
-                    <option>23 - 30 Años</option>
-                    <option>31 - 40 Años</option>
-                    <option>41 - 47 Años</option>
-                    <option>48 - 59 Años</option>
-                    <option>+ 60 Años</option>
-                </select>
+          </ion-item>
+        <ion-item ng-click="openModal(3)">
+            <label class="item item-select " id="datosAdicionales-select3">
+                <span class="input-label" >Estado Civil: {{datosAdicionales.estadoCivil}}</span>
             </label>
-            <label class="item item-select " id="datosAdicionales-select4" name="estadoCivil">
-                <span class="input-label">Estado Civil</span>
-                <select>
-                    <option>Soltero/a</option>
-                    <option>Casado/a</option>
-                    <option>Divorciado/a</option>
-                    <option>Viudo/a</option>
-                    <option>No informa</option>
-                </select>
+          </ion-item>
+        <ion-item ng-click="openModal(4)">
+            <label class="item item-select " id="datosAdicionales-select4">
+                <span class="input-label" >Regularidad de Compra: {{datosAdicionales.regularidadCompra}}</span>
             </label>
-            <label class="item item-select " id="datosAdicionales-select5" name="regularidadCompra">
-                <span class="input-label">Regularidad de compra</span>
-                <select>
-                    <option>Diaria</option>
-                    <option>Semanal</option>
-                    <option>Mensual</option>
-                    <option>Variada</option>
-                    <option>No informa</option>
-                </select>
-            </label>
+          </ion-item>
             <h3 id="datosAdicionales-heading2" style="color:#000000;text-align:center;" class=" ">Lugares de compra</h3>
             <ion-checkbox name="lugarCompra">Almacén de Barrio</ion-checkbox>
             <ion-checkbox name="lugarCompra">Minimercado</ion-checkbox>
             <ion-checkbox name="lugarCompra">Supermercado</ion-checkbox>
             <ion-checkbox name="lugarCompra">Minimercado Chino</ion-checkbox>
-            <a ui-sref="menu.eChango" id="datosAdicionales-button7" class=" button button-stable  button-block ">Guardar</a>
+            <!--<a ui-sref="menu.eChango" id="datosAdicionales-button7" class=" button button-stable  button-block ">Guardar</a>-->
+            <button ng-click="guardar()" class=" button button-stable  button-block ">Guardar</button>
         </form>
     </ion-content>
 </ion-view>
+
+ <script id="sexo-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Sexo</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="sexo in sexos" ng-click="closeModalSeleccionSexo(sexo)">
+                  {{sexo}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+
+       <script id="edad-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Edad</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="edad in edades" ng-click="closeModalSeleccionEdad(edad)">
+                  {{edad}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+
+       <script id="estado-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Estado Civil</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="estado in estados" ng-click="closeModalSeleccionEstadoCivil(estado)">
+                  {{estado}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+
+       <script id="regularidad-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Regularidad de Compra</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="regularidad in regularidades" ng-click="closeModalSeleccionRegularidadCompra(regularidad)">
+                  {{regularidad}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
