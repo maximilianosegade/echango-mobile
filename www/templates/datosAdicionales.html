@@ -1,10 +1,10 @@
 <ion-view title="Datos Adicionales" id="page6" class=" ">
     <ion-content padding="true" class="has-header">
         <form id="datosAdicionales-form4" class="list ">
-                <label class="item item-input " id="datosAdicionales-input6" name="nombre">
+                <label class="item item-input " id="datosAdicionales-input1" name="nombre">
                     <input type="text" placeholder="Nombre" ng-model="datosAdicionales.nombre">
                 </label>
-                <label class="item item-input " id="datosAdicionales-input8" name="password">
+                <label class="item item-input " id="datosAdicionales-input2" name="password">
                     <input type="password" placeholder="password" ng-model="datosAdicionales.password">
                 </label>
         <ion-item ng-click="openModal(1)">
@@ -28,11 +28,11 @@
             </label>
           </ion-item>
             <h3 id="datosAdicionales-heading2" style="color:#000000;text-align:center;" class=" ">Lugares de compra</h3>
-            <ion-checkbox name="lugarCompra">Almacén de Barrio</ion-checkbox>
-            <ion-checkbox name="lugarCompra">Minimercado</ion-checkbox>
-            <ion-checkbox name="lugarCompra">Supermercado</ion-checkbox>
-            <ion-checkbox name="lugarCompra">Minimercado Chino</ion-checkbox>
-            <!--<a ui-sref="menu.eChango" id="datosAdicionales-button7" class=" button button-stable  button-block ">Guardar</a>-->
+            <ion-checkbox name="lugarCompraAlmacenBarrio" ng-model="datosAdicionales.lugarCompraAlmacenBarrio">Almacén de Barrio</ion-checkbox>
+            <ion-checkbox name="lugarCompraMinimercado" ng-model="datosAdicionales.lugarCompraMinimercado">Minimercado</ion-checkbox>
+            <ion-checkbox name="lugarCompraSupermercado" ng-model="datosAdicionales.lugarCompraSupermercado">Supermercado</ion-checkbox>
+            <ion-checkbox name="lugarCompraMinimercadoChino" ng-model="datosAdicionales.lugarCompraMinimercadoChino">Minimercado Chino</ion-checkbox>
+            <!--<a ui-sref="menu.eChango" id="datosAdicionales-button7" class=" button button-stable  button-block " ng-click="guardar()">Guardar</a>-->
             <button ng-click="guardar()" class=" button button-stable  button-block ">Guardar</button>
         </form>
     </ion-content>
