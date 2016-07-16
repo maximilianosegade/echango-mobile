@@ -162,6 +162,20 @@ $scope.guardar = function(){
               alert('Datos guardados correctamente!')
         }).catch(function (err) {
              alert('No se pudo guardar');
+             BaseLocal.put({
+                _id: 'datosAdicionales',
+                _rev: doc._rev,
+                sexo: $scope.datosAdicionales.sexo,
+                estadoCivil: $scope.datosAdicionales.estadoCivil,
+                regularidadCompra: $scope.datosAdicionales.regularidadCompra,
+                edad: $scope.datosAdicionales.edad,
+                nombre: $scope.datosAdicionales.nombre,
+                password: $scope.datosAdicionales.password,
+                lugarCompraAlmacenBarrio: $scope.datosAdicionales.lugarCompraAlmacenBarrio,
+                lugarCompraMinimercado: $scope.datosAdicionales.lugarCompraMinimercado,
+                lugarCompraMinimercadoChino: $scope.datosAdicionales.lugarCompraMinimercadoChino,
+                lugarCompraSupermercado: $scope.datosAdicionales.lugarCompraSupermercado
+            });
         });
 
     } else {
