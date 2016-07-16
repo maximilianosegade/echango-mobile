@@ -7,6 +7,24 @@ angular.module('app.controllers.agregarTarjetaPromocional', [])
     $scope.tarjetasPromocionales = ['Comunidad COTO','DISCO','DIA Discount','Cencosud'];
     $scope.tarjetasPromocionalesRegistradas = [];
     $scope.tarjetaPromocionalSeleccionada = '';
+
+    // Obtener tarjetas promocionales registradas desde Pouch
+
+    dbLocal.get('tarjetasPromocionalesRegistradas').then(function(doc){
+        // Lo encontró
+        $scope.tarjetasPromocionalesRegistradas = doc.tarjetasPromocionalesRegistradas;
+        $scope.$apply(); 
+    }).catch(function(err){
+        // Si no existe, crearlo
+        dbLocal.put({
+            _id: 'tarjetasPromocionalesRegistradas',
+             tarjetasPromocionalesRegistradas: $scope.tarjetasPromocionalesRegistradas
+        }).then(function (response) {
+            // handle response
+        }).catch(function (err) {
+            alert('error al crear')
+        });
+    });
    
     /* Funciones modal INICIO*/
     $ionicModal.fromTemplateUrl('my-modal.html', {
@@ -44,6 +62,26 @@ $scope.agregar = function(){
         }
         if (validarItem($scope.tarjetaPromocionalSeleccionada)){
             $scope.tarjetasPromocionalesRegistradas.push(obj);
+            // Actualizar datos en Pouch
+            BaseLocal.get('tarjetasPromocionalesRegistradas').then(function(doc) {
+            return BaseLocal.put({
+                _id: 'tarjetasPromocionalesRegistradas',
+                _rev: doc._rev,
+                tarjetasPromocionalesRegistradas: $scope.tarjetasPromocionalesRegistradas
+                 });
+             }).then(function(response) {
+            alert('Datos actualizados correctamente!')
+                
+        }).catch(function (err) {
+                // Error, no existia el doc -> crearlo
+                BaseLocal.put({
+                _id: 'tarjetasPromocionalesRegistradas',
+                tarjetasPromocionalesRegistradas: $scope.tarjetasPromocionalesRegistradas
+            }).catch(function(err){
+                alert('error al crear');
+            });
+            $scope.$apply();
+        });
         }
         // Agregar al array
         $scope.tarjetaPromocionalSeleccionada = '';
