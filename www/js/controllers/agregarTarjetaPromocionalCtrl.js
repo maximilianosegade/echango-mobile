@@ -70,7 +70,7 @@ $scope.agregar = function(){
                 tarjetasPromocionalesRegistradas: $scope.tarjetasPromocionalesRegistradas
                  });
              }).then(function(response) {
-            alert('Datos actualizados correctamente!')
+
                 
         }).catch(function (err) {
                 // Error, no existia el doc -> crearlo
