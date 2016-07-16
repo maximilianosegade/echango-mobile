@@ -3,7 +3,7 @@ angular.module('app.controllers.medioPago', [])
 .controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal) {
   
     var dbLocal = BaseLocal;
-    PouchDB.debug.enable('*');
+   
 // Obtener tarjetas
 dbLocal.get('medioDePagoTarjetasNombres').then(function(doc){
     $scope.tarjetas = doc.medioDePagoTarjetasNombres;
@@ -21,7 +21,6 @@ dbLocal.get('mediosDePagoRegistrados').then(function(doc){
 }).catch(function(err){
     BaseLocal.put({
                 _id: 'mediosDePagoRegistrados',
-                _rev: doc._rev,
                 mediosDePagoRegistrados: $scope.mediosDePagoRegistrados
     }).catch(function(err){
         "No se pudo hacer put"
@@ -102,7 +101,6 @@ $scope.agregar = function(){
         }).catch(function (err) {
                 BaseLocal.put({
                 _id: 'mediosDePagoRegistrados',
-                _rev: timeStamp,
                 mediosDePagoRegistrados: $scope.mediosDePagoRegistrados
             }).catch(function(err){
                 alert('error al crear');
