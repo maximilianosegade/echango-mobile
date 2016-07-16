@@ -95,6 +95,26 @@ $scope.agregar = function(){
 
  $scope.deleteItem = function (item) {
   $scope.tarjetasPromocionalesRegistradas.splice($scope.tarjetasPromocionalesRegistradas.indexOf(item), 1);
+    // Actualizar DB
+  BaseLocal.get('tarjetasPromocionalesRegistradas').then(function(doc) {
+            return BaseLocal.put({
+                _id: 'tarjetasPromocionalesRegistradas',
+                _rev: doc._rev,
+                tarjetasPromocionalesRegistradas: $scope.tarjetasPromocionalesRegistradas
+            });
+        }).then(function(response) {
+                                
+
+        }).catch(function (err) {
+                BaseLocal.put({
+                _id: 'tarjetasPromocionalesRegistradas',
+                 tarjetasPromocionalesRegistradas: $scope.tarjetasPromocionalesRegistradas
+            }).catch(function(err){
+                alert('error al eliminar de la DB');
+            });
+            $scope.$apply();
+        });  
+
 };
 
 var validarItem = function(unNombreDeTarjeta){
