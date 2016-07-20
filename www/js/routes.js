@@ -185,8 +185,47 @@ angular.module('app.routes', [])
       }
     }
   })
+  
+  .state('menu.preferenciasDeAplicaciN', {
+    url: '/page22',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/preferenciasDeAplicaciN.html',
+        controller: 'preferenciasDeAplicaciNCtrl'
+      }
+    }
+  })
 
-$urlRouterProvider.otherwise('/side-menu21/page21')
+  .state('menu.nuevaLista', {
+    url: '/page23',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/nuevaLista.html',
+        controller: 'nuevaListaCtrl'
+      }
+    }
+  })
+    .state('menu.consultarPrecio', {
+    url: '/page24',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/consultarPrecio.html',
+        controller: 'consultarPrecioCtrl'
+      }
+    }
+  })
+
+  .state('menu.relevarPrecio', {
+    url: '/page25',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/relevarPrecio.html',
+        controller: 'relevarPrecioCtrl'
+      }
+    }
+  })
+
+$urlRouterProvider.otherwise('/side-menu21/page1')
 
   
 
