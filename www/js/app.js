@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.medioPago','app.services.ubicaciones','app.controllers.ubicaciones','ion-google-place'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.medioPago','app.services.ubicaciones','app.controllers.ubicaciones'])
 
 .run(function($ionicPlatform, BaseLocal) {
   $ionicPlatform.ready(function() {
@@ -20,7 +20,19 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       StatusBar.styleDefault();
     }
     
-    //mock de base de datos
+    //mockBaseDatos(BaseLocal);
+    //borrarBase(BaseLocal);
+    
+  });
+})
+
+function borrarBase(BaseLocal){
+  BaseLocal.destroy();
+}
+
+function mockBaseDatos(BaseLocal){
+  
+  //mock de base de datos
     //Busca el documento 'ubicaciones'
     BaseLocal.get('ubicaciones').then(function(doc){
       //si lo encuentra lo borra
@@ -76,6 +88,4 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
             }
             ]});
          });
-    
-  });
-})
+}

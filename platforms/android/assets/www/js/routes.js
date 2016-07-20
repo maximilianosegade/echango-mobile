@@ -57,7 +57,7 @@ angular.module('app.routes', [])
   })
 
   .state('menu.agregarUbicaciN', {
-    url: '/page7',
+    url: '/page7?ubicacion',
     views: {
       'side-menu21': {
         templateUrl: 'templates/agregarUbicaciN.html',
@@ -186,7 +186,7 @@ angular.module('app.routes', [])
     }
   })
 
-$urlRouterProvider.otherwise('/side-menu21/page1')
+$urlRouterProvider.otherwise('/side-menu21/page21')
 
   
 

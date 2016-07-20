@@ -24,4 +24,5 @@ angular.module('app.services.ubicaciones', [])
             return doc.ubicaciones;
          });
     }
+    
 })

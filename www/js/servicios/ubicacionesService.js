@@ -15,6 +15,20 @@ angular.module('app.services.ubicaciones', [])
             doc.ubicaciones.push(ubicacion);
             database.put(doc,doc._id,doc._rev);
             return doc;
+         }).catch(function (error) {
+           //Si no lo encuentra, lo crea
+           var doc = {
+                _id: 'ubicaciones',
+              "ubicaciones": [{
+              id: 0,
+              nombre: ubicacion.nombre,
+              direccion: ubicacion.direccion,
+              latitud: ubicacion.latitud,
+              longitud:  ubicacion.longitud
+            }
+            ]}
+           database.put(doc);
+           return doc;
          });
     }
     this.borrarUbicacion = function(ubicacion) {
@@ -24,4 +38,5 @@ angular.module('app.services.ubicaciones', [])
             return doc.ubicaciones;
          });
     }
+    
 })
