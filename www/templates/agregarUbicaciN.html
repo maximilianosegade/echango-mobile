@@ -1,20 +1,18 @@
 <ion-view title="Agregar ubicación" id="page7" class=" ">
     <ion-content padding="true" class="has-header">
-        <form id="agregarUbicaciN-form5" class="list ">
+        <div id="agregarUbicaciN-form5" >
             <label class="item item-input " id="agregarUbicaciN-input8">
-                <input type="text" placeholder="Nombre" ng-model="ubicacionAEditar.nombre">
-            </label>
+                <input type="text" placeholder="Nombre" ng-model="ubicacionAEditar.nombre" autofocus>
+            </label>            
             <label class="item item-input " id="agregarUbicaciN-input9">
-                <ion-google-place placeholder="Ingrese la dirección" ng-model="location" current-location="true" />
+                <input type="text" placeholder="Ingrese dirección" ng-model="ubicacionAEditar.direccion" googleplace="" class="ng-pristine ng-valid" autocomplete="off">
+               <!-- <ion-google-place placeholder="Ingrese la dirección" ng-model="ubicacionAEditar.direccion" current-location="true" /> -->
             </label>
-            <a ng-click="buscarDireccion(ubicacionAEditar)" id="buscarDirecc" class=" button button-assertive icon-left ion-android-search ">Buscar Dirección</a>
-        </form>
+            <a ng-click="guardarDireccion()" id="buscarDirecc" class=" button button-assertive icon-left ion-android-search ">Confirmar Dirección</a>
+        </div>
         <div class="spacer" style="width: 283px; height: 46px;"></div>
         <div class="mapa">            
             <map on-create="mapCreated(map)"></map>
         </div>
-    </ion-content>
-    <ion-footer-bar class="bar-stable">
-      <a ng-click="agregarUbicacion()" class="button button-icon icon ion-navigate"></a>
-    </ion-footer-bar>
+    </ion-content>    
 </ion-view>

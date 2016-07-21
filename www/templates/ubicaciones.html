@@ -7,7 +7,7 @@
         <p>{{ubicacion.direccion}}</p>
 
 <a ng-click="borrar(ubicacion)" id="ubicaciones-button10" class=" button button-assertive icon-left ion-android-remove ">Borrar</a>
-<a ng-click="openModal(ubicacion)" id="ubicaciones-button10" class=" button button-assertive icon-left ion-android-remove ">Editar</a>
+<a ng-click="editar(ubicacion)" id="ubicaciones-button10" class=" button button-assertive icon-left ion-android-remove ">Editar</a>
        
       </ion-item>
         </ion-list>
@@ -27,11 +27,8 @@
             <div class="list">
               <label class="item item-input">
                 <input type="text" ng-model="ubicacionAEditar.nombre" placeholder="Nombre">
-              </label>
-              <label class="item item-input">
-                <input type="text" ng-model="ubicacionAEditar.direccion" placeholder="Direccion">
-              </label>
-              <button ng-click="editar(ubicacionAEditar)" class="button button-full button-positive">
+              </label>              
+              <button ng-click="editar()" class="button button-full button-positive">
                 Guardar Cambios
               </button>
               

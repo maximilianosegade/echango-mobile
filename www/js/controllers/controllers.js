@@ -61,15 +61,31 @@ angular.module('app.controllers', [])
 .controller('escanearCtrl', function($scope) {
 
 })
+
+.controller('consultarPrecioCtrl', function($scope) {
+
+})
+   
+.controller('relevarPrecioCtrl', function($scope) {
+
+})
    
 .controller('confirmarEscaneoCtrl', function($scope) {
 
 })
+
+
    
 .controller('relevamientoCtrl', function($scope) {
 
 })
+.controller('preferenciasDeAplicaciNCtrl', function($scope) {
 
+})
+   
+.controller('nuevaListaCtrl', function($scope) {
+
+})
 
 
 .controller('MapCtrl', function($scope, $ionicLoading) {

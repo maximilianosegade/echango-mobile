@@ -57,7 +57,7 @@ angular.module('app.routes', [])
   })
 
   .state('menu.agregarUbicaciN', {
-    url: '/page7',
+    url: '/page7?ubicacion',
     views: {
       'side-menu21': {
         templateUrl: 'templates/agregarUbicaciN.html',
@@ -182,6 +182,45 @@ angular.module('app.routes', [])
       'side-menu21': {
         templateUrl: 'templates/ubicaciones.html',
         controller: 'ubicacionesCtrl'
+      }
+    }
+  })
+  
+  .state('menu.preferenciasDeAplicaciN', {
+    url: '/page22',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/preferenciasDeAplicaciN.html',
+        controller: 'preferenciasDeAplicaciNCtrl'
+      }
+    }
+  })
+
+  .state('menu.nuevaLista', {
+    url: '/page23',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/nuevaLista.html',
+        controller: 'nuevaListaCtrl'
+      }
+    }
+  })
+    .state('menu.consultarPrecio', {
+    url: '/page24',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/consultarPrecio.html',
+        controller: 'consultarPrecioCtrl'
+      }
+    }
+  })
+
+  .state('menu.relevarPrecio', {
+    url: '/page25',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/relevarPrecio.html',
+        controller: 'relevarPrecioCtrl'
       }
     }
   })

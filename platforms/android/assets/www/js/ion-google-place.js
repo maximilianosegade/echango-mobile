@@ -44,8 +44,8 @@ angular.module('ion-google-place', [])
                             '</div>',
                             '<ion-content class="has-header has-header">',
                                 '<ion-list>',
-                                    '<ion-item type="item-text-wrap" ng-click="setCurrentLocation()" ng-if="displayCurrentLocation">',
-                                        'Use current location',
+                                    '<ion-item type="item-text-wrap" ng-click="centerOnMe()" ng-if="displayCurrentLocation">',
+                                        'Usar ubicacion actual',
                                     '</ion-item>',
                                     '<ion-item ng-repeat="location in locations" type="item-text-wrap" ng-click="selectLocation(location)">',
                                         '{{location.formatted_address}}',
@@ -76,6 +76,12 @@ angular.module('ion-google-place', [])
                             }
                             scope.$emit('ionGooglePlaceSetLocation',location);
                         };
+                        
+                        scope.centerOnMe = function () {                            
+                            el.element.css('display', 'none');
+                            scope.$emit('ionGooglePlaceCenterOnMe');
+                        }
+  
 
                         scope.setCurrentLocation = function(){
                             var location = {
