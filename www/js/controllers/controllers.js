@@ -12,9 +12,9 @@ angular.module('app.controllers', [])
 
 })
    
-.controller('datosAdicionalesCtrl', function($scope) {
+/* .controller('datosAdicionalesCtrl', function($scope) {
 
-})
+})*/
    
 
    
@@ -48,11 +48,11 @@ angular.module('app.controllers', [])
    /*
 .controller('agregarMedioDePagoCtrl', function($scope) {
   
-})*/
+})
    
 .controller('agregarTarjetaPromocionalCtrl', function($scope) {
 
-})
+})*/
    
 .controller('elijaUnChangoCtrl', function($scope) {
 

@@ -5,7 +5,7 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.medioPago','app.services.ubicaciones','app.controllers.ubicaciones'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.medioPago','app.services.ubicaciones','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional'])
 
 .run(function($ionicPlatform, BaseLocal) {
   $ionicPlatform.ready(function() {
@@ -88,4 +88,81 @@ function mockBaseDatos(BaseLocal){
             }
             ]});
          });
-}
+         
+         //Busca el documento 'medioDePagoTarjetasNombres'
+    BaseLocal.get('medioDePagoTarjetasNombres').then(function(doc){
+      //si lo encuentra lo borra
+      BaseLocal.remove(doc._id, doc._rev).then(function(){
+        //si lo borra bien lo vuelve a crear
+        BaseLocal.put({
+                _id: 'medioDePagoTarjetasNombres',
+              "medioDePagoTarjetasNombres": [{
+              id: 0,
+              nombre: 'Visa Crédito',
+            }, {
+              id: 1,
+              nombre: 'MasterCard',
+            },
+            {
+              id: 2,
+              nombre: 'American Express',
+            }
+            ]});
+      });
+    }).catch(function (error) {
+           //Si no lo encuentra, lo crea
+           BaseLocal.put({
+                _id: 'medioDePagoTarjetasNombres',
+              "medioDePagoTarjetasNombres": [{
+              id: 0,
+              nombre: 'Visa Crédito',
+            }, {
+              id: 1,
+              nombre: 'MasterCard',
+            },
+            {
+              id: 2,
+              nombre: 'American Express',
+            }
+            ]});
+         });
+
+    //Busca el documento 'medioDePagoTarjetasBancos'
+    BaseLocal.get('medioDePagoTarjetasBancos').then(function(doc){
+      //si lo encuentra lo borra
+      BaseLocal.remove(doc._id, doc._rev).then(function(){
+        //si lo borra bien lo vuelve a crear
+        BaseLocal.put({
+                _id: 'medioDePagoTarjetasBancos',
+              "medioDePagoTarjetasBancos": [{
+              id: 0,
+              nombre: 'Santander Río',
+            }, {
+              id: 1,
+              nombre: 'Galicia',
+            },
+            {
+              id: 2,
+              nombre: 'Francés',
+            }
+            ]});
+      });
+    }).catch(function (error) {
+           //Si no lo encuentra, lo crea
+           BaseLocal.put({
+                _id: 'medioDePagoTarjetasBancos',
+              "medioDePagoTarjetasBancos": [{
+              id: 0,
+              nombre: 'Santander Río',
+            }, {
+              id: 1,
+              nombre: 'Galicia',
+            },
+            {
+              id: 2,
+              nombre: 'Francés',
+            }
+            ]});
+         });
+
+} 
