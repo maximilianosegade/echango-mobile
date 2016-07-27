@@ -94,29 +94,13 @@ $scope.agregar = function(){
 
  $scope.deleteItem = function (item) {
     
-  $scope.mediosDePagoRegistrados.splice($scope.mediosDePagoRegistrados.indexOf(item), 1);
-  var timeStamp = String(new Date().getTime());
-  // Actualizar DB
-  BaseLocal.get('mediosDePagoRegistrados').then(function(doc) {
-            return BaseLocal.put({
-                _id: 'mediosDePagoRegistrados',
-                _rev: doc._rev,
-                mediosDePagoRegistrados: $scope.mediosDePagoRegistrados
-            });
-        }).then(function(response) {
-                                
+    $scope.mediosDePagoRegistrados.splice($scope.mediosDePagoRegistrados.indexOf(item), 1);
+    $scope.$apply();
+    
+    // Actualizar DB
+    
+    MediosDePagoService.updateMediosDePagoRegistrados($scope.mediosDePagoRegistrados);
 
-        }).catch(function (err) {
-                BaseLocal.put({
-                _id: 'mediosDePagoRegistrados',
-                _rev: doc._rev,
-                mediosDePagoRegistrados: $scope.mediosDePagoRegistrados
-            }).catch(function(err){
-                alert('error al eliminar de la DB');
-            });
-            $scope.$apply();
-        });
-  
 };
 
 $scope.item = {};
