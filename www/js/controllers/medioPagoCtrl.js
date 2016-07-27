@@ -1,33 +1,25 @@
    
 angular.module('app.controllers.medioPago', [])
-.controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal) {
+.controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal,MediosDePagoService) {
   
     var dbLocal = BaseLocal;
    
 // Obtener tarjetas
-dbLocal.get('medioDePagoTarjetasNombres').then(function(doc){
+MediosDePagoService.getTarjetas().then(function(doc){
     $scope.tarjetas = doc.medioDePagoTarjetasNombres;
 });
 
 // Obtener bancos
-dbLocal.get('medioDePagoTarjetasBancos').then(function(doc){
+MediosDePagoService.getBancos().then(function(doc){
     $scope.bancos = doc.medioDePagoTarjetasBancos;
 });
 
 // Obtener medios de pago registrados
-dbLocal.get('mediosDePagoRegistrados').then(function(doc){
+
+MediosDePagoService.getMediosDePagoRegistrados().then(function(doc){
     $scope.mediosDePagoRegistrados = doc.mediosDePagoRegistrados;
     $scope.$apply();
-}).catch(function(err){
-    BaseLocal.put({
-                _id: 'mediosDePagoRegistrados',
-                mediosDePagoRegistrados: $scope.mediosDePagoRegistrados
-    }).catch(function(err){
-        "No se pudo hacer put"
-    });
-})
-;
-
+});
 
 /* Funciones modal INICIO*/
 $ionicModal.fromTemplateUrl('tarjetas-modal.html', {
@@ -90,24 +82,7 @@ $scope.agregar = function(){
             $scope.mediosDePagoRegistrados.push(obj);
             $scope.$apply();
         // Actualizar datos en Pouch
-        BaseLocal.get('mediosDePagoRegistrados').then(function(doc) {
-            return BaseLocal.put({
-                _id: 'mediosDePagoRegistrados',
-                _rev: doc._rev,
-                mediosDePagoRegistrados: $scope.mediosDePagoRegistrados
-            });
-        }).then(function(response) {
-                
-        }).catch(function (err) {
-                BaseLocal.put({
-                _id: 'mediosDePagoRegistrados',
-                mediosDePagoRegistrados: $scope.mediosDePagoRegistrados
-            }).catch(function(err){
-                alert('error al crear');
-            });
-            $scope.$apply();
-        });
-
+            MediosDePagoService.updateMediosDePagoRegistrados($scope.mediosDePagoRegistrados);
 
     } else {
         alert('Faltan datos requeridos');
