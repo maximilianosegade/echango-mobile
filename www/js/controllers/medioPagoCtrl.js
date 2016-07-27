@@ -1,7 +1,7 @@
    
 angular.module('app.controllers.medioPago', [])
 .controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal,MediosDePagoService) {
-  
+   
     var dbLocal = BaseLocal;
    
 // Obtener tarjetas

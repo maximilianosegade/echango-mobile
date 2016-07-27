@@ -1,7 +1,7 @@
 angular.module('app.services.mediosDePago', [])
 .service("MediosDePagoService", function($rootScope, $q, BaseLocal) {
    var database = BaseLocal;
-   
+    
    // Obtener tarjetas
     this.getTarjetas = function(){
         return database.get('medioDePagoTarjetasNombres').then(function(doc){
