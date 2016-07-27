@@ -12,6 +12,7 @@ angular.module('app.controllers.agregarTarjetaPromocional', [])
 
     TarjetaPromocionalService.getTarjetasPromocionalesRegistradas().then(function(doc){
         $scope.tarjetasPromocionalesRegistradas = doc.tarjetasPromocionalesRegistradas;
+        $scope.$apply();
     });
 
 
