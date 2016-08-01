@@ -8,7 +8,8 @@ angular.module('app.services.datosAdicionales', [])
             return doc;
 
          }).catch(function (err) {
-            alert('Error de get datosAdicionales');
+            // No existian datos de cuenta guardados
+         alert('No se encontraron datos guardados.')
 
     });
    };
@@ -32,7 +33,7 @@ angular.module('app.services.datosAdicionales', [])
         }).then(function(response) {
               alert('Datos guardados correctamente!')
         }).catch(function (err) {
-             alert('No se pudo guardar');
+             //alert('No se pudo guardar');
              BaseLocal.put({
                 _id: 'datosAdicionales',
                 sexo:obj.sexo,
