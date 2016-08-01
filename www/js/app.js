@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.medioPago','app.services.ubicaciones','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional'])
+angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios','app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional'])
 
-.run(function($ionicPlatform, BaseLocal) {
+.run(function($ionicPlatform, BaseLocal, BaseComercios) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,7 +20,7 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       StatusBar.styleDefault();
     }
     
-    //mockBaseDatos(BaseLocal);
+    mockBaseDatos(BaseLocal, BaseComercios);
     //borrarBase(BaseLocal);
     
   });
@@ -30,9 +30,68 @@ function borrarBase(BaseLocal){
   BaseLocal.destroy();
 }
 
-function mockBaseDatos(BaseLocal){
+function mockBaseDatos(BaseLocal, BaseComercios){
   
-  //mock de base de datos
+  
+         agregarTarjetas(BaseLocal);
+         //agregarUbicaciones(BaseLocal);
+         agregarCadenas(BaseLocal);
+         //agregarComercios(BaseComercios);
+         //agregarQuery(BaseComercios);
+
+} 
+
+function agregarQuery(BaseComercios){
+	
+	var ddoc = {
+		  _id: '_design/my_index',
+		  views: {
+		    by_cadena: {
+		      map: function (doc) { emit(doc.nombrecadena); }.toString()
+		    }
+		  }
+		};
+		// save it
+		BaseComercios.put(ddoc).then(function () {
+		  alert('Gardado');
+		}).catch(function (err) {
+		  // some error (maybe a 409, because it already exists?)
+		});
+}
+
+function agregarComercios(BaseLocal){
+	BaseLocal.destroy().then(function(){
+		BaseLocal = new PouchDB('baseComercios');
+	
+	        BaseLocal.bulkDocs([
+	        	{
+              nombre: 'Coto Castrobarros',
+              direccion: 'Castrobarros 66, caba, Argentina',
+              nombrecadena: 'Coto',
+              latitud: '-34.612020',
+              longitud:  '-58.420792'
+            }, {
+              nombre: 'Disco Castrobarros',
+              direccion: 'Castrobarros 166, caba, Argentina',
+              nombrecadena: 'Disco',
+              latitud: '-34.613968',
+              longitud:  '-58.420387' 
+            },
+            {
+              nombre: 'Disco UTN',
+              direccion: 'Medrano 850, caba, Argentina',
+              nombrecadena: 'Disco',
+              latitud: '-34.598658',
+              longitud:  '-58.420187' 
+            }
+            ]);
+	});
+	
+	
+}
+
+function agregarUbicaciones(BaseLocal){
+	//mock de base de datos
     //Busca el documento 'ubicaciones'
     BaseLocal.get('ubicaciones').then(function(doc){
       //si lo encuentra lo borra
@@ -57,6 +116,27 @@ function mockBaseDatos(BaseLocal){
               id: 2,
               nombre: 'Disco UTN',
               direccion: 'Medrano 850, caba, Argentina',
+              latitud: '-34.598658',
+              longitud:  '-58.420187' 
+            }
+            ],
+            "comercios":[{
+            nombre: 'Coto Castrobarros',
+              direccion: 'Castrobarros 66, caba, Argentina',
+              nombrecadena: 'Coto',
+              latitud: '-34.612020',
+              longitud:  '-58.420792'
+            }, {
+              nombre: 'Disco Castrobarros',
+              direccion: 'Castrobarros 166, caba, Argentina',
+              nombrecadena: 'Disco',
+              latitud: '-34.613968',
+              longitud:  '-58.420387' 
+            },
+            {
+              nombre: 'Disco UTN',
+              direccion: 'Medrano 850, caba, Argentina',
+              nombrecadena: 'Disco',
               latitud: '-34.598658',
               longitud:  '-58.420187' 
             }
@@ -88,8 +168,49 @@ function mockBaseDatos(BaseLocal){
             }
             ]});
          });
-         
-         //Busca el documento 'medioDePagoTarjetasNombres'
+}
+function agregarCadenas(BaseLocal){
+	//Busca el documento 'medioDePagoTarjetasNombres'
+    BaseLocal.get('cadenasDisponibles').then(function(doc){
+      //si lo encuentra lo borra
+      BaseLocal.remove(doc._id, doc._rev).then(function(){
+        //si lo borra bien lo vuelve a crear
+        BaseLocal.put({
+                _id: 'cadenasDisponibles',
+              "cadenasDisponibles": [{
+              id: 0,
+              nombre: 'Disco',
+            }, {
+              id: 1,
+              nombre: 'Coto',
+            },
+            {
+              id: 2,
+              nombre: 'Jumbo',
+            }
+            ]});
+      });
+    }).catch(function (error) {
+           //Si no lo encuentra, lo crea
+           BaseLocal.put({
+                _id: 'cadenasDisponibles',
+              "cadenasDisponibles": [{
+              id: 0,
+              nombre: 'Disco',
+            }, {
+              id: 1,
+              nombre: 'Coto',
+            },
+            {
+              id: 2,
+              nombre: 'Jumbo',
+            }
+            ]});
+         });
+	}
+	
+function agregarTarjetas(BaseLocal){
+	//Busca el documento 'medioDePagoTarjetasNombres'
     BaseLocal.get('medioDePagoTarjetasNombres').then(function(doc){
       //si lo encuentra lo borra
       BaseLocal.remove(doc._id, doc._rev).then(function(){
@@ -126,8 +247,8 @@ function mockBaseDatos(BaseLocal){
             }
             ]});
          });
-
-    //Busca el documento 'medioDePagoTarjetasBancos'
+	
+	//Busca el documento 'medioDePagoTarjetasBancos'
     BaseLocal.get('medioDePagoTarjetasBancos').then(function(doc){
       //si lo encuentra lo borra
       BaseLocal.remove(doc._id, doc._rev).then(function(){
@@ -164,5 +285,4 @@ function mockBaseDatos(BaseLocal){
             }
             ]});
          });
-
-} 
+}

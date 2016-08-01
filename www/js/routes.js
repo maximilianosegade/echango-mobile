@@ -186,6 +186,16 @@ angular.module('app.routes', [])
     }
   })
   
+  .state('menu.comercios', {
+    url: '/page26',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/comercios.html',
+        controller: 'comerciosCtrl'
+      }
+    }
+  })
+  
   .state('menu.preferenciasDeAplicaciN', {
     url: '/page22',
     views: {
@@ -221,6 +231,16 @@ angular.module('app.routes', [])
       'side-menu21': {
         templateUrl: 'templates/relevarPrecio.html',
         controller: 'relevarPrecioCtrl'
+      }
+    }
+  })
+  
+  .state('menu.agregarComercio', {
+    url: '/page28',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/agregarComercio.html',
+        controller: 'agregarComercioCtrl'
       }
     }
   })

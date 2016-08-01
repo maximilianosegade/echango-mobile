@@ -85,9 +85,16 @@ angular.module('app.controllers', [])
    
 .controller('nuevaListaCtrl', function($scope) {
 
+})/*
+.controller('comerciosCtrl', function($scope, BaseComercios) {
+	
+
 })
 
+.controller('agregarComercioCtrl', function($scope) {
 
+})
+*/
 .controller('MapCtrl', function($scope, $ionicLoading) {
   $scope.mapCreated = function(map) {
     $scope.map = map;
