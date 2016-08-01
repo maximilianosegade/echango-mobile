@@ -3,6 +3,8 @@ angular.module('app.controllers.medioPago', [])
 .controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal,MediosDePagoService) {
    
     var dbLocal = BaseLocal;
+    $scope.item = {};
+    $scope.mediosDePagoRegistrados = [];
    
 // Obtener tarjetas
 MediosDePagoService.getTarjetas().then(function(doc){
@@ -17,8 +19,11 @@ MediosDePagoService.getBancos().then(function(doc){
 // Obtener medios de pago registrados
 
 MediosDePagoService.getMediosDePagoRegistrados().then(function(doc){
-    $scope.mediosDePagoRegistrados = doc.mediosDePagoRegistrados;
-    $scope.$apply();
+    if(doc.mediosDePagoRegistrados) {
+        $scope.mediosDePagoRegistrados = doc.mediosDePagoRegistrados;
+        $scope.$apply();
+    }
+
 });
 
 /* Funciones modal INICIO*/
@@ -103,6 +108,5 @@ $scope.agregar = function(){
 
 };
 
-$scope.item = {};
-$scope.mediosDePagoRegistrados = [];
+
 })
