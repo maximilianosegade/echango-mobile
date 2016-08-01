@@ -27,8 +27,10 @@ angular.module('app.controllers.datosAdicionales', [])
    // Obtener datos persistidos en Pouch
 
     DatosAdicionalesService.getDatosAdicionales().then(function(obj){
-        $scope.datosAdicionales = obj;
-        $scope.$apply();
+        if(obj) {
+            $scope.datosAdicionales = obj;
+            $scope.$apply();
+        }
     });
 
     /*DatosAdicionalesService.updateScopeFromDB();*/
