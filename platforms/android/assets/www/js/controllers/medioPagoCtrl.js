@@ -1,22 +1,67 @@
    
 angular.module('app.controllers.medioPago', [])
-.controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal) {
+.controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal,MediosDePagoService) {
   
     var dbLocal = BaseLocal;
+    $scope.item = {};
+    $scope.mediosDePagoRegistrados = [];
+   
+// Obtener tarjetas
+MediosDePagoService.getTarjetas().then(function(doc){
+    $scope.tarjetas = doc.medioDePagoTarjetasNombres;
+});
 
-    //var dbRemote = new PouchDB('http://localhost:5984/dbname');
+// Obtener bancos
+MediosDePagoService.getBancos().then(function(doc){
+    $scope.bancos = doc.medioDePagoTarjetasBancos;
+});
+
+// Obtener medios de pago registrados
+
+MediosDePagoService.getMediosDePagoRegistrados().then(function(doc){
+    if(doc.mediosDePagoRegistrados) {
+        $scope.mediosDePagoRegistrados = doc.mediosDePagoRegistrados;
+        $scope.$apply();
+    }
+
+});
 
 /* Funciones modal INICIO*/
-$ionicModal.fromTemplateUrl('my-modal.html', {
+$ionicModal.fromTemplateUrl('tarjetas-modal.html', {
+    id: '1',
     scope: $scope,
     animation: 'slide-in-up'
 }).then(function(modal) {
-    $scope.modal = modal;
+    $scope.modal1 = modal;
 });
 
-$scope.openModal = function() {
-    $scope.modal.show();
-};
+$ionicModal.fromTemplateUrl('bancos-modal.html', {
+    id: '2',
+    scope: $scope,
+    animation: 'slide-in-up'
+}).then(function(modal) {
+    $scope.modal2 = modal;
+});
+
+$scope.openModal = function(index) {
+    if(index == 1) {
+        $scope.modal1.show();
+    } else {
+        $scope.modal2.show();
+    }
+  };
+
+$scope.closeModalSeleccionTarjeta = function(tarjeta) {
+    $scope.tarjetaSeleccionada = tarjeta;
+    $scope.$apply();
+    $scope.modal1.hide();
+}
+
+$scope.closeModalSeleccionBanco = function(banco) {
+    $scope.bancoSeleccionado = banco;
+    $scope.$apply();
+    $scope.modal2.hide();
+}
 
 $scope.closeModal = function() {
     $scope.modal.hide();
@@ -31,46 +76,37 @@ $scope.$on('$destroy', function() {
 /* FUNCION DE AGREGAR QUE SE LLAMA DESDE EL MODAL*/ 
 
 $scope.agregar = function(){
-    var timeStamp = String(new Date().getTime());
-
-var item = {
-        "_id": timeStamp,
-        "expense": $scope.item.expense,
-        "amount": $scope.item.amount,
-        "hora": timeStamp
-};
-
-dbLocal.put(
-    item
-).then(function (response) {
-    //handler del create
-    $scope.items.push(item);   // Add to items array
-    $scope.closeModal();      // Close the modal
-}).catch(function (err) {
-    console.log(err);
-});
-};
-$scope.item = {};
-$scope.items = [];
-
-/* Traer todos lso documentos al empezar*/
-dbLocal.allDocs({
-    include_docs: true
-}).then(function (result) {
-    console.log('re    var dbLocal = new s is',result.rows);
-    for(var i=0;i<result.rows.length;i++){
+    if ($scope.bancoSeleccionado && $scope.tarjetaSeleccionada){
         var obj = {
-            "_id": result.rows[i].doc.id,
-            "expense": result.rows[i].doc.expense,
-            "amount": result.rows[i].doc.amount,
-            "hora": result.rows[i].doc.hora,
-            "rev": result.rows[i].doc.rev
-        }
-        $scope.items.push(obj);
-        $scope.$apply();
-    }
-    console.log($scope.items);
-}).catch(function (err) {
-    console.log(err);
-});
+            "_id":$scope.mediosDePagoRegistrados.length,
+            "banco":$scope.bancoSeleccionado,
+            "tarjeta":$scope.tarjetaSeleccionada
+        };
+        var timeStamp = String(new Date().getTime());
+        //Agregar al array
+            $scope.mediosDePagoRegistrados.push(obj);
+            $scope.$apply();
+        // Actualizar datos en Pouch
+            MediosDePagoService.updateMediosDePagoRegistrados($scope.mediosDePagoRegistrados);
+
+    } else {
+        alert('Faltan datos requeridos');
+        return;
+    };
+    $scope.bancoSeleccionado = '';
+    $scope.tarjetaSeleccionada = '';
+};
+
+ $scope.deleteItem = function (item) {
+    
+    $scope.mediosDePagoRegistrados.splice($scope.mediosDePagoRegistrados.indexOf(item), 1);
+    $scope.$apply();
+    
+    // Actualizar DB
+    
+    MediosDePagoService.updateMediosDePagoRegistrados($scope.mediosDePagoRegistrados);
+
+};
+
+
 })

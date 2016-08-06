@@ -8,34 +8,7 @@ angular.module('app.controllers.ubicaciones', [])
       $scope.ubicaciones = doc;
     });
     console.log("State Params: ", data.stateParams);
-  });
-    
-    /* Funciones modal INICIO*/
-  $ionicModal.fromTemplateUrl('my-modal.html', {
-      scope: $scope,
-      animation: 'slide-in-up'
-  }).then(function(modal) {
-      $scope.modal = modal;
-  });
-
-  $scope.openModal = function(ubicacion) {
-    $scope.ubicacionAEditar = ubicacion;
-      $scope.modal.show();
-  };
-
-  $scope.closeModal = function() {
-      $scope.modal.hide();
-  };
-
-  $scope.$on('$destroy', function() {
-          $scope.modal.remove();
-  });
-
-  /* Funciones modal FIN*/
-    
-function alertar(mensaje){
-  alert(mensaje);
-}
+  }); 
 
   $scope.borrar = function(ubicacion){
     UbicacionesService.borrarUbicacion(ubicacion).then(function(doc){
@@ -44,39 +17,23 @@ function alertar(mensaje){
     });
   };
  
-  $scope.editar = function(ubicacion){
-    //$scope.modal.hide();
-   // $scope.ubicacionAEditar = ubicacion;
+  $scope.editar = function(ubicacion){    
     $scope.$apply();
     var ubiJson = angular.toJson(ubicacion);
      $state.go('menu.agregarUbicaciN', {'ubicacion': ubiJson});
-    
-      
-  };/*
-  $scope.editar = function(){
-    UbicacionesService.agregarUbicacion($scope.ubicacionAEditar);
-      $scope.modal.hide();
-  };*/
+  };
 })
 
 .controller('agregarUbicaciNCtrl', function($scope,$state, $stateParams,$ionicHistory,  $ionicLoading, UbicacionesService) {
-  if($stateParams.ubicacion != null){
-     $scope.ubicacionAEditar = angular.fromJson($stateParams.ubicacion);
-  }else{
-     $scope.ubicacionAEditar = {
-        id: new Date().getTime(),
-        nombre: '',
-        direccion: '',
-        latitud: '',
-        longitud:  ''        
-      }
-  }
-  
-  function agregarMarcador(mapa, ubicacion){
+  function agregarMarcador(ubicacion){
     var position = new google.maps.LatLng(ubicacion.latitud, ubicacion.longitud);
-    mapa.setCenter(position);
-    var marker = new google.maps.Marker({
-        map: mapa,
+    $scope.map.setCenter(position);
+    if($scope.marker != null){
+      //limpiar marcador
+      $scope.marker.setMap(null);
+    }
+    $scope.marker = new google.maps.Marker({
+        map: $scope.map,
         animation: google.maps.Animation.DROP,
         position: position
     });
@@ -84,7 +41,11 @@ function alertar(mensaje){
   
   function agregarAreaCompra(ubicacion){
     var position = new google.maps.LatLng(ubicacion.latitud, ubicacion.longitud);
-    var cityCircle = new google.maps.Circle({
+    if($scope.areaCompra != null){
+      //limpiar círculo área compra
+      $scope.areaCompra.setMap(null);
+    }
+    $scope.areaCompra = new google.maps.Circle({
       strokeColor: '#FF0000',
       strokeOpacity: 0.8,
       strokeWeight: 2,
@@ -96,6 +57,24 @@ function alertar(mensaje){
     }); 
   }
   
+  $scope.mapCreated = function(map) {
+    $scope.map = map;
+    if($stateParams.ubicacion != null){
+     $scope.ubicacionAEditar = angular.fromJson($stateParams.ubicacion);
+     agregarMarcador($scope.ubicacionAEditar);
+     agregarAreaCompra($scope.ubicacionAEditar);
+  }else{
+     $scope.ubicacionAEditar = {
+        id: new Date().getTime(),
+        nombre: '',
+        direccion: '',
+        latitud: '',
+        longitud:  ''        
+      }
+  }
+    $scope.$apply();   
+  };
+    
       //TODO: modificar por valor traido de la base
       var areaCompra = 1000; //7 cuadras
    
@@ -114,27 +93,14 @@ $scope.guardarDireccion = function(){
       });
       
 };
-
-
-                    
-$scope.mapCreated = function(map) {
-    $scope.map = map;
-    $scope.$apply();   
-  };
   
   $scope.$on('ionGooglePlaceSetLocation',function(event,location){
         
    $scope.ubicacionAEditar.latitud = location.geometry.location.lat();
    $scope.ubicacionAEditar.longitud = location.geometry.location.lng();
    $scope.ubicacionAEditar.direccion = location.formatted_address;
-   agregarMarcador($scope.map, $scope.ubicacionAEditar);
+   agregarMarcador($scope.ubicacionAEditar);
    agregarAreaCompra($scope.ubicacionAEditar);
-   /* $scope.map.setCenter(location.geometry.location);
-    var marker = new google.maps.Marker({
-        map: $scope.map,
-        animation: google.maps.Animation.DROP,
-        position: location.geometry.location
-    });*/
 });
 
    $scope.$on('ionGooglePlaceCenterOnMe',function (event) {
@@ -156,15 +122,8 @@ $scope.mapCreated = function(map) {
       $scope.ubicacionAEditar.latitud =pos.coords.latitude;
       $scope.ubicacionAEditar.longitud =pos.coords.longitude;
       
-      agregarMarcador($scope.map,$scope.ubicacionAEditar);
-      agregarAreaCompra($scope.ubicacionAEditar);
-          /*
-      $scope.map.setCenter(position);
-      var marker = new google.maps.Marker({
-      map: $scope.map,
-      animation: google.maps.Animation.DROP,
-      position: position
-  });*/
+      agregarMarcador($scope.ubicacionAEditar);
+      agregarAreaCompra($scope.ubicacionAEditar);         
         
     }, function (error) {
       alert('Unable to get location: ' + error.message);

@@ -56,5 +56,16 @@
         "variables": {
             "API_KEY_FOR_ANDROID": "AIzaSyC5K92e_yJ4u3_s49OpFdIy4_sFT2smoHE"
         }
+    },
+    "phonegap-facebook-plugin": {
+        "source": {
+            "type": "local",
+            "path": "C:\\Proyecto\\phonegap-facebook-plugin\\phonegap-facebook-plugin"
+        },
+        "is_top_level": true,
+        "variables": {
+            "APP_ID": "461039857353873",
+            "APP_NAME": "eChango-mobile"
+        }
     }
 }

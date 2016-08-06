@@ -19,9 +19,6 @@ angular.module('app.directives', [])
         }
     };
 })
-//myApp.factory('myService', function() {});
- 
-
 
 .directive('map', function() {
   return {
@@ -55,7 +52,3 @@ angular.module('app.directives', [])
     }
   }
 });
-function MyCtrl($scope) {
-    $scope.gPlace;
-}
-
