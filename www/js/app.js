@@ -5,9 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios','app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional'])
+angular.module('app', ['ionic','ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios','app.controllers.medioPago','app.services.ubicaciones','app.services.comercios' ,'app.services.compras','app.services.lista' ,'app.services.escanner', 'app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.controllers.prepararCompra', 'app.controllers.chango','app.controllers.lista','app.controllers.escanner'])
 
-.run(function($ionicPlatform, BaseLocal, BaseComercios) {
+.run(function($ionicPlatform, BaseLocal, BaseComercios, BaseListas, $rootScope, $ionicHistory,$ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -20,26 +20,69 @@ angular.module('app', ['ionic', 'app.controllers', 'app.routes', 'app.services',
       StatusBar.styleDefault();
     }
     
-    mockBaseDatos(BaseLocal, BaseComercios);
+    mockBaseDatos(BaseLocal, BaseComercios, BaseListas);
     //borrarBase(BaseLocal);
     
   });
+  
+  $rootScope.myGoBack = function(){
+  	$ionicHistory.goBack();
+  };
+  
+  $rootScope.$on('$stateChangeSuccess', function  (event, toState, toParams, fromState, fromParams) {
+    
+    	if(toState.name.indexOf('eChango') == -1){
+    		$ionicNavBarDelegate.showBackButton(true);
+    	}else{
+    		$ionicNavBarDelegate.showBackButton(false);
+    	}
+  });
+  
 })
 
 function borrarBase(BaseLocal){
   BaseLocal.destroy();
 }
 
-function mockBaseDatos(BaseLocal, BaseComercios){
+function mockBaseDatos(BaseLocal, BaseComercios, BaseListas){
   
   
          agregarTarjetas(BaseLocal);
-         //agregarUbicaciones(BaseLocal);
+         agregarUbicaciones(BaseLocal);
          agregarCadenas(BaseLocal);
-         //agregarComercios(BaseComercios);
-         //agregarQuery(BaseComercios);
+         agregarComercios(BaseComercios);
+         agregarQuery(BaseComercios);
+         agregarListas(BaseListas);
 
 } 
+
+function agregarListas(BaseListas){
+	
+	BaseListas.destroy().then(function(){
+		BaseListas = new PouchDB('baseListas');
+	
+		BaseListas.bulkDocs([
+	        	{
+              nombre: 'Favoritos',
+              productos: [{
+            	  nombre: 'atún gomez',
+            	  cantidad: 2
+              },{
+            	  nombre: 'Nesquick	x500g',
+            	  cantidad: 1
+              }]
+            }, {
+            	nombre: 'Asado',
+                productos: []
+            },
+            {
+            	nombre: 'Cena domingo',
+                productos: []
+            }
+            ]);
+	});
+	
+}
 
 function agregarQuery(BaseComercios){
 	

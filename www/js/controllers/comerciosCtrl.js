@@ -1,6 +1,6 @@
 angular.module('app.controllers.comercios', [])
 
-.controller('comerciosCtrl', function($scope, BaseComercios, BaseLocal,UbicacionesService,$ionicModal,ComerciosService) {
+.controller('comerciosCtrl', function($scope,$state, BaseComercios, BaseLocal,UbicacionesService,$ionicModal,$ionicHistory,ComerciosService,ComprarService) {
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
     
@@ -18,6 +18,8 @@ angular.module('app.controllers.comercios', [])
     });
   };
 
+  
+  
 var dbLocal = BaseLocal;
    
 // Obtener comercios
@@ -140,6 +142,14 @@ $scope.agregar = function(){
             $scope.$apply();
         });
   
+};
+
+$scope.seleccionar = function (comercio) {
+	ComprarService.seleccionarComercio(comercio);
+	$ionicHistory.nextViewOptions({
+	      disableBack: false
+	    });
+	 $state.go('menu.confirmarMediosDePago');
 };
 
 $scope.item = {};
