@@ -5,7 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic','ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios','app.controllers.medioPago','app.services.ubicaciones','app.services.comercios' ,'app.services.compras','app.services.lista' ,'app.services.escanner', 'app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.controllers.prepararCompra', 'app.controllers.chango','app.controllers.lista','app.controllers.escanner'])
+
+angular.module('app', ['ionic','ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios','app.controllers.medioPago','app.services.ubicaciones','app.services.comercios' ,'app.services.mediosDePago','app.services.datosAdicionales','app.services.compras','app.services.lista' ,'app.services.escanner','app.services.tarjetaPromocional', 'app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.controllers.prepararCompra', 'app.controllers.chango','app.controllers.lista','app.controllers.escanner'])
+
 
 .run(function($ionicPlatform, BaseLocal, BaseComercios, BaseListas, $rootScope, $ionicHistory,$ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
@@ -211,6 +213,7 @@ function agregarUbicaciones(BaseLocal){
             }
             ]});
          });
+
 }
 function agregarCadenas(BaseLocal){
 	//Busca el documento 'medioDePagoTarjetasNombres'
@@ -329,3 +332,4 @@ function agregarTarjetas(BaseLocal){
             ]});
          });
 }
+

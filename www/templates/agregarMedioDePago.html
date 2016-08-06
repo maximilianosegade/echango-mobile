@@ -22,7 +22,7 @@
         </h2>
         </ion-item>
         <ion-list show-delete="true">
-          <ion-item ng-repeat="item in mediosDePagoRegistrados">
+          <ion-item collection-repeat="item in mediosDePagoRegistrados">
             <ion-delete-button class="ion-minus-circled" ng-click="deleteItem(item)"></ion-delete-button>
             {{item.tarjeta.nombre}} {{item.banco.nombre}}
           </ion-item>
