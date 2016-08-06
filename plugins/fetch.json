@@ -56,5 +56,14 @@
         "variables": {
             "API_KEY_FOR_ANDROID": "AIzaSyC5K92e_yJ4u3_s49OpFdIy4_sFT2smoHE"
         }
+    },
+    "phonegap-plugin-barcodescanner": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/wildabeast/BarcodeScanner.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
     }
 }

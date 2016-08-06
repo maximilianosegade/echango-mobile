@@ -1,7 +1,9 @@
-<ion-side-menus enable-menu-with-back-views="false">
+<ion-side-menus enable-menu-with-back-views="true">
     <ion-side-menu-content>
         <ion-nav-bar class="bar-stable">
-            <ion-nav-back-button></ion-nav-back-button>
+            	<ion-nav-back-button class="button-clear" ng-click="myGoBack()">
+					<i class="ion-arrow-left-c"></i> Volver
+				</ion-nav-back-button>
             <ion-nav-buttons side="right">
                 <button class="button button-icon button-clear ion-navicon" menu-toggle="right"></button>
             </ion-nav-buttons>
