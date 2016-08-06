@@ -12,7 +12,7 @@ angular.module('app.controllers', [])
 
 })
    
-.controller('datosAdicionalesCtrl', function($scope) {
+/* .controller('datosAdicionalesCtrl', function($scope) {
 
 })
    
@@ -20,7 +20,7 @@ angular.module('app.controllers', [])
    
 .controller('miChangoCtrl', function($scope) {
 
-})
+})*/
    
 .controller('configuraciNCtrl', function($scope) {
 
@@ -41,36 +41,70 @@ angular.module('app.controllers', [])
 .controller('mapaCtrl', function($scope) {
 
 })
-   
-.controller('confirmarMediosDePagoCtrl', function($scope) {
+    /*
+.controller('confirmarMediosDePagoCtrl', function($scope, $state) {
 
+	
 })
-   /*
+  
 .controller('agregarMedioDePagoCtrl', function($scope) {
   
-})*/
+})
    
 .controller('agregarTarjetaPromocionalCtrl', function($scope) {
 
 })
+.controller('escanearCtrl', function($scope) {
+
+})
+
+*/
    
 .controller('elijaUnChangoCtrl', function($scope) {
 
 })
    
-.controller('escanearCtrl', function($scope) {
+
+
+.controller('consultarPrecioCtrl', function($scope) {
+
+})
+   
+.controller('relevarPrecioCtrl', function($scope) {
 
 })
    
 .controller('confirmarEscaneoCtrl', function($scope) {
 
 })
+
+
    
 .controller('relevamientoCtrl', function($scope) {
 
 })
+.controller('preferenciasDeAplicaciNCtrl', function($scope) {
+
+})
+   
+.controller('nuevaListaCtrl', function($scope) {
+
+})/*
+.controller('comerciosCtrl', function($scope, BaseComercios) {
+	
+
+})
+
+.controller('agregarComercioCtrl', function($scope) {
+
+})
 
 
+.controller('iniciarCompraCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
+function ($scope, $stateParams) {
+
+
+}])*/
 
 .controller('MapCtrl', function($scope, $ionicLoading) {
   $scope.mapCreated = function(map) {

@@ -25,6 +25,7 @@ angular.module('app.controllers.ubicaciones', [])
 })
 
 .controller('agregarUbicaciNCtrl', function($scope,$state, $stateParams,$ionicHistory,  $ionicLoading, UbicacionesService) {
+	
   function agregarMarcador(ubicacion){
     var position = new google.maps.LatLng(ubicacion.latitud, ubicacion.longitud);
     $scope.map.setCenter(position);

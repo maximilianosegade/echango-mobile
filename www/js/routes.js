@@ -91,7 +91,7 @@ angular.module('app.routes', [])
     views: {
       'side-menu21': {
         templateUrl: 'templates/misListas.html',
-        controller: 'misListasCtrl'
+        controller: 'listaCtrl'
       }
     }
   })
@@ -118,11 +118,14 @@ angular.module('app.routes', [])
     controller: 'mapaCtrl'
   })
 
-  .state('confirmarMediosDePago', {
+  .state('menu.confirmarMediosDePago', {
     url: '/page14',
-    templateUrl: 'templates/confirmarMediosDePago.html',
-    controller: 'confirmarMediosDePagoCtrl'
-  })
+    views: {
+        'side-menu21': {
+		    templateUrl: 'templates/confirmarMediosDePago.html',
+		    controller: 'confirmarMediosDePagoCtrl'
+        }
+  }})
 
   .state('menu.agregarMedioDePago', {
     url: '/page15',
@@ -144,10 +147,14 @@ angular.module('app.routes', [])
     }
   })
 
-  .state('elijaUnChango', {
+  .state('menu.elijaUnChango', {
     url: '/page17',
+    views: {
+        'side-menu21': {
     templateUrl: 'templates/elijaUnChango.html',
-    controller: 'elijaUnChangoCtrl'
+    controller: 'listaCtrl'
+        }
+  }
   })
 
   .state('menu.escanear', {
@@ -182,6 +189,16 @@ angular.module('app.routes', [])
       'side-menu21': {
         templateUrl: 'templates/ubicaciones.html',
         controller: 'ubicacionesCtrl'
+      }
+    }
+  })
+  
+  .state('menu.comercios', {
+    url: '/page26',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/comercios.html',
+        controller: 'comerciosCtrl'
       }
     }
   })
@@ -221,6 +238,26 @@ angular.module('app.routes', [])
       'side-menu21': {
         templateUrl: 'templates/relevarPrecio.html',
         controller: 'relevarPrecioCtrl'
+      }
+    }
+  })
+  
+  .state('menu.iniciarCompra', {
+    url: '/page27',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/iniciarCompra.html',
+        controller: 'comerciosCtrl'
+      }
+    }
+  })
+  
+  .state('menu.agregarComercio', {
+    url: '/page28',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/agregarComercio.html',
+        controller: 'agregarComercioCtrl'
       }
     }
   })
