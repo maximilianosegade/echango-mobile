@@ -57,10 +57,10 @@
             "API_KEY_FOR_ANDROID": "AIzaSyC5K92e_yJ4u3_s49OpFdIy4_sFT2smoHE"
         }
     },
-    "phonegap-facebook-plugin": {
+    "cordova-plugin-facebook4": {
         "source": {
-            "type": "local",
-            "path": "C:\\Proyecto\\phonegap-facebook-plugin\\phonegap-facebook-plugin"
+            "type": "registry",
+            "id": "cordova-plugin-facebook4"
         },
         "is_top_level": true,
         "variables": {

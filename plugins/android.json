@@ -29,7 +29,7 @@
             "API_KEY_FOR_ANDROID": "AIzaSyC5K92e_yJ4u3_s49OpFdIy4_sFT2smoHE",
             "PACKAGE_NAME": "com.ionicframework.mapa606841"
         },
-        "phonegap-facebook-plugin": {
+        "cordova-plugin-facebook4": {
             "APP_ID": "461039857353873",
             "APP_NAME": "eChango-mobile",
             "PACKAGE_NAME": "com.ionicframework.mapa606841"

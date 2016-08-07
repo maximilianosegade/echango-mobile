@@ -4,9 +4,9 @@ angular.module('app.controllers', [])
 
 })
       
-.controller('loginCtrl', function($scope) {
+/*.controller('loginCtrl', function($scope) {
 
-})
+})*/
    
 .controller('socialLoginCtrl', function($scope) {
 
