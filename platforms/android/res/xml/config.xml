@@ -37,6 +37,11 @@
     <access origin="https://api.facebook.com" />
     <access origin="https://*.fbcdn.net" />
     <access origin="https://*.akamaihd.net" />
+    <feature name="GooglePlus">
+        <param name="android-package" value="nl.xservices.plugins.GooglePlus" />
+        <param name="onload" value="true" />
+    </feature>
+    <access origin="https://accounts.google.com/*" />
     <name>eChango</name>
     <description>
         Tu vida más fácil y barata

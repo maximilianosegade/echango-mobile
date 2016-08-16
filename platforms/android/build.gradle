@@ -252,6 +252,9 @@ dependencies {
     compile "com.google.android.gms:play-services-maps:+"
     compile "com.google.android.gms:play-services-location:+"
     compile "com.facebook.android:facebook-android-sdk:4.8.+"
+    compile "com.google.android.gms:play-services-plus:+"
+    compile "com.google.android.gms:play-services-identity:+"
+    compile "com.google.android.gms:play-services-auth:+"
     // SUB-PROJECT DEPENDENCIES END
 }
 

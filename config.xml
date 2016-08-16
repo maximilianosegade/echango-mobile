@@ -45,4 +45,7 @@
         <variable name="APP_ID" value="461039857353873" />
         <variable name="APP_NAME" value="eChango-mobile" />
     </plugin>
+    <plugin name="cordova-plugin-googleplus" spec="https://github.com/EddyVerbruggen/cordova-plugin-googleplus">
+        <variable name="REVERSED_CLIENT_ID" value="AIzaSyAeL3FKN_8FVVlFeaQTADwCzyPyRdPTFiU" />
+    </plugin>
 </widget>

@@ -67,5 +67,16 @@
             "APP_ID": "461039857353873",
             "APP_NAME": "eChango-mobile"
         }
+    },
+    "cordova-plugin-googleplus": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/EddyVerbruggen/cordova-plugin-googleplus",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {
+            "REVERSED_CLIENT_ID": "AIzaSyAeL3FKN_8FVVlFeaQTADwCzyPyRdPTFiU"
+        }
     }
 }

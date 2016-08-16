@@ -4,8 +4,12 @@ angular.module('app.controllers.login', [])
   
     var dbLocal = BaseLocal;
     $scope.showFB = true;
+    $scope.showGooglePlus = true;
 
+  // Facebook Functionality
   // This is the success callback from the login method
+
+  //Facebook Login
   var fbLoginSuccess = function(response) {
     if (!response.authResponse){
       fbLoginError("Cannot find the authResponse");
@@ -112,7 +116,9 @@ angular.module('app.controllers.login', [])
     });
   };    
 
-    $scope.user = LoginService.getFacebookUser();
+
+  // Facebook Logout
+  $scope.user = LoginService.getFacebookUser();
 
 	$scope.showFacebookLogOutMenu = function() {
 		var hideSheet = $ionicActionSheet.show({
@@ -131,12 +137,12 @@ angular.module('app.controllers.login', [])
 
         // Facebook logout
         facebookConnectPlugin.logout(function(){
-          alert('Éxito!')
+          alert('Éxito logout FB')
           $scope.showFB = true;
           //$state.go('menu.login');
         },
         function(fail){
-            alert('Falló')
+            alert('Falló logout FB')
             
         });
         $ionicLoading.hide();
@@ -144,6 +150,74 @@ angular.module('app.controllers.login', [])
 			}
 		});
   
+	};
+
+  // Google+ Functionality
+  // This method is executed when the user press the "Sign in with Google" button
+
+  //Google+ Login
+  $scope.googleSignIn = function() {
+    $ionicLoading.show({
+      template: 'Logging in...'
+    });
+
+    window.plugins.googleplus.login(
+      {},
+      function (user_data) {
+        // For the purpose of this example I will store user data on local storage
+        LoginService.setGooglePlusUser({
+          userID: user_data.userId,
+          name: user_data.displayName,
+          email: user_data.email,
+          picture: user_data.imageUrl,
+          accessToken: user_data.accessToken,
+          idToken: user_data.idToken
+        });
+        alert('Google+ login success!');
+        $ionicLoading.hide();
+        $scope.showGooglePlus = false;
+        //$state.go('app.home');
+      },
+      function (msg) {
+        alert('Google+ login fail!');
+        $ionicLoading.hide();
+      }
+    );
+  };
+
+
+  //Google+ Logout
+	$scope.user = LoginService.getGooglePlusUser();
+
+	$scope.showGooglePlusLogOutMenu = function() {
+		var hideSheet = $ionicActionSheet.show({
+			destructiveText: 'Logout',
+			titleText: 'Are you sure you want to logout? This app is awsome so I recommend you to stay.',
+			cancelText: 'Cancel',
+			cancel: function() {},
+			buttonClicked: function(index) {
+				return true;
+			},
+			destructiveButtonClicked: function(){
+				$ionicLoading.show({
+					template: 'Logging out...'
+				});
+				// Google logout
+				window.plugins.googleplus.logout(
+					function (msg) {
+						console.log(msg);
+						$ionicLoading.hide();
+            alert('Logout success!')
+            $scope.showGooglePlus = true;
+						//$state.go('welcome');
+					},
+					function(fail){
+            alert('Google+ logout fail')
+						console.log(fail);
+					}
+				);
+			}
+		});
 	};
 
 })

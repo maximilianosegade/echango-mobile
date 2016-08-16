@@ -48,6 +48,14 @@ module.exports = [
         "clobbers": [
             "facebookConnectPlugin"
         ]
+    },
+    {
+        "id": "cordova-plugin-googleplus.GooglePlus",
+        "file": "plugins/cordova-plugin-googleplus/www/GooglePlus.js",
+        "pluginId": "cordova-plugin-googleplus",
+        "clobbers": [
+            "window.plugins.googleplus"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -60,7 +68,8 @@ module.exports.metadata =
     "cordova-plugin-whitelist": "1.2.2",
     "ionic-plugin-keyboard": "2.2.0",
     "plugin.google.maps": "1.3.9",
-    "cordova-plugin-facebook4": "1.7.1"
+    "cordova-plugin-facebook4": "1.7.1",
+    "cordova-plugin-googleplus": "4.0.9"
 };
 // BOTTOM OF METADATA
 });
