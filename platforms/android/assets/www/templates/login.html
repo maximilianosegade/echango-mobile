@@ -26,9 +26,13 @@
                 <img src="img/BFrgW45sRipGx7hgOrnv_face.png">
                 <h2>Login with Facebook</h2>
             </ion-item>
-                    <ion-item class="item-thumbnail-left  " id="login-list-item6" ng-click="showLogOutMenu()">
+                    <ion-item class="item-thumbnail-left  " id="login-list-item6" ng-click="showFacebookLogOutMenu()">
                 <img src="img/BFrgW45sRipGx7hgOrnv_face.png">
                 <h2>Logout from Facebook</h2>
+            </ion-item>
+            <ion-item>
+                <button class="button button-stable ion-icon ion-social-facebook" ng-click="facebookSignIn()" ng-show="showFB">  Login with Facebook</button>
+                <button class="button button-positive ion-icon ion-social-facebook" ng-click="showFacebookLogOutMenu()" ng-hide="showFB">  Logout from Facebook</button>
             </ion-item>
     </ion-content>
 </ion-view>
