@@ -29,6 +29,8 @@ angular.module('app.controllers.login', [])
         picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
       });
       $ionicLoading.hide();
+      alert('fbLoginSuccess!');
+      $scope.showFB = false;
       //$state.go('menu.eChango');
     }, function(fail){
       // Fail get profile info
@@ -102,8 +104,7 @@ angular.module('app.controllers.login', [])
 				// but has not authenticated your app
         // Else the person is not logged into Facebook,
 				// so we're not sure if they are logged into this app or not.
-        alert('app not authenticated')
-				console.log('getLoginStatus', success.status);
+        console.log('getLoginStatus', success.status);
 
 				$ionicLoading.show({
           template: 'Iniciando sesión...'

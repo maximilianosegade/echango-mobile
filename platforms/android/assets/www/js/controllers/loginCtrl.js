@@ -29,6 +29,8 @@ angular.module('app.controllers.login', [])
         picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
       });
       $ionicLoading.hide();
+      alert('fbLoginSuccess!');
+      $scope.showFB = false;
       //$state.go('menu.eChango');
     }, function(fail){
       // Fail get profile info
@@ -70,9 +72,9 @@ angular.module('app.controllers.login', [])
         // and signed request each expire
         console.log('getLoginStatus', success.status);
         // Check if we have our user saved
-    		var user = LoginService.getFacebookUser('facebook');
+    		var facebookUser = LoginService.getFacebookUser('facebook');
 
-    		if(!user.userID){
+    		if(!facebookUser.userID){
 					getFacebookProfileInfo(success.authResponse)
 					.then(function(profileInfo) {
 						// For the purpose of this example I will store user data on local storage
@@ -102,8 +104,7 @@ angular.module('app.controllers.login', [])
 				// but has not authenticated your app
         // Else the person is not logged into Facebook,
 				// so we're not sure if they are logged into this app or not.
-        alert('app not authenticated')
-				console.log('getLoginStatus', success.status);
+        console.log('getLoginStatus', success.status);
 
 				$ionicLoading.show({
           template: 'Iniciando sesión...'
@@ -118,7 +119,7 @@ angular.module('app.controllers.login', [])
 
 
   // Facebook Logout
-  $scope.user = LoginService.getFacebookUser();
+  $scope.facebookUser = LoginService.getFacebookUser();
 
 	$scope.showFacebookLogOutMenu = function() {
 		var hideSheet = $ionicActionSheet.show({
@@ -187,12 +188,12 @@ angular.module('app.controllers.login', [])
 
 
   //Google+ Logout
-	$scope.user = LoginService.getGooglePlusUser();
+	$scope.googleUser = LoginService.getGooglePlusUser();
 
 	$scope.showGooglePlusLogOutMenu = function() {
 		var hideSheet = $ionicActionSheet.show({
-			destructiveText: 'Logout',
-			titleText: 'Are you sure you want to logout? This app is awsome so I recommend you to stay.',
+			destructiveText: 'Cerrar sesión',
+			titleText: '¿Está seguro que desea cerrar sesión con Google+?',
 			cancelText: 'Cancel',
 			cancel: function() {},
 			buttonClicked: function(index) {
@@ -216,6 +217,8 @@ angular.module('app.controllers.login', [])
 						console.log(fail);
 					}
 				);
+        $ionicLoading.hide();
+        return true;
 			}
 		});
 	};
