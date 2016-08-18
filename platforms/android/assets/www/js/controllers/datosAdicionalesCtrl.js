@@ -1,6 +1,6 @@
    
 angular.module('app.controllers.datosAdicionales', [])
-.controller('datosAdicionalesCtrl', function($scope,BaseLocal,$ionicModal) {
+.controller('datosAdicionalesCtrl', function($scope,BaseLocal,$ionicModal,DatosAdicionalesService) {
   
     var dbLocal = BaseLocal;
 
@@ -26,23 +26,14 @@ angular.module('app.controllers.datosAdicionales', [])
 
    // Obtener datos persistidos en Pouch
 
-    BaseLocal.get('datosAdicionales').then(function (doc) {
-        $scope.datosAdicionales.sexo = doc.sexo;
-        $scope.datosAdicionales.estadoCivil = doc.estadoCivil;
-        $scope.datosAdicionales.regularidadCompra = doc.regularidadCompra;
-        $scope.datosAdicionales.edad = doc.edad;
-        $scope.datosAdicionales.nombre = doc.nombre;
-        $scope.datosAdicionales.password = doc.password;
-        $scope.datosAdicionales.lugarCompraAlmacenBarrio = doc.lugarCompraAlmacenBarrio;
-        $scope.datosAdicionales.lugarCompraMinimercado = doc.lugarCompraMinimercado;
-        $scope.datosAdicionales.lugarCompraMinimercadoChino = doc.lugarCompraMinimercadoChino;
-        $scope.datosAdicionales.lugarCompraSupermercado = doc.lugarCompraSupermercado;
-        $scope.$apply();
-
-    }).catch(function (err) {
-        alert('Error de get datosAdicionales');
-       
+    DatosAdicionalesService.getDatosAdicionales().then(function(obj){
+        if(obj) {
+            $scope.datosAdicionales = obj;
+            $scope.$apply();
+        }
     });
+
+    /*DatosAdicionalesService.updateScopeFromDB();*/
 
     /* Funciones modal INICIO*/
     $ionicModal.fromTemplateUrl('sexo-modal.html', {
@@ -121,16 +112,6 @@ $scope.openModal = function(index) {
     }
 
 
-/*$scope.closeModal = function() {
-    $scope.modal.hide();
-};
-
-$scope.$on('$destroy', function() {
-        $scope.modal.remove();
-})*/
-
-/* Funciones modal FIN*/
-
 /* FUNCION DE AGREGAR QUE SE LLAMA DESDE EL MODAL*/ 
 
 $scope.guardar = function(){
@@ -143,40 +124,7 @@ $scope.guardar = function(){
         $scope.datosAdicionales.sexo){
 
         // Actualizar datos
-        BaseLocal.get('datosAdicionales').then(function(doc) {
-            return BaseLocal.put({
-                _id: 'datosAdicionales',
-                _rev: doc._rev,
-                sexo: $scope.datosAdicionales.sexo,
-                estadoCivil: $scope.datosAdicionales.estadoCivil,
-                regularidadCompra: $scope.datosAdicionales.regularidadCompra,
-                edad: $scope.datosAdicionales.edad,
-                nombre: $scope.datosAdicionales.nombre,
-                password: $scope.datosAdicionales.password,
-                lugarCompraAlmacenBarrio: $scope.datosAdicionales.lugarCompraAlmacenBarrio,
-                lugarCompraMinimercado: $scope.datosAdicionales.lugarCompraMinimercado,
-                lugarCompraMinimercadoChino: $scope.datosAdicionales.lugarCompraMinimercadoChino,
-                lugarCompraSupermercado: $scope.datosAdicionales.lugarCompraSupermercado,
-            });
-        }).then(function(response) {
-              alert('Datos guardados correctamente!')
-        }).catch(function (err) {
-             alert('No se pudo guardar');
-             BaseLocal.put({
-                _id: 'datosAdicionales',
-                _rev: doc._rev,
-                sexo: $scope.datosAdicionales.sexo,
-                estadoCivil: $scope.datosAdicionales.estadoCivil,
-                regularidadCompra: $scope.datosAdicionales.regularidadCompra,
-                edad: $scope.datosAdicionales.edad,
-                nombre: $scope.datosAdicionales.nombre,
-                password: $scope.datosAdicionales.password,
-                lugarCompraAlmacenBarrio: $scope.datosAdicionales.lugarCompraAlmacenBarrio,
-                lugarCompraMinimercado: $scope.datosAdicionales.lugarCompraMinimercado,
-                lugarCompraMinimercadoChino: $scope.datosAdicionales.lugarCompraMinimercadoChino,
-                lugarCompraSupermercado: $scope.datosAdicionales.lugarCompraSupermercado
-            });
-        });
+        DatosAdicionalesService.updateDatosAdicionales($scope.datosAdicionales);
 
     } else {
         alert('Faltan datos requeridos');

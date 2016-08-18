@@ -5,7 +5,9 @@
 // the 2nd parameter is an array of 'requires'
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
-angular.module('app', ['ionic','ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios','app.controllers.medioPago','app.services.ubicaciones','app.services.comercios' ,'app.services.compras','app.services.lista' ,'app.services.escanner', 'app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.controllers.prepararCompra', 'app.controllers.chango','app.controllers.lista','app.controllers.escanner'])
+
+angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner'])
+
 
 .run(function($ionicPlatform, BaseLocal, BaseComercios, BaseListas, $rootScope, $ionicHistory,$ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
@@ -48,7 +50,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas){
   
   
          agregarTarjetas(BaseLocal);
-         agregarUbicaciones(BaseLocal);
+         //agregarUbicaciones(BaseLocal);
          agregarCadenas(BaseLocal);
          agregarComercios(BaseComercios);
          agregarQuery(BaseComercios);
@@ -58,11 +60,10 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas){
 
 function agregarListas(BaseListas){
 	
-	BaseListas.destroy().then(function(){
-		BaseListas = new PouchDB('baseListas');
 	
 		BaseListas.bulkDocs([
 	        	{
+					_id: '1',
               nombre: 'Favoritos',
               productos: [{
             	  nombre: 'atún gomez',
@@ -72,20 +73,20 @@ function agregarListas(BaseListas){
             	  cantidad: 1
               }]
             }, {
+				_id: '2',
             	nombre: 'Asado',
                 productos: []
             },
             {
+				_id: '3',
             	nombre: 'Cena domingo',
                 productos: []
             }
             ]);
-	});
 	
 }
 
 function agregarQuery(BaseComercios){
-	
 	var ddoc = {
 		  _id: '_design/my_index',
 		  views: {
@@ -94,26 +95,39 @@ function agregarQuery(BaseComercios){
 		    }
 		  }
 		};
-		// save it
-		BaseComercios.put(ddoc).then(function () {
-		  alert('Gardado');
+	
+	BaseComercios.get('_design/my_index').then(function(doc){
+		BaseComercios.remove(doc._id, doc._rev).then(function(){
+			BaseComercios.put(ddoc).then(function () {
 		}).catch(function (err) {
 		  // some error (maybe a 409, because it already exists?)
 		});
+	})
+	}).catch(function(error){
+			BaseComercios.put(ddoc).then(function () {
+		}).catch(function (err) {
+		  // some error (maybe a 409, because it already exists?)
+		});
+			
+		});
+		
 }
 
 function agregarComercios(BaseLocal){
-	BaseLocal.destroy().then(function(){
-		BaseLocal = new PouchDB('baseComercios');
 	
+		
+	
+		
 	        BaseLocal.bulkDocs([
 	        	{
+					_id: '1',
               nombre: 'Coto Castrobarros',
               direccion: 'Castrobarros 66, caba, Argentina',
               nombrecadena: 'Coto',
               latitud: '-34.612020',
               longitud:  '-58.420792'
             }, {
+				_id: '2',
               nombre: 'Disco Castrobarros',
               direccion: 'Castrobarros 166, caba, Argentina',
               nombrecadena: 'Disco',
@@ -121,6 +135,7 @@ function agregarComercios(BaseLocal){
               longitud:  '-58.420387' 
             },
             {
+				_id: '3',
               nombre: 'Disco UTN',
               direccion: 'Medrano 850, caba, Argentina',
               nombrecadena: 'Disco',
@@ -128,7 +143,7 @@ function agregarComercios(BaseLocal){
               longitud:  '-58.420187' 
             }
             ]);
-	});
+	
 	
 	
 }
@@ -211,6 +226,7 @@ function agregarUbicaciones(BaseLocal){
             }
             ]});
          });
+
 }
 function agregarCadenas(BaseLocal){
 	//Busca el documento 'medioDePagoTarjetasNombres'
@@ -329,3 +345,4 @@ function agregarTarjetas(BaseLocal){
             ]});
          });
 }
+

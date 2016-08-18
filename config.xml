@@ -41,11 +41,11 @@
         <splash density="port-xxxhdpi" src="resources\android\splash\drawable-port-xxxhdpi-screen.png" />
     </platform>
     <icon src="resources\android\icon\drawable-xhdpi-icon.png" />
+    <plugin name="cordova-plugin-googleplus" spec="https://github.com/EddyVerbruggen/cordova-plugin-googleplus">
+        <variable name="REVERSED_CLIENT_ID" value="AIzaSyAeL3FKN_8FVVlFeaQTADwCzyPyRdPTFiU" />
+    </plugin>
     <plugin name="cordova-plugin-facebook4" spec="~1.7.1">
         <variable name="APP_ID" value="461039857353873" />
         <variable name="APP_NAME" value="eChango-mobile" />
-    </plugin>
-    <plugin name="cordova-plugin-googleplus" spec="https://github.com/EddyVerbruggen/cordova-plugin-googleplus">
-        <variable name="REVERSED_CLIENT_ID" value="AIzaSyAeL3FKN_8FVVlFeaQTADwCzyPyRdPTFiU" />
     </plugin>
 </widget>

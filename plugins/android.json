@@ -31,6 +31,14 @@
         },
         "phonegap-plugin-barcodescanner": {
             "PACKAGE_NAME": "com.ionicframework.mapa606841"
+        },
+        "cordova-plugin-facebook4": {
+            "APP_ID": "461039857353873",
+            "APP_NAME": "eChango-mobile",
+            "PACKAGE_NAME": "com.ionicframework.mapa606841"
+        },
+        "cordova-plugin-googleplus": {
+            "PACKAGE_NAME": "com.ionicframework.mapa606841"
         }
     },
     "dependent_plugins": {}
