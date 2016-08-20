@@ -17,7 +17,11 @@ angular.module('app.services.ubicaciones', [])
    this.agregarComercioFavorito = function(comercio) {
        return database.get('ubicaciones').then(function(doc){
            //para editar, primero lo saco y después lo vuelvo a agregar
-           doc.comercios = removerElemento(doc.comercios,comercio); 
+    	   if(doc.comercios){
+               doc.comercios = removerElemento(doc.comercios,comercio);     		   
+    	   }else{
+    		   doc.comercios = [];
+    	   }
            doc.comercios.push(comercio);
            database.put(doc,doc._id,doc._rev);
            return doc;

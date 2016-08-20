@@ -6,23 +6,24 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner'])
+angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner'])
 
 
-.run(function($ionicPlatform, BaseLocal, BaseComercios, BaseListas, $rootScope, $ionicHistory,$ionicNavBarDelegate) {
+.run(function($ionicPlatform, BaseLocal, BaseComercios,BaseProductos, BaseListas, $rootScope, $ionicHistory,$ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
       cordova.plugins.Keyboard.disableScroll(true);
+      window.PouchDB = PouchDB;
     }
     if (window.StatusBar) {
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
     
-    mockBaseDatos(BaseLocal, BaseComercios, BaseListas);
+    mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos);
     //borrarBase(BaseLocal);
     
   });
@@ -46,17 +47,60 @@ function borrarBase(BaseLocal){
   BaseLocal.destroy();
 }
 
-function mockBaseDatos(BaseLocal, BaseComercios, BaseListas){
+function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
   
   
          agregarTarjetas(BaseLocal);
          //agregarUbicaciones(BaseLocal);
          agregarCadenas(BaseLocal);
          agregarComercios(BaseComercios);
-         agregarQuery(BaseComercios);
+         //agregarQuery(BaseComercios);
          agregarListas(BaseListas);
+         agregarProductos(BaseProductos);
 
 } 
+/*
+ * El id del objeto precio se corresponde con el _id de comercios
+ * */
+function agregarProductos(BaseProductos){
+	BaseProductos.bulkDocs([
+	     	        	{
+	     					_id: '9780345418012',
+	                   nombre: 'The World According To Garp',
+	                   		ean: '9780345418012',
+	                   etiquetas: ['libro','paperback'],
+	                   precios: [{id: '1',
+	                	   					lista: 70},
+				                	   {id: '2',
+				                		   lista: 60},
+				                	   {id: '3',
+				                		   lista: 80}]
+	                 }, {
+	     					_id: '7790290001193',
+	 	                   nombre: 'Fernet Branca 750ml',
+	 	                   ean: '7790290001193',
+	 	                   etiquetas: ['Fernet','alcohol'],
+	 	                   precios: [{id: '1',
+	 	                	   					lista: 90},
+	 				                	   {id: '2',
+	 				                		   lista: 40},
+	 				                	   {id: '3',
+	 				                		   lista: 20}]
+	 	                 },
+	 	                {
+		     					_id: '7891136052000',
+		                   nombre: 'Campari',
+		                   ean: '7891136052000',
+		                   etiquetas: ['Campari','alcohol'],
+		                   precios: [{id: '1',
+		                	   					lista: 70},
+					                	   {id: '2',
+					                		   lista: 60},
+					                	   {id: '3',
+					                		   lista: 80}]
+		                 }
+	                 ]);
+}
 
 function agregarListas(BaseListas){
 	
