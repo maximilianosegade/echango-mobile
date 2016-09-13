@@ -17,4 +17,16 @@ angular.module('app.controllers.lista', [])
 		 $state.go('menu.miChango');
  }
  
+ $scope.borrar =  function (lista){
+	 
+
+	 	$scope.listasGuardadas = removerElemento($scope.listasGuardadas, lista);
+	    $scope.$apply();
+	    
+	    // Actualizar DB
+	    
+	    ListaService.borrarLista(lista);
+}
+ 
+ 
 });

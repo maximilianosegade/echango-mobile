@@ -9,4 +9,23 @@ angular.module('app.services.lista', [])
 	           return result.rows;
 	         });
 	   };
+	   
+	   this.guardarLista = function($nombre,$lista){
+		   var nuevaLista = {};
+		   nuevaLista.nombre = $nombre;
+		   nuevaLista.productos = $lista;
+		   nuevaLista._id = $nombre;
+		   return database.put(nuevaLista);
+		   };
+		   
+	   this.borrarLista = function(lista){
+		   database.get(lista.nombre).then(function(doc) {
+			   return database.remove(doc);
+			 }).then(function (result) {
+			   // handle result
+			 }).catch(function (err) {
+			   console.log(err);
+			 });
+	   }
+	   
 })

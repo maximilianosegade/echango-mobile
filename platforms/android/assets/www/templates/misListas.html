@@ -2,14 +2,10 @@
     <ion-content padding="true" class="has-header">
         <a ui-sref="menu.nuevaLista" id="misListas-button29" class=" button button-positive  button-block icon-left ion-android-add ">Nueva Lista</a>
         <ion-list id="misListas-list7" class=" ">
-            <ion-item class="item-icon-left  " id="misListas-list-item13">
-                <i class="icon ion-ios-star"></i>Mas comprados</ion-item>
-            <ion-item class="item-icon-left  " id="misListas-list-item14">
-                <i class="icon ion-alert"></i>Recomendados de la semana</ion-item>
-            <ion-item class="item-icon-left  " id="misListas-list-item15">
-                <i class="icon ion-flash"></i>Última compra</ion-item>
-            <ion-item class="item-icon-left  " id="misListas-list-item16">
-                <i class="icon ion-bonfire"></i>Asado</ion-item>
+              <ion-item ng-repeat="item in listasGuardadas  ">
+            <h2>{{item.doc.nombre }}</h2> 
+            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item.doc)"></ion-delete-button>
+          </ion-item>
         </ion-list>
     </ion-content>
 </ion-view>
