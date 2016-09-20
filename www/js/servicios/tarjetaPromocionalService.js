@@ -11,7 +11,7 @@ angular.module('app.services.tarjetaPromocional', [])
         // Si no existe, crearlo
         dbLocal.put({
             _id: 'tarjetasPromocionalesRegistradas',
-             tarjetasPromocionalesRegistradas: {}
+             tarjetasPromocionalesRegistradas: []
         }).then(function (response) {
             // handle response
         }).catch(function (err) {
