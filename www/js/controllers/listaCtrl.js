@@ -4,7 +4,11 @@ angular.module('app.controllers.lista', [])
  $scope.$on("$ionicView.beforeEnter", function(event, data){
 		 
 		 ListaService.getListas().then(function(result){
-			 $scope.listasGuardadas = result;
+			 $scope.listasGuardadas = [];
+			 
+				 for (var i = 0; i < result.length; i++) {
+					 $scope.listasGuardadas.push(result[i].doc);
+			        }  
 		    $scope.$apply();
 		 })
  });

@@ -4,7 +4,11 @@ angular.module('app.controllers.lista', [])
  $scope.$on("$ionicView.beforeEnter", function(event, data){
 		 
 		 ListaService.getListas().then(function(result){
-			 $scope.listasGuardadas = result;
+			 $scope.listasGuardadas = [];
+			 
+				 for (var i = 0; i < result.length; i++) {
+					 $scope.listasGuardadas.push(result[i].doc);
+			        }  
 		    $scope.$apply();
 		 })
  });
@@ -16,5 +20,17 @@ angular.module('app.controllers.lista', [])
 		    });
 		 $state.go('menu.miChango');
  }
+ 
+ $scope.borrar =  function (lista){
+	 
+
+	 	$scope.listasGuardadas = removerElemento($scope.listasGuardadas, lista);
+	    $scope.$apply();
+	    
+	    // Actualizar DB
+	    
+	    ListaService.borrarLista(lista);
+}
+ 
  
 });

@@ -5,7 +5,7 @@
 */
 function removerElemento(arr, obj){
        for (var i = 0; i < arr.length; i++) {
-            if (arr[i].id == obj.id ) {
+            if (arr[i].id == obj.id  || arr[i]._id == obj._id) {
                 arr.splice(i, 1);
                 return arr;
             }

@@ -1,6 +1,6 @@
 <ion-view title="Mi chango" id="page8" class=" ">
     <ion-content padding="true" class="has-header">
-        <h4 id="miChango-heading12" style="color:#24DF2B;" class=" ">Total: ·$300 | Ahorro: $23</h4>
+        <h4 id="miChango-heading12" style="color:#24DF2B;" class=" ">Total: {{chango.total}}</h4>
         <div id="miChango-button-bar3" class=" button-bar ">
         	<button class="button button-energized  button-block " id="miChango-button26" ng-click="escannear()">Seguir comprando </button>
       
@@ -8,18 +8,10 @@
         </div>
         <h3 id="miChango-heading4" style="color:#000000;" class=" ">Agregados</h3>
         <ion-list id="miChango-list6" class=" ">
-            <ion-item id="miChango-list-item9" ui-sref="menu.confirmarEscaneo" class="  ">{{nuevoProducto}}
-                <span class="item-note">{{nuevoPrecio}}</span>
-            </ion-item>
-            <ion-item id="miChango-list-item10" ui-sref="menu.detalleProducto" class="  ">Leche SanCor
-                <span class="item-note">x2</span>
-            </ion-item>
-            <ion-item id="miChango-list-item11" ui-sref="menu.detalleProducto" class="  ">Servilletas Campanita
-                <span class="item-note">x1</span>
-            </ion-item>
-            <ion-item id="miChango-list-item17" ui-sref="menu.detalleProducto" class="  ">CocaCola 2.25
-                <span class="item-note">x2</span>
-            </ion-item>
+            <ion-item ng-repeat="producto in chango.productos" >
+                  {{producto.nombre}}
+                <span class="item-note">${{producto.precio.lista}} (x{{producto.cantidad}})</span>
+                </ion-item>
         </ion-list>
         <h1 id="miChango-heading5" style="color:#000000;" class=" ">Pendientes</h1>
         <ion-item ng-repeat="item in listaActual.productos">

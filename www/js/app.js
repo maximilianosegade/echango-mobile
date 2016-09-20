@@ -55,7 +55,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
          agregarCadenas(BaseLocal);
          agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
-         agregarListas(BaseListas);
+        // agregarListas(BaseListas);
          agregarProductos(BaseProductos);
 
 } 
@@ -98,6 +98,18 @@ function agregarProductos(BaseProductos){
 					                		   lista: 60},
 					                	   {id: '3',
 					                		   lista: 80}]
+		                 },
+		 	                {
+		     					_id: '088004144708',
+		                   nombre: 'Fireball Cinamon whisky 60ml',
+		                   ean: '088004144708',
+		                   etiquetas: ['Whisky','alcohol'],
+		                   precios: [{id: '1',
+		                	   					lista: 200},
+					                	   {id: '2',
+					                		   lista: 300},
+					                	   {id: '3',
+					                		   lista: 270}]
 		                 }
 	                 ]);
 }
@@ -202,20 +214,20 @@ function agregarUbicaciones(BaseLocal){
         BaseLocal.put({
                 _id: 'ubicaciones',
               "ubicaciones": [{
-              id: 1,
+              _id: 1,
               nombre: 'Coto Castrobarros',
               direccion: 'Castrobarros 66, caba, Argentina',
               latitud: '-34.612020',
               longitud:  '-58.420792'
             }, {
-              id: 0,
+              _id: 0,
               nombre: 'Disco Castrobarros',
               direccion: 'Castrobarros 166, caba, Argentina',
               latitud: '-34.613968',
               longitud:  '-58.420387' 
             },
             {
-              id: 2,
+              _id: 2,
               nombre: 'Disco UTN',
               direccion: 'Medrano 850, caba, Argentina',
               latitud: '-34.598658',
@@ -223,12 +235,14 @@ function agregarUbicaciones(BaseLocal){
             }
             ],
             "comercios":[{
+            	_id:1,
             nombre: 'Coto Castrobarros',
               direccion: 'Castrobarros 66, caba, Argentina',
               nombrecadena: 'Coto',
               latitud: '-34.612020',
               longitud:  '-58.420792'
             }, {
+            	_id:2,
               nombre: 'Disco Castrobarros',
               direccion: 'Castrobarros 166, caba, Argentina',
               nombrecadena: 'Disco',
@@ -236,6 +250,7 @@ function agregarUbicaciones(BaseLocal){
               longitud:  '-58.420387' 
             },
             {
+            	_id:3,
               nombre: 'Disco UTN',
               direccion: 'Medrano 850, caba, Argentina',
               nombrecadena: 'Disco',
@@ -249,20 +264,20 @@ function agregarUbicaciones(BaseLocal){
            BaseLocal.put({
                 _id: 'ubicaciones',
               "ubicaciones": [{
-              id: 0,
+              _id: 1,
               nombre: 'Coto Castrobarros',
               direccion: 'Castrobarros 66, caba, Argentina',
               latitud: '-34.612020',
               longitud:  '-58.420792'
             }, {
-              id: 1,
+              _id: 2,
               nombre: 'Disco Castrobarros',
               direccion: 'Castrobarros 166, caba, Argentina',
               latitud: '-34.613968',
               longitud:  '-58.420387' 
             },
             {
-              id: 2,
+              _id: 3,
               nombre: 'Disco UTN',
               direccion: 'MEdrano 850, caba, Argentina',
               latitud: '-34.598658',
@@ -281,14 +296,14 @@ function agregarCadenas(BaseLocal){
         BaseLocal.put({
                 _id: 'cadenasDisponibles',
               "cadenasDisponibles": [{
-              id: 0,
+              _id: 0,
               nombre: 'Disco',
             }, {
-              id: 1,
+              _id: 1,
               nombre: 'Coto',
             },
             {
-              id: 2,
+              _id: 2,
               nombre: 'Jumbo',
             }
             ]});

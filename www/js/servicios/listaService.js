@@ -19,7 +19,7 @@ angular.module('app.services.lista', [])
 		   };
 		   
 	   this.borrarLista = function(lista){
-		   database.get(lista.nombre).then(function(doc) {
+		   database.get(lista._id).then(function(doc) {
 			   return database.remove(doc);
 			 }).then(function (result) {
 			   // handle result
