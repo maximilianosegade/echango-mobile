@@ -102,6 +102,11 @@ $scope.agregar = function(){
                 
         //Agregar al array
         $scope.comercioSeleccionado.id = $scope.comercioSeleccionado._id;
+        if($scope.comerciosGuardados){
+        	 removerElemento($scope.comerciosGuardados,$scope.comercioSeleccionado);
+        }else{
+        	$scope.comerciosGuardados = [];
+        }
         removerElemento($scope.comerciosGuardados,$scope.comercioSeleccionado);
             $scope.comerciosGuardados.push($scope.comercioSeleccionado);
             $scope.$apply();
