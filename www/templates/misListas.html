@@ -1,10 +1,16 @@
 <ion-view title="Mis listas" id="page10" class=" ">
     <ion-content padding="true" class="has-header">
         <a ui-sref="menu.nuevaLista" id="misListas-button29" class=" button button-positive  button-block icon-left ion-android-add ">Nueva Lista</a>
-        <ion-list id="misListas-list7" class=" " show-delete="true">
-              <ion-item ng-repeat="item in listasGuardadas  ">
-            <h2>{{item.nombre }}</h2> 
-            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
+        <a ng-click="combinarListas()" id="misListas-button29" class=" button button-positive  button-block icon-left ion-android-add ">Combinar Listas Seleccionadas</a>
+        <ion-list id="misListas-list7" can-swipe="true" show-delete="true" type="list-inset" >
+              <ion-item class="enable-pointer-events"
+               ng-repeat="(i,item) in listasGuardadas  track by $index"  id="item._id" on-hold="onHold(item)" >
+               
+	            <ion-toggle style="width: 50%; float: left;" ng-model="listasGuardadas[i].selected">{{item.nombre }}</ion-toggle>
+	            <a ng-click="editar(item)" id="misListas-button37" class=" button button-positive icon-left ion-edit ">Editar</a>
+	            
+	            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
+	            
           </ion-item>
         </ion-list>
     </ion-content>
