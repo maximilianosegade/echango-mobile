@@ -6,15 +6,35 @@
             </label>
         </form>
         <button class="button button-energized  button-block " id="miChango-button26" ng-click="escannear()">Agregar producto </button>
-        <button id="nuevaLista-button32" class=" button button-positive  button-block icon-left ion-clipboard ">Buscar Prodcuto por Nombre</button>
+        <button id="nuevaLista-button32" class=" button button-positive  button-block icon-left ion-clipboard " ng-click="openModal()">Buscar Producto por Nombre</button>
         <button id="nuevaLista-button33" class=" button button-positive  button-block icon-left  " ng-click="guardar()">Guardar Lista</button>
         <ion-list id="listaNueva" class=" ">
             <ion-item ng-repeat="(i,item) in productos  track by $index">
-            {{item.nombre }}
+            {{item.nombre }}     
             <input id="{{item.id}}" type="text" value="{{item.cantidad}}" ng-model="productos[i].cantidad">
           <button ng-click="borrar(item)" id="borrar{{item.id}}" class=" button button-positive  button-block icon-left ion-android-cart ">BORRAR </button>
             
           </ion-item>
            </ion-list>
     </ion-content>
+    
+    <script id="productos-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Ingrese el nombre del producto</h1>
+          </ion-header-bar>
+          <ion-content>
+ 			<input type="text" placeholder="Nombre del producto" ng-model="busqueda.nombreBuscado">
+            <button class="button button-energized  button-block " id="miChango-button26" ng-click="buscarPorNombre()">Buscar </button>
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="producto in productosCandidatos" ng-click="elegirProducto(producto.doc)">
+                  {{producto.doc.nombre}}--{{producto.doc.ean}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
 </ion-view>

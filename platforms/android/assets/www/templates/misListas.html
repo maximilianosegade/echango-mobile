@@ -1,8 +1,9 @@
 <ion-view title="Mis listas" id="page10" class=" ">
     <ion-content padding="true" class="has-header">
         <a ui-sref="menu.nuevaLista" id="misListas-button29" class=" button button-positive  button-block icon-left ion-android-add ">Nueva Lista</a>
+        <a ui-sref="menu.combinar" id="misListas-button29" class=" button button-positive  button-block icon-left ion-android-add ">Nueva Lista</a>
         <ion-list id="misListas-list7" class=" " show-delete="true">
-              <ion-item ng-repeat="item in listasGuardadas  ">
+              <ion-item ng-repeat="item in listasGuardadas  " id="item._id" on-hold="onHold(item)">
             <h2>{{item.nombre }}</h2> 
             <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
           </ion-item>

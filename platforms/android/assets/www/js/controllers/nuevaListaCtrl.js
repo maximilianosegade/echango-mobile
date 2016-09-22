@@ -1,8 +1,9 @@
 angular.module('app.controllers.nuevaLista', [])
-.controller('nuevaListaCtrl', function($scope,$ionicHistory,$state,ListaService, ProductoService,EscannerService) {
+.controller('nuevaListaCtrl', function($scope,$ionicHistory,$state,ListaService, ProductoService,EscannerService,$ionicModal) {
 
 	$scope.productos = [];
 	$scope.lista = {};
+	$scope.busqueda = {};
 	
  $scope.$on("$ionicView.beforeEnter", function(event, data){
 		 
@@ -16,14 +17,26 @@ angular.module('app.controllers.nuevaLista', [])
 		 $state.go('menu.miChango');
  }
  
+ $scope.buscarPorNombre = function(){
+	 
+	 ProductoService.getProductoPorNombre($scope.busqueda.nombreBuscado).then(function(productos){
+		 $scope.productosCandidatos = productos;
+		 $scope.$apply();
+	 });
+ }
+ 
+ function agregarProducto(producto){
+	 $scope.productos.push(producto);
+	 $scope.$apply();
+ } 
+ 
  $scope.escannear = function(){
 	 EscannerService.scanBarcode().then(function(codigo){
 		 ProductoService.getProductoPorEAN(codigo).then(function (producto){			 
 			 producto.cantidad = 1;
 			 //producto.precioActivo = obtenerPorId(producto.precios, comercio._id);
 			 
-			 $scope.productos.push(producto);
-			 $scope.$apply();
+			 agregarProducto(producto);
 		 });
 		 
 	 });
@@ -55,5 +68,29 @@ angular.module('app.controllers.nuevaLista', [])
         return;		 
 	 }
  }
+ 
+ /*MODAL*/
+ $ionicModal.fromTemplateUrl('productos-modal.html', {
+	    id: '1',
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	}).then(function(modal) {
+	    $scope.modal = modal;
+	});
+
+	$scope.openModal = function() {
+	   
+	        $scope.modal.show();
+	    
+	  };
+	  $scope.elegirProducto = function(producto) {
+		  	agregarProducto(producto);
+		    $scope.$apply();
+		    $scope.modal.hide();
+		};
+
+		$scope.closeModal = function() {
+		    $scope.modal.hide();
+		};
  
 });

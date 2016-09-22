@@ -2,7 +2,7 @@ angular.module('app.services.producto', [])
 .service("ProductoService", function($rootScope, $q, BaseProductos) {
 	var database = BaseProductos;
 	function mapNombreProducto(doc) {
-	       emit(doc.nombreproducto);
+	       emit(doc.nombre);
 	    
 	};
 	function mapEANProducto(doc) {
@@ -11,7 +11,8 @@ angular.module('app.services.producto', [])
 	};
 	this.getProductoPorNombre = function(nombreProducto){
 		return database.query(mapNombreProducto, {
-			  key          : nombreProducto,
+			  startkey          : nombreProducto,
+			  endkey 			 : nombreProducto +'\uffff',
 			  include_docs : true
 			}).then(function (res) {
 				  	return res.rows;
