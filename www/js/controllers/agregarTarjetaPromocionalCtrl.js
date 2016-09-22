@@ -3,17 +3,24 @@ angular.module('app.controllers.agregarTarjetaPromocional', [])
 .controller('agregarTarjetaPromocionalCtrl', function($scope,BaseLocal,$ionicModal,TarjetaPromocionalService) {
   
     var dbLocal = BaseLocal;
+    
+    $scope.$on("$ionicView.beforeEnter", function(event, data){
+    	TarjetaPromocionalService.getTarjetasPromocionales().then(function(doc){
+            $scope.tarjetasPromocionales = doc.tarjetasPromocionales;
+            $scope.$apply();
+        });
+        // Obtener tarjetas promocionales registradas desde Pouch
+    	TarjetaPromocionalService.getTarjetasPromocionalesRegistradas().then(function(doc){
+            $scope.tarjetasPromocionalesRegistradas = doc.tarjetasPromocionalesRegistradas;
+            $scope.$apply();
+        });
+    });
 
-    $scope.tarjetasPromocionales = ['Comunidad COTO','DISCO','DIA Discount','Cencosud'];
-    $scope.tarjetasPromocionalesRegistradas = [];
+    //$scope.tarjetasPromocionales = ['Comunidad COTO','DISCO','DIA Discount','Cencosud'];
+    //$scope.tarjetasPromocionalesRegistradas = [];
     $scope.tarjetaPromocionalSeleccionada = '';
 
-    // Obtener tarjetas promocionales registradas desde Pouch
 
-    TarjetaPromocionalService.getTarjetasPromocionalesRegistradas().then(function(doc){
-        $scope.tarjetasPromocionalesRegistradas = doc.tarjetasPromocionalesRegistradas;
-        $scope.$apply();
-    });
 
 
    
@@ -47,12 +54,9 @@ $scope.$on('$destroy', function() {
 $scope.agregar = function(){
     if ($scope.tarjetaPromocionalSeleccionada){
         var timeStamp = String(new Date().getTime());
-        var obj = {
-            "id": $scope.tarjetasPromocionalesRegistradas.length,
-            "nombre": $scope.tarjetaPromocionalSeleccionada
-        }
+        
         if (validarItem($scope.tarjetaPromocionalSeleccionada)){
-            $scope.tarjetasPromocionalesRegistradas.push(obj);
+            $scope.tarjetasPromocionalesRegistradas.push($scope.tarjetaPromocionalSeleccionada);
             // Actualizar datos en Pouch
             TarjetaPromocionalService.updateTarjetasPromocionalesRegistradas($scope.tarjetasPromocionalesRegistradas);
             $scope.$apply();
