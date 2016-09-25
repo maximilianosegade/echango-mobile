@@ -1,0 +1,26 @@
+<ion-view title="Escanear Ticket" id="page129 class=" ">
+
+    <ion-pane>
+      <ion-header-bar class="bar-stable">
+        <h1 class="title">Ionic OCR Example</h1>
+      </ion-header-bar>
+      <!--<ion-content ng-controller="escanearTicketCtrl">-->
+
+        
+            <img style="width: 50%;" id="pic" src="">
+
+        <div class="padding" ng-if="showAnalyzeButton">
+
+            <button ng-click="testOcrad()" class="button button-full button-positive">
+              Analyze text
+            </button>
+            
+            <button ng-click="showActionSheet()" class="button button-full button-positive">
+              Reset
+            </button>
+
+         </div>
+         </ion-item>
+      </ion-content>
+    </ion-pane>
+</ion-view>

@@ -39,7 +39,14 @@
         },
         "cordova-plugin-googleplus": {
             "PACKAGE_NAME": "com.ionicframework.mapa606841"
+        },
+        "cordova-plugin-camera": {
+            "PACKAGE_NAME": "com.ionicframework.mapa606841"
         }
     },
-    "dependent_plugins": {}
+    "dependent_plugins": {
+        "cordova-plugin-compat": {
+            "PACKAGE_NAME": "com.ionicframework.mapa606841"
+        }
+    }
 }
