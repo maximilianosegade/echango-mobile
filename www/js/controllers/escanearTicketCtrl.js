@@ -59,8 +59,8 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   $scope.showActionSheet = function(){
     var hideSheet = $ionicActionSheet.show({
       buttons: [
-       { text: 'Choose Photo' },
-       { text: 'Take Photo' }
+       { text: 'Elegir Foto' },
+       { text: 'Tomar Foto' }
       ],
       cancelText: 'Cancel',
       cancel: function() {
@@ -74,14 +74,18 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   };
 
   $scope.showActionSheet();
-
+  $scope.textos = [];
+  
   $scope.testOcrad = function(){
     self.showLoading();
     OCRAD(document.getElementById("pic"), function(text){
       self.hideLoading();
       console.log(text);
-      alert(text);
+      $scope.textos = text.split("\n");
+      $scope.$apply();
     });
   } ; 
+
+
 
 });

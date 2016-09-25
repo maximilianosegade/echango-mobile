@@ -1,26 +1,36 @@
-<ion-view title="Escanear Ticket" id="page129 class=" ">
-
-    <ion-pane>
-      <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic OCR Example</h1>
-      </ion-header-bar>
+<ion-view title="Escanear Ticket" id="page29" class=" ">
+<ion-content padding="true" class="has-header">
       <!--<ion-content ng-controller="escanearTicketCtrl">-->
 
-        
-            <img style="width: 50%;" id="pic" src="">
+        <ion-item>
+        <img style="width: 50%;" id="pic" src="">
+</ion-item>
 
-        <div class="padding" ng-if="showAnalyzeButton">
+<ion-item>
+<!--
+           <div ng-if="showAnalyzeButton">
 
             <button ng-click="testOcrad()" class="button button-full button-positive">
-              Analyze text
+              Analizar Texto
             </button>
             
             <button ng-click="showActionSheet()" class="button button-full button-positive">
-              Reset
+              Volver a intentar
             </button>
 
          </div>
-         </ion-item>
-      </ion-content>
-    </ion-pane>
+         -->
+</ion-item>
+            <ion-item>
+                <button class="button button-full button-positive" ng-click="testOcrad()" ng-show="showAnalyzeButton">Analizar Texto</button>
+                <button class="button button-full button-positive" ng-click="showActionSheet()" ng-show="showAnalyzeButton">Volver a intentar</button>
+            </ion-item>
+<ion-item>
+    <h2>texto reconocido</h2>
+    </ion-item>
+    <p collection-repeat="linea in textos"  >
+             {{linea}}
+         </p>
+    
+</ion-content>
 </ion-view>
