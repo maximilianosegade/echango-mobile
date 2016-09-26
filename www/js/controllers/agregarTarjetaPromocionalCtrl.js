@@ -53,7 +53,6 @@ $scope.$on('$destroy', function() {
 
 $scope.agregar = function(){
     if ($scope.tarjetaPromocionalSeleccionada){
-        var timeStamp = String(new Date().getTime());
         
         if (validarItem($scope.tarjetaPromocionalSeleccionada)){
             $scope.tarjetasPromocionalesRegistradas.push($scope.tarjetaPromocionalSeleccionada);
@@ -81,9 +80,9 @@ $scope.agregar = function(){
 
 };
 
-var validarItem = function(unNombreDeTarjeta){
+var validarItem = function(tarjeta){
     for(i=0; i < $scope.tarjetasPromocionalesRegistradas.length; i++){
-        if(unNombreDeTarjeta == $scope.tarjetasPromocionalesRegistradas[i].nombre){
+        if(tarjeta._id == $scope.tarjetasPromocionalesRegistradas[i]._id){
             alert('Item repetido');
             return false;
         }
