@@ -83,7 +83,7 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
       self.hideLoading();
       console.log(text);
       $scope.textos = text.split("\n");
-      self.parsearTexto();  
+      alert($scope.textos);
       $scope.$apply();
     });
 
@@ -91,67 +91,7 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
 $scope.cadenaSupermercado = '';
 $scope.fechaDeCompra = '';
 $scope.productosLeidos = [];
-var modosLectura = ['supermercado','fecha','productos','fin'];
-// Modos Lectura
-// 0 Cadena de Supermercado
-// 1 Fecha de Compra
-// 2 Producto
-// 3 Fin
 
-var modo = 0;
-var precioLeido = false;
-var codigoLeido = false;
-
-  this.parsearTexto = function() {
-    alert($scope.textos);
-    for (var i = 0; i < $scope.textos.length; i++) {
-      var lineaActual = $scope.textos[i];
-      if (lineaActual != '') {
-        switch (modo) {
-          case 0:
-            $scope.cadenaSupermercado = lineaActual;
-            alert($scope.cadenaSupermercado);
-            modo++;
-            break;
-          case 1:
-          // Buscando la fecha en el encabezado
-            if (lineaActual.search('Fecha')>-1) {
-              var splittedText = lineaActual.split(' ');
-              $scope.fechaDeCompra = splittedText[1];
-              alert($scope.fechaDeCompra);
-              
-            }
-            break;
-          case 2:
-          // Leyendo productos
-            if (!precioLeido) {
-              var splittedText = lineaActual.split(' ');
-              precio = splittedText[2];
-              precioLeido = true;
-            } else {
-              if (!codigoLeido) {
-                codigo = lineaActual.substr(0,12);
-                codigoLeido = true;
-              }
-            }
-            if (precioLeido && codigoLeido) {
-              var obj = {
-                "ean" : codigo,
-                "precio" : precio
-              }
-              $scope.productosLeidos.push(obj);
-              $scope.$apply();
-              codigoLeido = false;
-              precioLeido = false;
-            }
-            break;
-          
-        }
-      } else {
-        modo++;
-      }
-    }
-  }
 
 
 });
