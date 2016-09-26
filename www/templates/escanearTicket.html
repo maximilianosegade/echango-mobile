@@ -22,6 +22,8 @@
             <ion-item>
                 <button class="button button-full button-positive" ng-click="testOcrad()" ng-show="showAnalyzeButton">Analizar Texto</button>
                 <button class="button button-full button-positive" ng-click="showActionSheet()" ng-show="showAnalyzeButton">Volver a intentar</button>
+                <button class="button button-full button-positive" ng-click="parsearTexto()" ng-show="showAnalyzeButton">Parsear Texto</button>
+                
             </ion-item>
 <ion-item>
     <h2>texto reconocido</h2>
@@ -35,14 +37,12 @@
     <p>Comercio: {{cadenaSupermercado}}</p>
     <p>Fecha de Compra: {{fechaDeCompra}}</p>
     </ion-item>
-     <!--   
-    <p>Productos Comprados:</p>
-    <ion-item>
-    <p collection-repeat="item in productosLeidos">
-      Código: {{item.ean}} - Precio: {{item.precio}}
-    </p>
+   
+    <ion-item ng-repeat="producto in productosLeidos">
+      Código: {{producto.codigo}}
+      Precio: {{producto.precio}}
     </ion-item>
-    -->
+
   </ion-content>
 
 </ion-view>

@@ -92,6 +92,62 @@ $scope.cadenaSupermercado = '';
 $scope.fechaDeCompra = '';
 $scope.productosLeidos = [];
 
+$scope.parsearTexto = function() {
+  var modo = 0;
+  var eanLeido = false;
+  var precioLeido = false;
+  for (var i = 0; i < $scope.textos.length; i++) {
+    var lineaActual = $scope.textos[i];
+    if (lineaActual != '') {
+    switch (modo) {
+      case 0:
+        $scope.cadenaSupermercado = lineaActual;
+        modo++;
+        break;
+      case 1:
+        if (lineaActual.search('Fecha') > -1) {
+          var splittedText = lineaActual.split(' ');
+          $scope.fechaDeCompra = splittedText[1];
+        };
+        break;
+      case 2:
+      // Leyendo Precio
+        if (!precioLeido) {
+          var splittedText = lineaActual.split(' ');
+        var precio = splittedText[2];
+//          var precio = lineaActual;
+          precioLeido = true;
+        } else {
+          if (!eanLeido) {
+            // Leyendo EAN
+           var ean = lineaActual.substr(0,12);
+//            var ean = lineaActual;
+            eanLeido = true;
+          }
+        } 
 
+        if (precioLeido && eanLeido) {
+          // Agregar productosLeidos
+          var obj = {
+            "codigo": ean,
+            "precio": precio,
+          }
+          alert(obj.codigo + '\nPrecio:' + obj.precio);
+          $scope.productosLeidos.push(obj);
+          $scope.$apply();
+          precioLeido = false;
+          eanLeido = false;
+          alert($scope.productosLeidos.length);
+        }
+
+        break;
+      default:
+        break;
+      }
+    } else {
+        modo++;
+    }
+  }
+}
 
 });
