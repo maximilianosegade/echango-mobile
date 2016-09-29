@@ -7,11 +7,11 @@ angular.module('app.controllers.nuevaLista', [])
 	$scope.editando = false;
 	
  $scope.$on("$ionicView.beforeEnter", function(event, data){
-		 if(ListaService.listaEditar != null){
-			 $scope.lista = ListaService.listaEditar;
-			 $scope.productos = ListaService.listaEditar.productos;
+		 if(ListaService.listaSeleccionada != null){
+			 $scope.lista = ListaService.listaSeleccionada;
+			 $scope.productos = ListaService.listaSeleccionada.productos;
 			 $scope.editando = ListaService.editando;
-			 ListaService.listaEditar = null;
+			 ListaService.listaSeleccionada = null;
 		 }else{
 			 	$scope.productos = [];
 				$scope.lista = {};

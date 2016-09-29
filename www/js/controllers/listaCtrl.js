@@ -62,9 +62,15 @@ angular.module('app.controllers.lista', [])
  }
  
  $scope.editar = function (lista){
-	 ListaService.listaEditar = lista;
+	 ListaService.listaSeleccionada = lista;
 	 ListaService.editando = true;
 	 $state.go('menu.nuevaLista');
+ }
+ 
+ $scope.simular = function (lista){
+	 ListaService.listaSeleccionada = lista;
+	 ListaService.simular = true;
+	 $state.go('menu.iniciarCompra');
  }
  
  $scope.borrar =  function (lista){

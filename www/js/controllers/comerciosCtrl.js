@@ -1,9 +1,15 @@
 angular.module('app.controllers.comercios', [])
 
-.controller('comerciosCtrl', function($scope,$state, BaseComercios, BaseLocal,UbicacionesService,$ionicModal,$ionicHistory,ComerciosService,ComprarService) {
+.controller('comerciosCtrl', function($scope,$state, BaseComercios, BaseLocal,UbicacionesService,$ionicModal,$ionicHistory,ComerciosService,ComprarService,ListaService) {
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
-    
+		$scope.simular = false;
+    if(ListaService.simular){
+    	$scope.listaSeleccionada = ListaService.listaSeleccionada;
+    	$scope.simular = true;
+    	ListaService.simular = false;
+    }
+		
     UbicacionesService.getComerciosFavoritos().then(function(doc){
     	
       $scope.comerciosGuardados = doc;
@@ -151,11 +157,21 @@ $scope.agregar = function(){
 
 $scope.seleccionar = function (comercio) {
 	ComprarService.seleccionarComercio(comercio);
+	ComprarService.simular = false;
 	$ionicHistory.nextViewOptions({
 	      disableBack: false
 	    });
 	 $state.go('menu.confirmarMediosDePago');
 };
+
+$scope.simularCompra = function (comercio) {
+	ComprarService.seleccionarLista($scope.listaSeleccionada);
+	ComprarService.seleccionarComercio(comercio);
+	ComprarService.simular = true;
+	
+	$state.go('menu.confirmarMediosDePago');
+};
+
 
 $scope.item = {};
 $scope.cadenasDisponibles = [];

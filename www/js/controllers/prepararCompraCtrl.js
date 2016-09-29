@@ -1,10 +1,12 @@
 angular.module('app.controllers.prepararCompra', [])
-.controller('confirmarMediosDePagoCtrl', function($scope, BaseLocal) {
+.controller('confirmarMediosDePagoCtrl', function($scope,$state, BaseLocal, ComprarService) {
 
 	 var dbLocal = BaseLocal;
 	 $scope.$on("$ionicView.beforeEnter", function(event, data){
 		 
-		 
+		 $scope.listaSeleccionada = ComprarService.listaSeleccionada();
+		 $scope.comercioSeleccionado = ComprarService.comercioSeleccionado();
+		 $scope.simular = ComprarService.simular;
 
 			// Obtener medios de pago registrados
 		 dbLocal.get('mediosDePagoRegistrados').then(function(doc){
@@ -37,5 +39,13 @@ angular.module('app.controllers.prepararCompra', [])
 		    
 		  }); 
 	 
-	
+	 $scope.simularCompra = function () {
+			
+			ComprarService.simularCompra($scope.listaSeleccionada,$scope.comercioSeleccionado,
+					$scope.mediosDePagoRegistrados, $scope.tarjetasPromocionalesRegistradas ).then(function(costos){
+						ComprarService.costos = costos;
+
+						$state.go('menu.simulacion');
+					})
+		};
 })

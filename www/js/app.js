@@ -6,7 +6,7 @@
 // 'starter.services' is found in services.js
 // 'starter.controllers' is found in controllers.js
 
-angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista'])
+angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista', 'app.controllers.simular'])
 
 
 .run(function($ionicPlatform, BaseLocal, BaseComercios,BaseProductos, BaseListas, $rootScope, $ionicHistory,$ionicNavBarDelegate) {
@@ -50,17 +50,22 @@ function borrarBase(BaseLocal){
 function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
   
   
-         agregarTarjetas(BaseLocal);
+        // agregarTarjetas(BaseLocal);
          //agregarUbicaciones(BaseLocal);
-         agregarCadenas(BaseLocal);
-         agregarComercios(BaseComercios);
+        // agregarCadenas(BaseLocal);
+        // agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
-         agregarProductos(BaseProductos);
+        // agregarProductos(BaseProductos);
 
 } 
 /*
  * El id del objeto precio se corresponde con el _id de comercios
+ * 
+ * 
+ * La promoción es una clave triple entre tarjeta, banco y tarjetaPromocion, si es 0 quiere decir que es para cualqueira
+ * 
+ * 
  * */
 function agregarProductos(BaseProductos){
 	BaseProductos.bulkDocs([
@@ -70,11 +75,17 @@ function agregarProductos(BaseProductos){
 	                   		ean: '9780345418012',
 	                   etiquetas: ['libro','paperback'],
 	                   precios: [{id: '1',
-	                	   					lista: 70},
+	                	   					lista: 70,
+	                	   					promociones:[{plastico:1,
+            			   						banco:1,
+            			   						tarjeta:1,
+            			   						acumulable: 0}]},
 				                	   {id: '2',
 				                		   lista: 60},
 				                	   {id: '3',
-				                		   lista: 80}]
+				                		   lista: 80}],
+            		   
+	     	        	
 	                 }, {
 	     					_id: '7790290001193',
 	 	                   nombre: 'Fernet Branca 750ml',
@@ -105,11 +116,33 @@ function agregarProductos(BaseProductos){
 		                   ean: '088004144708',
 		                   etiquetas: ['Whisky','alcohol'],
 		                   precios: [{id: '1',
-		                	   					lista: 200},
+		                	   					lista: 200,
+		                	   					promociones:[{plastico:1,
+	            			   						banco:1,
+	            			   						tarjeta:1,
+	            			   						acumulable: 0,
+	            			   						valor: 170},{plastico:2,
+		            			   						banco:2,
+		            			   						tarjeta:0,
+		            			   						acumulable: 0,
+		            			   						valor: 170},
+		            			   						{plastico:1,
+			            			   						banco:0,
+			            			   						tarjeta:0,
+			            			   						acumulable: 0,
+			            			   						valor: 170}]},
 					                	   {id: '2',
-					                		   lista: 300},
+					                		   lista: 300,
+					                		   promociones:[{plastico:1,
+	            			   						banco:1,
+	            			   						tarjeta:1,
+	            			   						acumulable: 0}]},
 					                	   {id: '3',
-					                		   lista: 270}]
+					                		   lista: 270,
+					                		   promociones:[{plastico:1,
+	            			   						banco:1,
+	            			   						tarjeta:1,
+	            			   						acumulable: 0}]}]
 		                 }
 	                 ]);
 }
