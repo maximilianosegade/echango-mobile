@@ -42,8 +42,8 @@ angular.module('app.controllers.prepararCompra', [])
 	 $scope.simularCompra = function () {
 			
 			ComprarService.simularCompra($scope.listaSeleccionada,$scope.comercioSeleccionado,
-					$scope.mediosDePagoRegistrados, $scope.tarjetasPromocionalesRegistradas ).then(function(costos){
-						ComprarService.costos = costos;
+					$scope.mediosDePagoRegistrados, $scope.tarjetasPromocionalesRegistradas ).then(function(simulacion){
+						ComprarService.simulacion = simulacion;
 
 						$state.go('menu.simulacion');
 					})

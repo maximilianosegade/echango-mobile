@@ -1,8 +1,9 @@
 <ion-view title="Simulaciones" id="page15" class=" ">
     <ion-content padding="true" class="has-header">
-        
-        <ion-list show-delete="true">
-          <ion-item collection-repeat="item in costos">
+        <h2>Para la lista: {{simulacion.lista.nombre}}</h2>
+        <h3> en el comercio: {{simulacion.comercio.nombre}}</h3>
+        <ion-list show-delete="false">
+          <ion-item collection-repeat="item in simulacion.costos">
             <ion-delete-button class="ion-minus-circled" ng-click="deleteItem(item)"></ion-delete-button>
             {{item.medioDePago.tarjeta.nombre}}---- {{item.medioDePago.banco.nombre}} <br />
             {{item.valorTotal}}

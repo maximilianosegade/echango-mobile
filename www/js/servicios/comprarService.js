@@ -4,6 +4,7 @@ angular.module('app.services.compras', [])
 	var comercio = null;
 	var lista = null;
 	var simular = false;
+	var simulacion = null;
 	
 	this.seleccionarComercio = function (com){
 		comercio = com;
@@ -100,6 +101,7 @@ angular.module('app.services.compras', [])
 		
 		return actualizarProductos(lista.productos, []).then(function( productosNuevos){
 			lista.productos = productosNuevos;
+			var simulacion = {};
 			var costos = [];
 			var costo = {
 								medioDePago: null,
@@ -160,7 +162,10 @@ angular.module('app.services.compras', [])
 					};
 			}
 			
-			return costos;
+			simulacion.costos = costos;
+			simulacion.lista = lista;
+			simulacion.comercio = comercio;
+			return simulacion;
 		});
 		
 		
