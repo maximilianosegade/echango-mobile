@@ -29,20 +29,20 @@
     <h2>texto reconocido</h2>
 </ion-item>
 
-      <p collection-repeat="linea in textos">
+ <!--     <p collection-repeat="linea in textos">
              {{linea}}
-        </p>
+        </p> -->
 <h2>texto parseado</h2>
     <ion-item>
     <p>Comercio: {{cadenaSupermercado}}</p>
     <p>Fecha de Compra: {{fechaDeCompra}}</p>
     </ion-item>
-   
-    <ion-item ng-repeat="producto in productosLeidos">
-      Código: {{producto.codigo}}
-      Precio: {{producto.precio}}
-    </ion-item>
-
+    
+    <p collection-repeat="producto in productosLeidos">
+      {{producto.codigo}}
+      {{producto.precio}}
+    </p>
+    
   </ion-content>
 
 </ion-view>

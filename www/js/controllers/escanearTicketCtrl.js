@@ -81,7 +81,7 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
     self.showLoading();
     OCRAD(document.getElementById("pic"), function(text){
       self.hideLoading();
-      console.log(text);
+      //console.log(text);
       $scope.textos = text.split("\n");
       alert($scope.textos);
       $scope.$apply();
@@ -131,13 +131,13 @@ $scope.parsearTexto = function() {
           var obj = {
             "codigo": ean,
             "precio": precio,
-          }
-          alert(obj.codigo + '\nPrecio:' + obj.precio);
+          };
+          //alert(obj.codigo + '\nPrecio:' + obj.precio);
           $scope.productosLeidos.push(obj);
           $scope.$apply();
           precioLeido = false;
           eanLeido = false;
-          alert($scope.productosLeidos.length);
+          //alert($scope.productosLeidos.length);
         }
 
         break;
@@ -148,6 +148,13 @@ $scope.parsearTexto = function() {
         modo++;
     }
   }
+  //alert($scope.productosLeidos);
+
+  for (var i = 0; i < $scope.productosLeidos.length; i++) {
+    alert('Codigo: ' + $scope.productosLeidos[i].codigo + '\nPrecio: ' + $scope.productosLeidos[i].precio);
+  }
+//$scope.$apply();
+  return;
 }
 
 });
