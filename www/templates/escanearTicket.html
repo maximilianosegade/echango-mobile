@@ -1,10 +1,12 @@
 <ion-view title="Escanear Ticket" id="page29" class=" ">
 <ion-content padding="true" class="has-header">
       <!--<ion-content ng-controller="escanearTicketCtrl">-->
-
-        <ion-item>
+        <p>
+        <font size="3"><b>Imagen de muestra:</b></font>
+        </p>
+        <ion-item ng-show="showAnalyzeButton">
         <img style="width: 50%;" id="pic" src="">
-</ion-item>
+      </ion-item>
 
 <!--
            <div ng-if="showAnalyzeButton">
@@ -19,28 +21,26 @@
 
          </div>
          -->
-            <ion-item>
+            <ion-item ng-show="showAnalyzeButton">
                 <button class="button button-full button-positive" ng-click="testOcrad()" ng-show="showAnalyzeButton">Analizar Texto</button>
                 <button class="button button-full button-positive" ng-click="showActionSheet()" ng-show="showAnalyzeButton">Volver a intentar</button>
+                <!--
                 <button class="button button-full button-positive" ng-click="parsearTexto()" ng-show="showAnalyzeButton">Parsear Texto</button>
-                
+                -->
             </ion-item>
-<ion-item>
-    <h2>texto reconocido</h2>
-</ion-item>
-
  <!--     <p collection-repeat="linea in textos">
              {{linea}}
         </p> -->
-<h2>texto parseado</h2>
-    <ion-item>
+        <p ng-show="showAnalyzeButton">
+        <font size="3"><b>Resumen de la Compra:</b></font>
+        </p>
+    <ion-item ng-show="showAnalyzeButton">
     <p>Comercio: {{cadenaSupermercado}}</p>
     <p>Fecha de Compra: {{fechaDeCompra}}</p>
     </ion-item>
     
-    <p collection-repeat="producto in productosLeidos">
-      {{producto.codigo}}
-      {{producto.precio}}
+    <p collection-repeat="producto in productosLeidos" ng-show="showAnalyzeButton">
+      Código: {{producto.codigo}} Precio: ${{producto.precio}}
     </p>
     
   </ion-content>

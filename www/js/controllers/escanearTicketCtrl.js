@@ -57,6 +57,10 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   });
 
   $scope.showActionSheet = function(){
+    $scope.textos = [];
+    $scope.cadenaSupermercado = '';
+    $scope.fechaDeCompra = '';
+    $scope.productosLeidos = [];
     var hideSheet = $ionicActionSheet.show({
       buttons: [
        { text: 'Elegir Foto' },
@@ -74,7 +78,7 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   };
 
   $scope.showActionSheet();
-  $scope.textos = [];
+  //$scope.textos = [];
 
   
   $scope.testOcrad = function(){
@@ -85,12 +89,13 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
       $scope.textos = text.split("\n");
       alert($scope.textos);
       $scope.$apply();
+      $scope.parsearTexto();
     });
 
   } ; 
-$scope.cadenaSupermercado = '';
-$scope.fechaDeCompra = '';
-$scope.productosLeidos = [];
+//$scope.cadenaSupermercado = '';
+//$scope.fechaDeCompra = '';
+//$scope.productosLeidos = [];
 
 $scope.parsearTexto = function() {
   var modo = 0;
