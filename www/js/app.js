@@ -9,7 +9,7 @@
 angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista', 'app.controllers.escanearTicket'])
 
 
-.run(function($ionicPlatform, BaseLocal, BaseComercios,BaseProductos, BaseListas, $rootScope, $ionicHistory,$ionicNavBarDelegate) {
+.run(function($ionicPlatform, BaseLocal, BaseComercios,BaseProductos, BaseListas, DBSync,$rootScope, $ionicHistory,$ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -22,25 +22,26 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    
+
     mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos);
+    DBSync.sync();
     //borrarBase(BaseLocal);
-    
+
   });
-  
+
   $rootScope.myGoBack = function(){
   	$ionicHistory.goBack();
   };
-  
+
   $rootScope.$on('$stateChangeSuccess', function  (event, toState, toParams, fromState, fromParams) {
-    
+
     	if(toState.name.indexOf('eChango') == -1){
     		$ionicNavBarDelegate.showBackButton(true);
     	}else{
     		$ionicNavBarDelegate.showBackButton(false);
     	}
   });
-  
+
 })
 
 function borrarBase(BaseLocal){
@@ -48,8 +49,8 @@ function borrarBase(BaseLocal){
 }
 
 function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
-  
-  
+
+
          agregarTarjetas(BaseLocal);
          //agregarUbicaciones(BaseLocal);
          agregarCadenas(BaseLocal);
@@ -58,7 +59,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
         // agregarListas(BaseListas);
          agregarProductos(BaseProductos);
 
-} 
+}
 /*
  * El id del objeto precio se corresponde con el _id de comercios
  * */
@@ -115,8 +116,8 @@ function agregarProductos(BaseProductos){
 }
 
 function agregarListas(BaseListas){
-	
-	
+
+
 		BaseListas.bulkDocs([
 	        	{
 					_id: '1',
@@ -139,7 +140,7 @@ function agregarListas(BaseListas){
                 productos: []
             }
             ]);
-	
+
 }
 
 function agregarQuery(BaseComercios){
@@ -151,7 +152,7 @@ function agregarQuery(BaseComercios){
 		    }
 		  }
 		};
-	
+
 	BaseComercios.get('_design/my_index').then(function(doc){
 		BaseComercios.remove(doc._id, doc._rev).then(function(){
 			BaseComercios.put(ddoc).then(function () {
@@ -164,16 +165,16 @@ function agregarQuery(BaseComercios){
 		}).catch(function (err) {
 		  // some error (maybe a 409, because it already exists?)
 		});
-			
+
 		});
-		
+
 }
 
 function agregarComercios(BaseLocal){
-	
-		
-	
-		
+
+
+
+
 	        BaseLocal.bulkDocs([
 	        	{
 					_id: '1',
@@ -188,7 +189,7 @@ function agregarComercios(BaseLocal){
               direccion: 'Castrobarros 166, caba, Argentina',
               nombrecadena: 'Disco',
               latitud: '-34.613968',
-              longitud:  '-58.420387' 
+              longitud:  '-58.420387'
             },
             {
 				_id: '3',
@@ -196,12 +197,12 @@ function agregarComercios(BaseLocal){
               direccion: 'Medrano 850, caba, Argentina',
               nombrecadena: 'Disco',
               latitud: '-34.598658',
-              longitud:  '-58.420187' 
+              longitud:  '-58.420187'
             }
             ]);
-	
-	
-	
+
+
+
 }
 
 function agregarUbicaciones(BaseLocal){
@@ -224,14 +225,14 @@ function agregarUbicaciones(BaseLocal){
               nombre: 'Disco Castrobarros',
               direccion: 'Castrobarros 166, caba, Argentina',
               latitud: '-34.613968',
-              longitud:  '-58.420387' 
+              longitud:  '-58.420387'
             },
             {
               _id: 2,
               nombre: 'Disco UTN',
               direccion: 'Medrano 850, caba, Argentina',
               latitud: '-34.598658',
-              longitud:  '-58.420187' 
+              longitud:  '-58.420187'
             }
             ],
             "comercios":[{
@@ -247,7 +248,7 @@ function agregarUbicaciones(BaseLocal){
               direccion: 'Castrobarros 166, caba, Argentina',
               nombrecadena: 'Disco',
               latitud: '-34.613968',
-              longitud:  '-58.420387' 
+              longitud:  '-58.420387'
             },
             {
             	_id:3,
@@ -255,7 +256,7 @@ function agregarUbicaciones(BaseLocal){
               direccion: 'Medrano 850, caba, Argentina',
               nombrecadena: 'Disco',
               latitud: '-34.598658',
-              longitud:  '-58.420187' 
+              longitud:  '-58.420187'
             }
             ]});
       });
@@ -274,14 +275,14 @@ function agregarUbicaciones(BaseLocal){
               nombre: 'Disco Castrobarros',
               direccion: 'Castrobarros 166, caba, Argentina',
               latitud: '-34.613968',
-              longitud:  '-58.420387' 
+              longitud:  '-58.420387'
             },
             {
               _id: 3,
               nombre: 'Disco UTN',
               direccion: 'MEdrano 850, caba, Argentina',
               latitud: '-34.598658',
-              longitud:  '-58.420187' 
+              longitud:  '-58.420187'
             }
             ]});
          });
@@ -326,7 +327,7 @@ function agregarCadenas(BaseLocal){
             ]});
          });
 	}
-	
+
 function agregarTarjetas(BaseLocal){
 	//Busca el documento 'medioDePagoTarjetasNombres'
     BaseLocal.get('medioDePagoTarjetasNombres').then(function(doc){
@@ -365,7 +366,7 @@ function agregarTarjetas(BaseLocal){
             }
             ]});
          });
-	
+
 	//Busca el documento 'medioDePagoTarjetasBancos'
     BaseLocal.get('medioDePagoTarjetasBancos').then(function(doc){
       //si lo encuentra lo borra
@@ -404,4 +405,3 @@ function agregarTarjetas(BaseLocal){
             ]});
          });
 }
-
