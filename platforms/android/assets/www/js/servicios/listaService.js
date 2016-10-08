@@ -2,7 +2,7 @@ angular.module('app.services.lista', [])
 .service("ListaService", function($rootScope, $q, BaseListas) {
 	
 	 var database = BaseListas;
-	 var listaEditar = null;
+	 var listaSeleccionada = null;
 	   
 	   
 	  this.getListas = function() {

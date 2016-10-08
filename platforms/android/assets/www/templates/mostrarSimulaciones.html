@@ -1,0 +1,37 @@
+<ion-view title="Simulaciones" id="page15" class=" ">
+    <ion-content padding="true" class="has-header">
+        <h2>Para la lista: {{simulacion.lista.nombre}}</h2>
+        <h3> en el comercio: {{simulacion.comercio.nombre}}</h3>
+        <ion-list show-delete="false">
+          <ion-item collection-repeat="item in simulacion.costos">
+            <ion-delete-button class="ion-minus-circled" ng-click="deleteItem(item)"></ion-delete-button>
+            {{item.medioDePago.tarjeta.nombre}}---- {{item.medioDePago.banco.nombre}} <br />
+            {{item.valorTotal}}
+          </ion-item>
+        </ion-list>
+
+    </ion-content>
+    
+    
+    <script id="tarjetas-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Tarjeta</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="tarjeta in tarjetas" ng-click="closeModalSeleccionTarjeta(tarjeta)">
+                  {{tarjeta.nombre}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      
+</ion-view>
+

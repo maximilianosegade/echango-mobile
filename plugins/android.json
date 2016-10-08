@@ -40,6 +40,9 @@
         "cordova-plugin-googleplus": {
             "PACKAGE_NAME": "com.ionicframework.mapa606841"
         },
+        "cordova-plugin-datepicker": {
+            "PACKAGE_NAME": "com.ionicframework.mapa606841"
+        },
         "cordova-plugin-camera": {
             "PACKAGE_NAME": "com.ionicframework.mapa606841"
         }

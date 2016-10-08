@@ -88,6 +88,15 @@
             "REVERSED_CLIENT_ID": "AIzaSyAeL3FKN_8FVVlFeaQTADwCzyPyRdPTFiU"
         }
     },
+    "cordova-plugin-datepicker": {
+        "source": {
+            "type": "git",
+            "url": "https://github.com/VitaliiBlagodir/cordova-plugin-datepicker.git",
+            "subdir": "."
+        },
+        "is_top_level": true,
+        "variables": {}
+    },
     "cordova-plugin-camera": {
         "source": {
             "type": "registry",

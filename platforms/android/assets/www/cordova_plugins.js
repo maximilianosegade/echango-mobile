@@ -60,6 +60,14 @@ module.exports = [
         ]
     },
     {
+    	"id": "cordova-plugin-datepicker.DatePicker",
+        "file": "plugins/cordova-plugin-datepicker/www/android/DatePicker.js",
+        "pluginId": "cordova-plugin-datepicker",
+        "clobbers": [
+            "datePicker"
+        ]
+    },
+    {
         "id": "cordova-plugin-camera.Camera",
         "file": "plugins/cordova-plugin-camera/www/CameraConstants.js",
         "pluginId": "cordova-plugin-camera",
@@ -105,6 +113,7 @@ module.exports.metadata =
     "phonegap-plugin-barcodescanner": "4.0.1",
     "cordova-plugin-facebook4": "1.7.1",
     "cordova-plugin-googleplus": "4.0.9",
+    "cordova-plugin-datepicker": "0.9.2",
     "cordova-plugin-compat": "1.0.0",
     "cordova-plugin-camera": "2.3.0"
 };

@@ -19,7 +19,9 @@
         <h2>{{comercio.nombre}}</h2>
         <p>{{comercio.direccion}}</p>
 
-<a ng-click="seleccionar(comercio)" id="ubicaciones-button10" class=" button button-positive icon-left ion-checkmark ">Selecionar</a>
+<a ng-if="!simular" ng-click="seleccionar(comercio)" id="ubicaciones-button10" class=" button button-positive icon-left ion-checkmark ">Selecionar</a>
+
+<a ng-if="simular" ng-click="simularCompra(comercio)" id="ubicaciones-button10" class=" button button-positive icon-left ion-checkmark ">Simular</a>
        
       </ion-item>
         </ion-list>

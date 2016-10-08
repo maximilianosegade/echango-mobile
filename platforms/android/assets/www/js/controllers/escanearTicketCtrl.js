@@ -57,10 +57,14 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   });
 
   $scope.showActionSheet = function(){
+    $scope.textos = [];
+    $scope.cadenaSupermercado = '';
+    $scope.fechaDeCompra = '';
+    $scope.productosLeidos = [];
     var hideSheet = $ionicActionSheet.show({
       buttons: [
-       { text: 'Choose Photo' },
-       { text: 'Take Photo' }
+       { text: 'Elegir Foto' },
+       { text: 'Tomar Foto' }
       ],
       cancelText: 'Cancel',
       cancel: function() {
@@ -74,14 +78,88 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   };
 
   $scope.showActionSheet();
+  //$scope.textos = [];
 
+  
   $scope.testOcrad = function(){
     self.showLoading();
     OCRAD(document.getElementById("pic"), function(text){
       self.hideLoading();
-      console.log(text);
-      alert(text);
+      //console.log(text);
+      $scope.textos = text.split("\n");
+      alert($scope.textos);
+      $scope.$apply();
+      $scope.parsearTexto();
     });
+
   } ; 
+//$scope.cadenaSupermercado = '';
+//$scope.fechaDeCompra = '';
+//$scope.productosLeidos = [];
+
+$scope.parsearTexto = function() {
+  var modo = 0;
+  var eanLeido = false;
+  var precioLeido = false;
+  for (var i = 0; i < $scope.textos.length; i++) {
+    var lineaActual = $scope.textos[i];
+    if (lineaActual != '') {
+    switch (modo) {
+      case 0:
+        $scope.cadenaSupermercado = lineaActual;
+        modo++;
+        break;
+      case 1:
+        if (lineaActual.search('Fecha') > -1) {
+          var splittedText = lineaActual.split(' ');
+          $scope.fechaDeCompra = splittedText[1];
+        };
+        break;
+      case 2:
+      // Leyendo Precio
+        if (!precioLeido) {
+          var splittedText = lineaActual.split(' ');
+        var precio = splittedText[2];
+//          var precio = lineaActual;
+          precioLeido = true;
+        } else {
+          if (!eanLeido) {
+            // Leyendo EAN
+           var ean = lineaActual.substr(0,12);
+//            var ean = lineaActual;
+            eanLeido = true;
+          }
+        } 
+
+        if (precioLeido && eanLeido) {
+          // Agregar productosLeidos
+          var obj = {
+            "codigo": ean,
+            "precio": precio,
+          };
+          //alert(obj.codigo + '\nPrecio:' + obj.precio);
+          $scope.productosLeidos.push(obj);
+          $scope.$apply();
+          precioLeido = false;
+          eanLeido = false;
+          //alert($scope.productosLeidos.length);
+        }
+
+        break;
+      default:
+        break;
+      }
+    } else {
+        modo++;
+    }
+  }
+  //alert($scope.productosLeidos);
+
+  for (var i = 0; i < $scope.productosLeidos.length; i++) {
+    alert('Codigo: ' + $scope.productosLeidos[i].codigo + '\nPrecio: ' + $scope.productosLeidos[i].precio);
+  }
+//$scope.$apply();
+  return;
+}
 
 });
