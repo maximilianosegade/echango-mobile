@@ -39,6 +39,9 @@
         },
         "cordova-plugin-googleplus": {
             "PACKAGE_NAME": "com.ionicframework.mapa606841"
+        },
+        "cordova-plugin-datepicker": {
+            "PACKAGE_NAME": "com.ionicframework.mapa606841"
         }
     },
     "dependent_plugins": {}

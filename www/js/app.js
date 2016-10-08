@@ -51,7 +51,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
   
   
         // agregarTarjetas(BaseLocal);
-         //agregarUbicaciones(BaseLocal);
+         agregarUbicaciones(BaseLocal);
         // agregarCadenas(BaseLocal);
         // agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
@@ -242,81 +242,22 @@ function agregarUbicaciones(BaseLocal){
     //Busca el documento 'ubicaciones'
     BaseLocal.get('ubicaciones').then(function(doc){
       //si lo encuentra lo borra
+    	if(!(doc.ubicaciones && doc.comercios))
       BaseLocal.remove(doc._id, doc._rev).then(function(){
         //si lo borra bien lo vuelve a crear
         BaseLocal.put({
                 _id: 'ubicaciones',
-              "ubicaciones": [{
-              _id: 1,
-              nombre: 'Coto Castrobarros',
-              direccion: 'Castrobarros 66, caba, Argentina',
-              latitud: '-34.612020',
-              longitud:  '-58.420792'
-            }, {
-              _id: 0,
-              nombre: 'Disco Castrobarros',
-              direccion: 'Castrobarros 166, caba, Argentina',
-              latitud: '-34.613968',
-              longitud:  '-58.420387' 
-            },
-            {
-              _id: 2,
-              nombre: 'Disco UTN',
-              direccion: 'Medrano 850, caba, Argentina',
-              latitud: '-34.598658',
-              longitud:  '-58.420187' 
-            }
-            ],
-            "comercios":[{
-            	_id:1,
-            nombre: 'Coto Castrobarros',
-              direccion: 'Castrobarros 66, caba, Argentina',
-              nombrecadena: 'Coto',
-              latitud: '-34.612020',
-              longitud:  '-58.420792'
-            }, {
-            	_id:2,
-              nombre: 'Disco Castrobarros',
-              direccion: 'Castrobarros 166, caba, Argentina',
-              nombrecadena: 'Disco',
-              latitud: '-34.613968',
-              longitud:  '-58.420387' 
-            },
-            {
-            	_id:3,
-              nombre: 'Disco UTN',
-              direccion: 'Medrano 850, caba, Argentina',
-              nombrecadena: 'Disco',
-              latitud: '-34.598658',
-              longitud:  '-58.420187' 
-            }
-            ]});
+              "ubicaciones": [],
+            "comercios":[ ]
+        });
       });
     }).catch(function (error) {
            //Si no lo encuentra, lo crea
            BaseLocal.put({
-                _id: 'ubicaciones',
-              "ubicaciones": [{
-              _id: 1,
-              nombre: 'Coto Castrobarros',
-              direccion: 'Castrobarros 66, caba, Argentina',
-              latitud: '-34.612020',
-              longitud:  '-58.420792'
-            }, {
-              _id: 2,
-              nombre: 'Disco Castrobarros',
-              direccion: 'Castrobarros 166, caba, Argentina',
-              latitud: '-34.613968',
-              longitud:  '-58.420387' 
-            },
-            {
-              _id: 3,
-              nombre: 'Disco UTN',
-              direccion: 'MEdrano 850, caba, Argentina',
-              latitud: '-34.598658',
-              longitud:  '-58.420187' 
-            }
-            ]});
+        	   _id: 'ubicaciones',
+               "ubicaciones": [],
+             "comercios":[ ]
+            });
          });
 
 }

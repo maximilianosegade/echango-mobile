@@ -3,7 +3,7 @@
         <form id="agregarTarjetaPromocional-form7" class="list ">
         <ion-item ng-click="openModal()">
             <label class="item item-select " id="agregarMedioDePago-select7">
-                <span class="input-label" >Tarjeta: {{tarjetaPromocionalSeleccionada}}</span>
+                <span class="input-label" >Tarjeta: {{tarjetaPromocionalSeleccionada.nombre}}</span>
             </label>
         </ion-item>
         </form>
@@ -37,7 +37,7 @@
             <div class="list">
               <ion-list>
                 <ion-item ng-repeat="tarjeta in tarjetasPromocionales" ng-click="closeModal(tarjeta)">
-                  {{tarjeta}}
+                  {{tarjeta.nombre}}
                 </ion-item>
               </ion-list>
             </div>

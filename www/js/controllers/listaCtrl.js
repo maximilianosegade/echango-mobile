@@ -73,6 +73,7 @@ angular.module('app.controllers.lista', [])
 	 $state.go('menu.iniciarCompra');
  }
  
+ 
  $scope.borrar =  function (lista){
 	 
 

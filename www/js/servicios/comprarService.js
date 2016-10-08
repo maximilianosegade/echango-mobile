@@ -96,7 +96,7 @@ angular.module('app.services.compras', [])
 		
 	}
 	
-	this.simularCompra = function(lista, comercio, mediosDePagoRegistrados,tarjetasPromocionalesRegistradas ){
+	this.simularCompra = function(lista, comercio, mediosDePagoRegistrados,tarjetasPromocionalesRegistradas,fecha ){
 		
 		
 		return actualizarProductos(lista.productos, []).then(function( productosNuevos){

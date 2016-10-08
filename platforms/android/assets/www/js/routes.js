@@ -260,7 +260,17 @@ angular.module('app.routes', [])
         controller: 'agregarComercioCtrl'
       }
     }
-  })
+  }) 
+  
+  .state('menu.simulacion', {
+	    url: '/page30',
+	    views: {
+	      'side-menu21': {
+	        templateUrl: 'templates/mostrarSimulaciones.html',
+	        controller: 'simulacionCtrl'
+	      }
+	    }
+	  })
 
 $urlRouterProvider.otherwise('/side-menu21/page1')
 

@@ -1,5 +1,5 @@
 angular.module('app.controllers.prepararCompra', [])
-.controller('confirmarMediosDePagoCtrl', function($scope,$state, BaseLocal, ComprarService) {
+.controller('confirmarMediosDePagoCtrl', function($scope,$state, BaseLocal, ComprarService, $cordovaDatePicker) {
 
 	 var dbLocal = BaseLocal;
 	 $scope.$on("$ionicView.beforeEnter", function(event, data){
@@ -40,12 +40,36 @@ angular.module('app.controllers.prepararCompra', [])
 		  }); 
 	 
 	 $scope.simularCompra = function () {
+		 var options = {
+				    date: new Date(),
+				    mode: 'date', // or 'time'
+				    minDate: new Date(),
+				    allowOldDates: false,
+				    allowFutureDates: true,
+				    doneButtonLabel: 'LISTO',
+				    doneButtonColor: '#F2F3F4',
+				    cancelButtonLabel: 'CANCELAR',
+				    cancelButtonColor: '#000000'
+				  };
+			try {
+				 $cordovaDatePicker.show(options).then(function(fecha){
+					 ComprarService.simularCompra($scope.listaSeleccionada,$scope.comercioSeleccionado,
+								$scope.mediosDePagoRegistrados, $scope.tarjetasPromocionalesRegistradas,fecha ).then(function(simulacion){
+									ComprarService.simulacion = simulacion;
+		
+									$state.go('menu.simulacion');
+								})
+				 	});
+				 }catch(e){
+			 //Para cuando estamos simulando y no tenemos cordova
+					 ComprarService.simularCompra($scope.listaSeleccionada,$scope.comercioSeleccionado,
+								$scope.mediosDePagoRegistrados, $scope.tarjetasPromocionalesRegistradas,new Date() ).then(function(simulacion){
+									ComprarService.simulacion = simulacion;
+		
+									$state.go('menu.simulacion');
+								});
+				 	};
+		 }		 
 			
-			ComprarService.simularCompra($scope.listaSeleccionada,$scope.comercioSeleccionado,
-					$scope.mediosDePagoRegistrados, $scope.tarjetasPromocionalesRegistradas ).then(function(simulacion){
-						ComprarService.simulacion = simulacion;
-
-						$state.go('menu.simulacion');
-					})
-		};
+		
 })

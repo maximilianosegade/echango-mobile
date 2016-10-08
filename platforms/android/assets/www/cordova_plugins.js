@@ -58,6 +58,14 @@ module.exports = [
         "clobbers": [
             "window.plugins.googleplus"
         ]
+    },
+    {
+        "id": "cordova-plugin-datepicker.DatePicker",
+        "file": "plugins/cordova-plugin-datepicker/www/android/DatePicker.js",
+        "pluginId": "cordova-plugin-datepicker",
+        "clobbers": [
+            "datePicker"
+        ]
     }
 ];
 module.exports.metadata = 
@@ -72,7 +80,8 @@ module.exports.metadata =
     "plugin.google.maps": "1.3.9",
     "phonegap-plugin-barcodescanner": "4.0.1",
     "cordova-plugin-facebook4": "1.7.1",
-    "cordova-plugin-googleplus": "4.0.9"
+    "cordova-plugin-googleplus": "4.0.9",
+    "cordova-plugin-datepicker": "0.9.2"
 };
 // BOTTOM OF METADATA
 });

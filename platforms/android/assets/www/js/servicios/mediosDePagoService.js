@@ -3,95 +3,58 @@ angular.module('app.services.mediosDePago', [])
    var database = BaseLocal;
 
     //Busca el documento 'medioDePagoTarjetasNombres'
-    BaseLocal.get('medioDePagoTarjetasNombres').then(function(doc){
+    BaseLocal.get('tarjetas').then(function(doc){
       //si lo encuentra lo borra
       BaseLocal.remove(doc._id, doc._rev).then(function(){
         //si lo borra bien lo vuelve a crear
         BaseLocal.put({
-                _id: 'medioDePagoTarjetasNombres',
-              "medioDePagoTarjetasNombres": [{
-              id: 0,
-              nombre: 'Visa Crédito',
-            }, {
-              id: 1,
-              nombre: 'MasterCard',
-            },
-            {
-              id: 2,
-              nombre: 'American Express',
-            }
-            ]});
+        	 _id: 'tarjetas',
+             tarjetas: [{
+             _id: 1,
+             nombre: 'Visa Crédito',
+             bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:3, nombre: 'Banco Ciudad'},{_id:4, nombre: 'HSBC'}]
+           }, {
+             _id: 2,
+             nombre: 'MasterCard',
+             bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:5, nombre: 'Banco Provincia'},{_id:6, nombre: 'ICBC'}]
+           
+           },
+           {
+             _id: 3,
+             nombre: 'American Express',
+             bancos : [{_id7, nombre: 'AMEX'},{_id:2, nombre: 'Banco Nación'},{_id:8, nombre: 'Banco Patagonia'},{_id:4, nombre: 'HSBC'}]            
+           }
+           ]});
       });
     }).catch(function (error) {
            //Si no lo encuentra, lo crea
            BaseLocal.put({
-                _id: 'medioDePagoTarjetasNombres',
-              "medioDePagoTarjetasNombres": [{
-              id: 0,
+                _id: 'tarjetas',
+              tarjetas: [
+             {
+              _id: 1,
               nombre: 'Visa Crédito',
+              bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:3, nombre: 'Banco Ciudad'},{_id:4, nombre: 'HSBC'}]
             }, {
-              id: 1,
+              _id: 2,
               nombre: 'MasterCard',
+              bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:5, nombre: 'Banco Provincia'},{_id:6, nombre: 'ICBC'}]            
             },
             {
-              id: 2,
+              _id: 3,
               nombre: 'American Express',
+              bancos : [{_id:7, nombre: 'AMEX'},{_id:2, nombre: 'Banco Nación'},{_id:8, nombre: 'Banco Patagonia'},{_id:4, nombre: 'HSBC'}]            
             }
             ]});
          });
 
-    //Busca el documento 'medioDePagoTarjetasBancos'
-    BaseLocal.get('medioDePagoTarjetasBancos').then(function(doc){
-      //si lo encuentra lo borra
-      BaseLocal.remove(doc._id, doc._rev).then(function(){
-        //si lo borra bien lo vuelve a crear
-        BaseLocal.put({
-                _id: 'medioDePagoTarjetasBancos',
-              "medioDePagoTarjetasBancos": [{
-              id: 0,
-              nombre: 'Santander Río',
-            }, {
-              id: 1,
-              nombre: 'Galicia',
-            },
-            {
-              id: 2,
-              nombre: 'Francés',
-            }
-            ]});
-      });
-    }).catch(function (error) {
-           //Si no lo encuentra, lo crea
-           BaseLocal.put({
-                _id: 'medioDePagoTarjetasBancos',
-              "medioDePagoTarjetasBancos": [{
-              id: 0,
-              nombre: 'Santander Río',
-            }, {
-              id: 1,
-              nombre: 'Galicia',
-            },
-            {
-              id: 2,
-              nombre: 'Francés',
-            }
-            ]});
-         });
     
    // Obtener tarjetas
     this.getTarjetas = function(){
-        return database.get('medioDePagoTarjetasNombres').then(function(doc){
+        return database.get('tarjetas').then(function(doc){
             return doc;
         });
     };
-
-// Obtener bancos
-    this.getBancos = function() {
-        return database.get('medioDePagoTarjetasBancos').then(function(doc){
-            return doc;
-        });
-    };
-
 
 // Obtener medios de pago registrados
 

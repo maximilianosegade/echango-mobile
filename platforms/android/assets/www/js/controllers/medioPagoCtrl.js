@@ -5,16 +5,15 @@ angular.module('app.controllers.medioPago', [])
     var dbLocal = BaseLocal;
     $scope.item = {};
     $scope.mediosDePagoRegistrados = [];
+    $scope.tarjetaSeleccionada = {};
+    
+    $scope.$on("$ionicView.beforeEnter", function(event, data){
+    	MediosDePagoService.getTarjetas().then(function(doc){
+    	    $scope.tarjetas = doc.tarjetas;
+    	    $scope.$apply();
+    	});
+});
    
-// Obtener tarjetas
-MediosDePagoService.getTarjetas().then(function(doc){
-    $scope.tarjetas = doc.medioDePagoTarjetasNombres;
-});
-
-// Obtener bancos
-MediosDePagoService.getBancos().then(function(doc){
-    $scope.bancos = doc.medioDePagoTarjetasBancos;
-});
 
 // Obtener medios de pago registrados
 
@@ -53,6 +52,7 @@ $scope.openModal = function(index) {
 
 $scope.closeModalSeleccionTarjeta = function(tarjeta) {
     $scope.tarjetaSeleccionada = tarjeta;
+    $scope.bancos = tarjeta.bancos;
     $scope.$apply();
     $scope.modal1.hide();
 }

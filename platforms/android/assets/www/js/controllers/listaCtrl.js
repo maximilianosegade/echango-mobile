@@ -21,6 +21,59 @@ angular.module('app.controllers.lista', [])
 		 $state.go('menu.miChango');
  }
  
+ $scope.combinarListas = function (){
+	 var listasCombinar = [];
+	 
+	for(var i = 0; $scope.listasGuardadas.length > i; i++){
+		if($scope.listasGuardadas[i].selected){
+			listasCombinar.push($scope.listasGuardadas[i]);
+		}		
+	}
+	if(listasCombinar.length < 1){
+		return;
+	}
+	var nombre = "nnnnn";
+	var listaCombinada = {
+											productos: []};
+	
+	var agregarProducto = true;
+	for(var k = 0;listasCombinar.length > k; k++){
+		//recorro las listas a combinar
+		for(var j = 0; listasCombinar[k].productos.length > j ; j++){
+			//recorro los productos a combinar
+			agregarProducto = true;
+			for(var l = 0; listaCombinada.productos.length> l;l++){
+				//recorro los productos combinados
+				 if(listaCombinada.productos[l]._id == listasCombinar[k].productos[j]._id){
+					 listaCombinada.productos[l].cantidad = Number(listasCombinar[k].productos[j].cantidad) + Number(listaCombinada.productos[l].cantidad);
+					 agregarProducto = false;
+					 break;
+				 }
+			 }
+			if(agregarProducto){
+				listaCombinada.productos.push(listasCombinar[k].productos[j]);
+			}
+		}
+	}
+	ListaService.listaEditar = listaCombinada;
+	ListaService.editando = false;
+	 $state.go('menu.nuevaLista');
+	 
+ }
+ 
+ $scope.editar = function (lista){
+	 ListaService.listaSeleccionada = lista;
+	 ListaService.editando = true;
+	 $state.go('menu.nuevaLista');
+ }
+ 
+ $scope.simular = function (lista){
+	 ListaService.listaSeleccionada = lista;
+	 ListaService.simular = true;
+	 $state.go('menu.iniciarCompra');
+ }
+ 
+ 
  $scope.borrar =  function (lista){
 	 
 
