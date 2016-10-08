@@ -272,6 +272,16 @@ angular.module('app.routes', [])
 	    }
 	  })
 
+    .state('menu.escanearTicket', {
+    url: '/page29',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/escanearTicket.html',
+        controller: 'escanearTicketCtrl'
+      }
+    }
+  })
+
 $urlRouterProvider.otherwise('/side-menu21/page1')
 
   
