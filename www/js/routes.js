@@ -10,279 +10,350 @@ angular.module('app.routes', [])
     
   
 
-      .state('menu.eChango', {
-    url: '/page1',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/eChango.html',
-        controller: 'eChangoCtrl'
-      }
-    }
+      .state('portada', {
+    url: '/main',
+    templateUrl: 'templates/portada.html',
+    controller: 'portadaCtrl'
   })
 
-  .state('menu', {
-    url: '/side-menu21',
-    templateUrl: 'templates/menu.html',
-    abstract:true
+  .state('menEChango', {
+    url: '/menu',
+    templateUrl: 'templates/menEChango.html',
+    controller: 'menEChangoCtrl'
   })
 
-  .state('menu.login', {
-    url: '/page4',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/login.html',
-        controller: 'loginCtrl'
-      }
-    }
+  .state('login', {
+    url: '/login',
+    templateUrl: 'templates/login.html',
+    controller: 'loginCtrl'
   })
 
-  .state('menu.socialLogin', {
-    url: '/page5',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/socialLogin.html',
-        controller: 'socialLoginCtrl'
-      }
-    }
+  .state('loginFacebook', {
+    url: '/login-f',
+    templateUrl: 'templates/loginFacebook.html',
+    controller: 'loginFacebookCtrl'
   })
 
-  .state('menu.datosAdicionales', {
-    url: '/page6',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/datosAdicionales.html',
-        controller: 'datosAdicionalesCtrl'
-      }
-    }
+  .state('loginGoogle', {
+    url: '/login-g',
+    templateUrl: 'templates/loginGoogle.html',
+    controller: 'loginGoogleCtrl'
   })
 
-  .state('menu.agregarUbicaciN', {
-    url: '/page7?ubicacion',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/agregarUbicaciN.html',
-        controller: 'agregarUbicaciNCtrl'
-      }
-    }
+  .state('registrarse', {
+    url: '/register',
+    templateUrl: 'templates/registrarse.html',
+    controller: 'registrarseCtrl'
   })
 
-  .state('menu.miChango', {
-    url: '/page8',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/miChango.html',
-        controller: 'miChangoCtrl'
-      }
-    }
+  .state('informaciNDeUsuario', {
+    url: '/additional-info',
+    templateUrl: 'templates/informaciNDeUsuario.html',
+    controller: 'datosAdicionalesCtrl'
   })
 
-  .state('menu.configuraciN', {
-    url: '/page9',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/configuraciN.html',
-        controller: 'configuraciNCtrl'
-      }
-    }
+  .state('leyendaDeConfirmaciNDeInfo', {
+    url: '/user-information-confirm',
+    templateUrl: 'templates/leyendaDeConfirmaciNDeInfo.html',
+    controller: 'leyendaDeConfirmaciNDeInfoCtrl'
   })
 
-  .state('menu.misListas', {
-    url: '/page10',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/misListas.html',
-        controller: 'listaCtrl'
-      }
-    }
+  .state('recuperarContraseA', {
+    url: '/password-recov',
+    templateUrl: 'templates/recuperarContraseA.html',
+    controller: 'recuperarContraseACtrl'
   })
 
-  .state('menu.detalleProducto', {
-    url: '/page11',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/detalleProducto.html',
-        controller: 'detalleProductoCtrl'
-      }
-    }
+  .state('menuPrincipal', {
+    url: '/home',
+    templateUrl: 'templates/menuPrincipal.html',
+    controller: 'menuPrincipalCtrl'
   })
 
-  .state('configurarCompra', {
-    url: '/page12',
-    templateUrl: 'templates/configurarCompra.html',
-    controller: 'configurarCompraCtrl'
-  })
-
-  .state('mapa', {
-    url: '/page13',
-    templateUrl: 'templates/mapa.html',
-    controller: 'mapaCtrl'
-  })
-
-  .state('menu.confirmarMediosDePago', {
-    url: '/page14',
+ .state('menEChango.gestiNDeCompra', {
+    url: '/purchase-management',
     views: {
         'side-menu21': {
-		    templateUrl: 'templates/confirmarMediosDePago.html',
-		    controller: 'confirmarMediosDePagoCtrl'
+		    templateUrl: 'templates/gestiNDeCompra.html',
+		    controller: 'gestiNDeCompraCtrl'
         }
-  }})
-
-  .state('menu.agregarMedioDePago', {
-    url: '/page15',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/agregarMedioDePago.html',
-        controller: 'agregarMedioDePagoCtrl'
-      }
-    }
   })
 
-  .state('menu.agregarTarjetaPromocional', {
-    url: '/page16',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/agregarTarjetaPromocional.html',
-        controller: 'agregarTarjetaPromocionalCtrl'
-      }
-    }
-  })
-
-  .state('menu.elijaUnChango', {
-    url: '/page17',
+ .state('menEChango.parametrizaciNDeCompra', {
+    url: '/purchase-config',
     views: {
         'side-menu21': {
-    templateUrl: 'templates/elijaUnChango.html',
+    templateUrl: 'templates/parametrizaciNDeCompra.html',
+    controller: 'parametrizaciNDeCompraCtrl'
+ }})
+
+ .state('menEChango.parMetrosDeSimulaciN', {
+    url: '/purchase-config-simu',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/parMetrosDeSimulaciN.html',
+    controller: 'parMetrosDeSimulaciNCtrl'
+ }})
+
+ .state('menEChango.eChango', {
+    url: '/cart',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/eChango.html',
+    controller: 'miChangoCtrl'
+ }})
+
+ .state('menEChango.verificarChango', {
+    url: '/cart-verify',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/verificarChango.html',
+    controller: 'verificarChangoCtrl'
+ }})
+
+ .state('menEChango.cerrarChango', {
+    url: '/purchase-close',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/cerrarChango.html',
+    controller: 'cerrarChangoCtrl'
+ }})
+
+ .state('menEChango.compraSimulada', {
+    url: '/purchase-close-simu',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/compraSimulada.html',
+    controller: 'compraSimuladaCtrl'
+ }})
+
+ .state('menEChango.listasDeCompra', {
+    url: '/purchase-list',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/listasDeCompra.html',
+    controller: 'listasDeCompraCtrl'
+ }})
+
+ .state('menEChango.misListas', {
+    url: '/my-lists',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/misListas.html',
+    controller: 'misListasCtrl'
+ }})
+
+ .state('menEChango.simularCompraConLista', {
+    url: '/purchase-simulation',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/simularCompraConLista.html',
     controller: 'listaCtrl'
-        }
-  }
-  })
+ }})
 
-  .state('menu.escanear', {
-    url: '/page18',
+ .state('menEChango.verModificarLista', {
+    url: '/purchase-list-abm',
     views: {
-      'side-menu21': {
-        templateUrl: 'templates/escanear.html',
-        controller: 'escanearCtrl'
-      }
-    }
-  })
+        'side-menu21': {
+    templateUrl: 'templates/verModificarLista.html',
+    controller: 'listaCtrl'
+ }})
 
-  .state('menu.confirmarEscaneo', {
-    url: '/page19',
+ .state('menEChango.ticketEscaneado', {
+    url: '/scanned-list',
     views: {
-      'side-menu21': {
-        templateUrl: 'templates/confirmarEscaneo.html',
-        controller: 'confirmarEscaneoCtrl'
-      }
-    }
-  })
+        'side-menu21': {
+    templateUrl: 'templates/ticketEscaneado.html',
+    controller: 'ticketEscaneadoCtrl'
+ }})
 
-  .state('relevamiento', {
-    url: '/page20',
-    templateUrl: 'templates/relevamiento.html',
-    controller: 'relevamientoCtrl'
-  })
+ .state('menEChango.combinarListas', {
+    url: '/lists-merge',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/combinarListas.html',
+    controller: 'listaCtrl'
+ }})
 
-  .state('menu.ubicaciones', {
-    url: '/page21',
+ .state('menEChango.configuraciNDeEChango', {
+    url: '/Config',
     views: {
-      'side-menu21': {
-        templateUrl: 'templates/ubicaciones.html',
-        controller: 'ubicacionesCtrl'
-      }
-    }
-  })
-  
-  .state('menu.comercios', {
-    url: '/page26',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/comercios.html',
-        controller: 'comerciosCtrl'
-      }
-    }
-  })
-  
-  .state('menu.preferenciasDeAplicaciN', {
-    url: '/page22',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/preferenciasDeAplicaciN.html',
-        controller: 'preferenciasDeAplicaciNCtrl'
-      }
-    }
-  })
+        'side-menu21': {
+    templateUrl: 'templates/configuraciNDeEChango.html',
+    controller: 'configuraciNDeEChangoCtrl'
+ }})
 
-  .state('menu.nuevaLista', {
-    url: '/page23',
+ .state('menEChango.preferenciasDeConsumo', {
+    url: '/Consumer-preferences',
     views: {
-      'side-menu21': {
-        templateUrl: 'templates/nuevaLista.html',
-        controller: 'nuevaListaCtrl'
-      }
-    }
-  })
-    .state('menu.consultarPrecio', {
-    url: '/page24',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/consultarPrecio.html',
-        controller: 'consultarPrecioCtrl'
-      }
-    }
-  })
+        'side-menu21': {
+    templateUrl: 'templates/preferenciasDeConsumo.html',
+    controller: 'preferenciasDeConsumoCtrl'
+ }})
 
-  .state('menu.relevarPrecio', {
-    url: '/page25',
+ .state('menEChango.DNdeCompro', {
+    url: '/where-i-buy',
     views: {
-      'side-menu21': {
-        templateUrl: 'templates/relevarPrecio.html',
-        controller: 'relevarPrecioCtrl'
-      }
-    }
-  })
-  
-  .state('menu.iniciarCompra', {
-    url: '/page27',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/iniciarCompra.html',
-        controller: 'comerciosCtrl'
-      }
-    }
-  })
-  
-  .state('menu.agregarComercio', {
-    url: '/page28',
-    views: {
-      'side-menu21': {
-        templateUrl: 'templates/agregarComercio.html',
-        controller: 'agregarComercioCtrl'
-      }
-    }
-  }) 
-  
-  .state('menu.simulacion', {
-	    url: '/page30',
-	    views: {
-	      'side-menu21': {
-	        templateUrl: 'templates/mostrarSimulaciones.html',
-	        controller: 'simulacionCtrl'
-	      }
-	    }
-	  })
+        'side-menu21': {
+    templateUrl: 'templates/DNdeCompro.html',
+    controller: 'comerciosCtrl'
+ }})
 
-    .state('menu.escanearTicket', {
-    url: '/page29',
+ .state('menEChango.misLugares', {
+    url: '/my-places',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/misLugares.html',
+    controller: 'ubicacionesCtrl'
+ }})
+
+ .state('menEChango.agregarSucursal', {
+    url: '/add-supermarket',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/agregarSucursal.html',
+    controller: 'comerciosCtrl'
+ }})
+
+ .state('menEChango.agregarLugar', {
+    url: '/add-place',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/agregarLugar.html',
+    controller: 'agregarUbicaciNCtrl'
+ }})
+
+ .state('menEChango.ReaDeCompra', {
+    url: '/buy-radius',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/ReaDeCompra.html',
+    controller: 'ReaDeCompraCtrl'
+ }})
+
+ .state('menEChango.mediosDePagoYDescuentos', {
+    url: '/pay-discount-methods',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/mediosDePagoYDescuentos.html',
+    controller: 'mediosDePagoYDescuentosCtrl'
+ }})
+
+ .state('menEChango.mediosDePago', {
+    url: '/paying-methods',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/mediosDePago.html',
+    controller: 'agregarMedioDePagoCtrl'
+ }})
+
+ .state('menEChango.agregarMedioDePago', {
+    url: '/add-paying-method',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/agregarMedioDePago.html',
+    controller: 'agregarMedioDePagoCtrl'
+ }})
+
+ .state('menEChango.descuentos', {
+    url: '/discount-cards',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/descuentos.html',
+    controller: 'agregarTarjetaPromocionalCtrl'
+ }})
+
+ .state('menEChango.agregarDescuento', {
+    url: '/adding-discounts',
+    templateUrl: 'templates/agregarDescuento.html',
+    controller: 'agregarDescuentoCtrl'
+ }})
+
+ .state('menEChango.cuentaEChango', {
+    url: '/echango-account',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/cuentaEChango.html',
+    controller: 'cuentaEChangoCtrl'
+ }})
+
+ .state('menEChango.redesSociales', {
+    url: '/social-networks',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/redesSociales.html',
+    controller: 'redesSocialesCtrl'
+ }})
+
+ .state('menEChango.eliminarCuentaEChango', {
+    url: '/delete-account',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/eliminarCuentaEChango.html',
+    controller: 'eliminarCuentaEChangoCtrl'
+ }})
+
+ .state('menEChango.reportesEIndicadores', {
+    url: '/reports',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/reportesEIndicadores.html',
+    controller: 'reportesEIndicadoresCtrl'
+ }})
+
+ .state('menEChango.comprasRealizadas', {
+    url: '/purchase-done',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/comprasRealizadas.html',
+    controller: 'comprasRealizadasCtrl'
+ }})
+
+ .state('menEChango.productosYPrecios', {
+    url: '/prices-by-products',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/productosYPrecios.html',
+    controller: 'productosYPreciosCtrl'
+ }})
+
+ .state('menEChango.ahorrosAcumulados', {
+    url: '/savings',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/ahorrosAcumulados.html',
+    controller: 'ahorrosAcumuladosCtrl'
+ }})
+
+ .state('menEChango.relevarProducto', {
+    url: '/product-assessment',
     views: {
       'side-menu21': {
-        templateUrl: 'templates/escanearTicket.html',
-        controller: 'escanearTicketCtrl'
+        templateUrl: 'templates/relevarProducto.html',
+        controller: 'relevarProductoCtrl'
       }
     }
-  })
+ }})
 
-$urlRouterProvider.otherwise('/side-menu21/page1')
+ .state('menEChango.informarProducto', {
+    url: '/product-scan-detail',
+    views: {
+      'side-menu21': {
+        templateUrl: 'templates/informarProducto.html',
+        controller: 'informarProductoCtrl'
+      }
+    }
+ }})
+
+ .state('menEChango.agregarProducto', {
+    url: '/add-to-cart',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/agregarProducto.html',
+    controller: 'agregarProductoCtrl'
+ }})
+
+$urlRouterProvider.otherwise('/main')
 
   
 
