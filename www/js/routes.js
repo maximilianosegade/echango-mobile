@@ -142,7 +142,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/misListas.html',
-    controller: 'misListasCtrl'
+    controller: 'listaCtrl'
  }}})
 
  .state('menEChango.simularCompraConLista', {
@@ -158,7 +158,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/verModificarLista.html',
-    controller: 'listaCtrl'
+    controller: 'nuevaListaCtrl'
  }}})
 
  .state('menEChango.ticketEscaneado', {

@@ -55,16 +55,16 @@ angular.module('app.controllers.lista', [])
 			}
 		}
 	}
-	ListaService.listaEditar = listaCombinada;
+	ListaService.listaSeleccionada = listaCombinada;
 	ListaService.editando = false;
-	 $state.go('menu.nuevaLista');
+	 $state.go('menEChango.verModificarLista');
 	 
  }
  
  $scope.editar = function (lista){
 	 ListaService.listaSeleccionada = lista;
 	 ListaService.editando = true;
-	 $state.go('menu.nuevaLista');
+	 $state.go('menEChango.verModificarLista');
  }
  
  $scope.simular = function (lista){

@@ -7,25 +7,17 @@
             <p>¡Simple y sencillo, como a vos te gusta!</p>
         </div>
         <div class="spacer" style="width: 320px; height: 9px;"></div>
-        <ion-list id="misListas-list26">
-            <ion-item class="item-thumbnail-left energized" id="misListas-list-item70" ui-sref="menEChango.verModificarLista">
-                <img src="img/1spZKGlfTnLpthErjxRJ_casa.png">
-                <h2energized>Casa
-                    <p style="white-space:normal;">Lista de compra de productos esenciales</p>
+        <ion-list id="misListas-list26" can-swipe="true" show-delete="true">
+        <ion-item class="enable-pointer-events item-thumbnail-left energized"
+               ng-repeat="(i,item) in listasGuardadas  track by $index"  id="item._id" ng-click="editar(item)" >
+              <!-- <img src="img/1spZKGlfTnLpthErjxRJ_casa.png"> -->
+                <h2energized>{{item.nombre }}
+                    <p style="white-space:normal;">{{item.descripcion }}</p>
                 </h2energized>
-            </ion-item>
-            <ion-item class="item-thumbnail-left energized" id="misListas-list-item71" ui-sref="menEChango.verModificarLista">
-                <img src="img/iXhAFSIgTsW9shtMzbf9_cumpleaos.png">
-                <h2energized>Cumpleaños
-                    <p style="white-space:normal;">Lista de compra para eventos</p>
-                </h2energized>
-            </ion-item>
-            <ion-item class="item-thumbnail-left energized" id="misListas-list-item72" ui-sref="menEChango.verModificarLista">
-                <img src="img/rl5zdVjR2acPiolYZmEh_almuerzoenfamilia.png">
-                <h2energized>Almuerzo en familia
-                    <p style="white-space:normal;">Lista de compra para reuniones</p>
-                </h2energized>
-            </ion-item>
+	            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
+	            
+          </ion-item>
+            
         </ion-list>
         <div id="misListas-button-bar9" class="button-bar">
             <a ui-sref="menEChango.verModificarLista" id="misListas-button119" style="font-weight:600;color:#000000;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Nueva Lista de Compra</a>

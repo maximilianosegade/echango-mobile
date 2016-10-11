@@ -8,13 +8,17 @@
         </div>
         <div class="item item-body" id="combinarListas-list-item-container6">
             <form id="combinarListas-form35" class="list">
-                <ion-checkbox name="List1">Casa</ion-checkbox>
-                <ion-checkbox name="List2">Cumpleaños</ion-checkbox>
-                <ion-checkbox name="List 3">Almuerzo en Familia</ion-checkbox>
-                <ion-checkbox name="List 4">Lista 4</ion-checkbox>
-                <ion-checkbox name="List 5">Lista 5</ion-checkbox>
+            	<ion-item class="enable-pointer-events"
+               ng-repeat="(i,item) in listasGuardadas  track by $index"  id="item._id" on-hold="onHold(item)" >
+               <ion-checkbox ng-model="listasGuardadas[i].selected">{{item.nombre }}</ion-checkbox>
+	            
+	            
+	            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
+	            
+          </ion-item>
+                
             </form>
         </div>
-        <a ui-sref="menEChango.verModificarLista" id="combinarListas-button126" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-merge">Combinar</a>
+        <a ng-click="combinarListas()" id="combinarListas-button126" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-merge">Combinar</a>
     </ion-content>
 </ion-view>

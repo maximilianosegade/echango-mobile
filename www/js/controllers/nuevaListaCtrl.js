@@ -5,10 +5,14 @@ angular.module('app.controllers.nuevaLista', [])
 	$scope.lista = {};
 	$scope.busqueda = {};
 	$scope.editando = false;
+	$scope.nombreViejo = "";
 	
  $scope.$on("$ionicView.beforeEnter", function(event, data){
+	 
 		 if(ListaService.listaSeleccionada != null){
+			
 			 $scope.lista = ListaService.listaSeleccionada;
+			 $scope.nombreViejo = $scope.lista.nombre;
 			 $scope.productos = ListaService.listaSeleccionada.productos;
 			 $scope.editando = ListaService.editando;
 			 ListaService.listaSeleccionada = null;
@@ -66,12 +70,25 @@ angular.module('app.controllers.nuevaLista', [])
  
  $scope.guardar = function(){
 	 if($scope.lista.nombre){
-		 ListaService.guardarLista($scope.lista.nombre, $scope.productos, $scope.editando).then(function(){
-			 alert("Lista guardada");
+		
+		 ListaService.guardarLista($scope.lista.nombre,$scope.lista.descripcion, $scope.productos, $scope.editando).then(function(){
+			 if($scope.lista.nombre != $scope.nombreViejo){
+				 $scope.lista.nombre = $scope.nombreViejo;
+				 ListaService.borrarLista($scope.lista).then(function(){
+					 alert("Lista guardada");
 			 $ionicHistory.nextViewOptions({
 			      disableBack: false
 			    });
-			 $state.go('menu.misListas');
+			 $state.go('menEChango.misListas');
+				 });
+			 }else{
+				 alert("Lista guardada");
+				 $ionicHistory.nextViewOptions({
+				      disableBack: false
+				    });
+				 $state.go('menEChango.misListas');
+			 }
+			 
 			 
 		 }).catch(function(err){
 			 if(err.status = 409){

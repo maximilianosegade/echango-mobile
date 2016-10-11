@@ -11,15 +11,19 @@ angular.module('app.services.lista', [])
 	         });
 	   };
 	   
-	   this.guardarLista = function($nombre,$lista, $editando){
+	   this.guardarLista = function($nombre,$desc,$lista, $editando){
 		   var nuevaLista = {};
 		   nuevaLista.nombre = $nombre;
+		   nuevaLista.descripcion = $desc;
 		   nuevaLista.productos = $lista;
 		   nuevaLista._id = $nombre;
 		   if($editando){
 			   return database.get($nombre).then(function(doc) {
 				   nuevaLista._rev=doc._rev;
 				   return database.put(nuevaLista);
+				 }).catch(function($e){
+					 //Por si le cambió el nombre
+					 return database.put(nuevaLista);	
 				 })
 		   }else{
 			   return database.put(nuevaLista);			   
@@ -27,7 +31,7 @@ angular.module('app.services.lista', [])
 	   };
 		   
 	   this.borrarLista = function(lista){
-		   database.get(lista._id).then(function(doc) {
+		  return database.get(lista._id).then(function(doc) {
 			   return database.remove(doc);
 			 }).then(function (result) {
 			   // handle result
