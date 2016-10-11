@@ -38,6 +38,11 @@ angular.module('app.controllers.registrarse', [])
         //•	Se distingue entre mayúsculas y minúsculas.
         //•	Debe contener un mínimo de 2 números.
         //•	Debe contener al menos una minúscula y una mayúscula.
+        if (!password) {
+            $scope.errores.push("Ingrese una contraseña. Debe contener entre 6 y 10 caracteres, al menos 1 mayúscula y una minúscula y 2 números.")
+            return password;
+        }
+
         if (password != $scope.data.passwordConfirm) {
             $scope.errores.push("Las contraseñas deben coincidir entre sí.")
         }
