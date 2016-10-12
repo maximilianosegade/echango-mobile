@@ -24,7 +24,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
     }
 
     mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos);
-    DBSync.sync();
+    DBSync.init();
     //borrarBase(BaseLocal);
 
   });
@@ -54,10 +54,10 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
          agregarTarjetas(BaseLocal);
          //agregarUbicaciones(BaseLocal);
          agregarCadenas(BaseLocal);
-         agregarComercios(BaseComercios);
+         //agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
-         agregarProductos(BaseProductos);
+         //agregarProductos(BaseProductos);
 
 }
 /*
@@ -298,14 +298,14 @@ function agregarCadenas(BaseLocal){
                 _id: 'cadenasDisponibles',
               "cadenasDisponibles": [{
               _id: 0,
-              nombre: 'Disco',
+              nombre: 'COTO',
             }, {
               _id: 1,
-              nombre: 'Coto',
+              nombre: 'DIA',
             },
             {
               _id: 2,
-              nombre: 'Jumbo',
+              nombre: 'CARREFOUR',
             }
             ]});
       });
@@ -315,14 +315,14 @@ function agregarCadenas(BaseLocal){
                 _id: 'cadenasDisponibles',
               "cadenasDisponibles": [{
               id: 0,
-              nombre: 'Disco',
+              nombre: 'COTO',
             }, {
               id: 1,
-              nombre: 'Coto',
+              nombre: 'DIA',
             },
             {
               id: 2,
-              nombre: 'Jumbo',
+              nombre: 'CARREFOUR',
             }
             ]});
          });

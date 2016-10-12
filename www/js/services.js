@@ -20,23 +20,30 @@ angular.module('app.services', [])
 .factory('BasePreciosPorComercio', function() {
   return preciosPorComercioLocal = new PouchDB('basePreciosPorComercio');
 })
-.factory('DBSync', function(BaseProductos, BasePreciosPorComercio) {
+.factory('DBSync', function(BaseProductos, BaseComercios) {
 
   var dbSync = {};
 
   dbSync.baseProductosLocal = BaseProductos;
-  dbSync.basePreciosPorComercio = BasePreciosPorComercio;
+  dbSync.baseComerciosLocal = BaseComercios;
 
-  dbSync.sync = function(){
-    console.log("Iniciando sincro de BD...");
+  dbSync.init = function(){
+    console.log("[DB Sync] Iniciando sincronizacion...");
     this.syncProductos();
-    this.syncPreciosPorComercio();
-    console.log("Finalizo sincro de BD.");
+    this.syncComercios();
   }
 
   dbSync.syncProductos = function(){
-    console.log("Replicar DB productos...");
-    this.baseProductosLocal.replicate.from('http://ec2-52-38-235-81.us-west-2.compute.amazonaws.com/productos', {
+    console.log("[DB Sync] Sincronizando DB productos...");
+    this.baseProductosLocal.replicate.from('https://webi.certant.com/echango/productos', {
+      live: true,
+      retry: true
+    });
+  }
+  
+  dbSync.syncComercios = function(){
+    console.log("[DB Sync] Sincronizando DB comercios...");
+    this.baseComerciosLocal.replicate.from('https://webi.certant.com/echango/comercios', {
       live: true,
       retry: true
     });
