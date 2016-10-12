@@ -148,7 +148,7 @@ function agregarQuery(BaseComercios){
 		  _id: '_design/my_index',
 		  views: {
 		    by_cadena: {
-		      map: function (doc) { emit(doc.nombrecadena); }.toString()
+		      map: function (doc) { emit(doc.cadena); }.toString()
 		    }
 		  }
 		};
@@ -289,44 +289,34 @@ function agregarUbicaciones(BaseLocal){
 
 }
 function agregarCadenas(BaseLocal){
+    var cadenasDisponibles = {
+        _id: 'cadenasDisponibles',
+        "cadenasDisponibles": [{
+            _id: 12,
+            nombre: 'COTO',
+        }, {
+            _id: 15,
+            nombre: 'DIA',
+        },
+        {
+            _id: 10,
+            nombre: 'CARREFOUR',
+        }
+        ]
+    }
+    
 	//Busca el documento 'medioDePagoTarjetasNombres'
     BaseLocal.get('cadenasDisponibles').then(function(doc){
       //si lo encuentra lo borra
       BaseLocal.remove(doc._id, doc._rev).then(function(){
         //si lo borra bien lo vuelve a crear
-        BaseLocal.put({
-                _id: 'cadenasDisponibles',
-              "cadenasDisponibles": [{
-              _id: 0,
-              nombre: 'COTO',
-            }, {
-              _id: 1,
-              nombre: 'DIA',
-            },
-            {
-              _id: 2,
-              nombre: 'CARREFOUR',
-            }
-            ]});
+        BaseLocal.put(cadenasDisponibles);
       });
     }).catch(function (error) {
-           //Si no lo encuentra, lo crea
-           BaseLocal.put({
-                _id: 'cadenasDisponibles',
-              "cadenasDisponibles": [{
-              id: 0,
-              nombre: 'COTO',
-            }, {
-              id: 1,
-              nombre: 'DIA',
-            },
-            {
-              id: 2,
-              nombre: 'CARREFOUR',
-            }
-            ]});
-         });
-	}
+        //Si no lo encuentra, lo crea
+        BaseLocal.put(cadenasDisponibles);
+    });
+}
 
 function agregarTarjetas(BaseLocal){
 	//Busca el documento 'medioDePagoTarjetasNombres'

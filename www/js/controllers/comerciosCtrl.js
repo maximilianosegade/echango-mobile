@@ -70,7 +70,7 @@ $scope.openModal = function(index) {
 
 $scope.closeModalSeleccionCadena = function(cadena) {
     $scope.cadenaSeleccionada = cadena;
-    ComerciosService.comerciosPorCadena(cadena.nombre).then(function(comercios){
+    ComerciosService.comerciosPorCadena(cadena).then(function(comercios){
     	$scope.comercios = comercios;
     });
     $scope.$apply();

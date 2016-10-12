@@ -1,18 +1,22 @@
 angular.module('app.services.comercios', [])
-.service("ComerciosService", function($rootScope, $q, BaseComercios) {
+.service("ComerciosService", function($rootScope, $q, BaseLocal, BaseComercios) {
 	
 	function mapNombreCadena(doc) {
-		       emit(doc.nombrecadena);
-		    
-		}
+        emit(doc.cadena);    
+    }
+    
 	this.comerciosPorCadena = function(cadena){
-		return BaseComercios.query(mapNombreCadena, {
-			  key          : cadena,
-			  include_docs : true
-			}).then(function (res) {
-				  	return res.rows;
-				}).catch(function (err) {
-				  	return null;
-			});
-	}
+		
+        return BaseComercios.allDocs({
+            startkey: cadena._id.toString(),
+            endkey: cadena._id.toString() + '\uffff',
+            include_docs : true
+        }).then(function (res) {
+            return res.rows;
+        }).catch(function (err) {
+            return null;
+        });
+            
+    }
+    
 });
