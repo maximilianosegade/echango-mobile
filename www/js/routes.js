@@ -166,7 +166,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/ticketEscaneado.html',
-    controller: 'ticketEscaneadoCtrl'
+    controller: 'escanearTicketCtrl'
  }}})
 
  .state('menEChango.combinarListas', {
