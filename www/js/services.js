@@ -20,19 +20,41 @@ angular.module('app.services', [])
 .factory('BasePreciosPorComercio', function() {
   return preciosPorComercioLocal = new PouchDB('basePreciosPorComercio');
 })
-.factory('DBSync', function(BaseProductos, BaseComercios) {
+.factory('DBSync', function(BaseProductos, BaseComercios, BasePreciosPorComercio) {
 
   var dbSync = {};
 
   dbSync.baseProductosLocal = BaseProductos;
   dbSync.baseComerciosLocal = BaseComercios;
+  dbSync.basePreciosPorComercio = BasePreciosPorComercio;
 
   dbSync.init = function(){
+    //this.compactDb();
     console.log("[DB Sync] Iniciando sincronizacion...");
     this.syncProductos();
     this.syncComercios();
   }
 
+  // TODO: Compactar DB al iniciar la APP
+  dbSync.compactDb = function(){
+    
+    console.log('Iniciando compactacion de BD.');
+      
+    console.log('Compactando BD Productos... ');
+    this.baseProductosLocal.compact().then(function(){
+      console.log('Compactando BD Comercios... ');
+      return this.baseComerciosLocal.compact();
+    }).then(function(){
+      console.log('Compactando BD Precios por Comercios... ');
+      return this.basePreciosPorComercio.compact();
+    }).then(function(){
+      console.log('Finalizo la compactacion.');
+    }).catch(function(err){
+        console.log('Fallo la compactacion de la BD. ' + err);
+    });
+      
+  }
+  
   dbSync.syncProductos = function(){
     console.log("[DB Sync] Sincronizando DB productos...");
     this.baseProductosLocal.replicate.from('https://webi.certant.com/echango/productos', {
@@ -49,15 +71,21 @@ angular.module('app.services', [])
     });
   }
 
-  dbSync.syncPreciosPorComercio = function(){
-    console.log("Replicar DB precios para comercios favoritos...");
-    this.basePreciosPorComercio.replicate.from('http://ec2-52-38-235-81.us-west-2.compute.amazonaws.com/comercios_precios_consulta', {
-      live: true,
-      retry: true,
-      // Esto esta hardcodeado, es solo para verificar el filtro.
-      // Deberia actualizarse cada vez que se modifican los comercios favoritos.
-      doc_ids: ['93c2845f4015d10fe1a570a98f015f81']
-    });
+  dbSync.syncPreciosPorComercio = function(idComercios){
+      
+    if (this.basePreciosPorComercioSyncHandler){
+        console.log("Cancelando replica DB precios para comercios cercanos existente...");
+        this.basePreciosPorComercioSyncHandler.cancel();
+    }
+      
+    console.log("Replicar DB precios para comercios cercanos: " + JSON.stringify(idComercios));
+        
+    dbSync.basePreciosPorComercioSyncHandler =  this.basePreciosPorComercio.replicate.from('https://webi.certant.com/echango/precios_por_comercio', {
+          live: true,
+          retry: true,
+          doc_ids: idComercios
+    });     
+
   }
 
   return dbSync;

@@ -9,7 +9,7 @@
 angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista', 'app.controllers.escanearTicket'])
 
 
-.run(function($ionicPlatform, BaseLocal, BaseComercios,BaseProductos, BaseListas, DBSync,$rootScope, $ionicHistory,$ionicNavBarDelegate) {
+.run(function($ionicPlatform, BaseLocal, BaseComercios, BasePreciosPorComercio, BaseProductos, BaseListas, DBSync,$rootScope, $ionicHistory,$ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -25,6 +25,10 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 
     mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos);
     DBSync.init();
+          
+    // TODO: Obtener ID de comercios a actualizar.
+    DBSync.syncPreciosPorComercio([])
+    
     //borrarBase(BaseLocal);
 
   });
