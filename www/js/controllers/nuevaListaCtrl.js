@@ -43,7 +43,7 @@ angular.module('app.controllers.nuevaLista', [])
  function agregarProducto(producto){
 	 producto.cantidad = 1;
 	 for(var i = 0; $scope.productos.length> i;i++){
-		 if($scope.productos[i]._id = producto._id){
+		 if($scope.productos[i]._id == producto._id){
 			 $scope.productos[i].cantidad++;
 			 return;
 		 }
@@ -103,6 +103,16 @@ angular.module('app.controllers.nuevaLista', [])
         return;		 
 	 }
  }
+ 
+ $scope.eliminarLista =  function (){
+	    
+	    ListaService.borrarLista($scope.lista).then(function(){
+	    	 $ionicHistory.nextViewOptions({
+			      disableBack: true
+			    });
+			 $state.go('menEChango.misListas');
+	    });
+}
  
  /*MODAL*/
  $ionicModal.fromTemplateUrl('productos-modal.html', {

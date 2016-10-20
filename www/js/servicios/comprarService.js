@@ -3,8 +3,24 @@ angular.module('app.services.compras', [])
 	
 	var comercio = null;
 	var lista = null;
+	var medioDePago = null;
+	var descuento = null;
 	var simular = false;
 	var simulacion = null;
+	
+	this.obtenerParametrosSimulacion = function(){
+		return BaseLocal.get('parametrosSimulacion').then(function(doc){
+			actualizarParametrosSimulacion(doc);
+			return doc;
+		});
+	}
+	
+	function actualizarParametrosSimulacion(doc){		
+			this.comercio = doc.comercio;
+			this.lista = doc.lista;
+			this.medioDePago = doc.medioDePago;
+			this.descuento = doc.descuento;			
+	}
 	
 	this.seleccionarComercio = function (com){
 		comercio = com;

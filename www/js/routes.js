@@ -85,7 +85,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/parametrizaciNDeCompra.html',
-    controller: 'parametrizaciNDeCompraCtrl'
+    controller: 'parametrizacionCtrl'
  }}
  })
 
@@ -94,7 +94,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/parMetrosDeSimulaciN.html',
-    controller: 'parMetrosDeSimulaciNCtrl'
+    controller: 'parametrizacionCtrl'
  }}})
 
  .state('menEChango.eChango', {

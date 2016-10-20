@@ -3,17 +3,38 @@
         <div id="parametrizaciNDeCompra-markdown45" style="color:#000000;font-size:16px;text-align:center;">
             <p>Ayuda a eChango a parametrizar tu compra. Dinos dónde te encuentras, cómo pagarás y si usarás una lista de compra definida por ti.</p>
         </div>
-        <div class="spacer" style="width: 320px; height: 12px;"></div>
-        <ion-list id="parametrizaciNDeCompra-list33">
-            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item94" ui-sref="menEChango.agregarSucursal">
+
+        <div class="list card" id="parametrizaciNDeCompra-card23">
+            <div class="item item-body" id="parametrizaciNDeCompra-list-item-container12">
+                <h2 id="parametrizaciNDeCompra-heading14" style="color:#000000;font-weight:600;text-align:center;">Parámetros Seleccionados</h2>
+                <ion-list id="parametrizaciNDeCompra-list46">
+                    <ion-item class="item-thumbnail-left dark" id="parametrizaciNDeCompra-list-item98">
+                      <!--  <img src="img/wrwn2KGnQfOgXdi041HL_Mapa.PNG"> -->
+                        <h2dark>{{comercio}}</h2dark>
+                    </ion-item>
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item100">
+                        <i class="icon ion-cash"></i>Medio de Pago:
+                        <span class="item-note">{{medioDePago}}</span>
+                    </ion-item>
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item101">
+                        <i class="icon ion-android-happy"></i>Descuento:
+                        <span class="item-note">{{descuento}}</span>
+                    </ion-item>
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item109">
+                        <i class="icon ion-android-clipboard"></i>Lista de Compra: {{lista}}</ion-item>
+                </ion-list>
+            </div>
+        </div>
+        <a ui-sref="eChango" id="parametrizaciNDeCompra-button134" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-cart">Ir al Chango</a>
+                <ion-list id="parametrizaciNDeCompra-list33">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item94" ui-sref="agregarSucursal">
                 <i class="icon ion-android-compass"></i>Selecciona Comercio</ion-item>
-            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item95" ui-sref="menEChango.mediosDePago">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item95" ui-sref="mediosDePago">
                 <i class="icon ion-cash"></i>Selecciona Medio de Pago</ion-item>
-            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item96" ui-sref="menEChango.descuentos">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item96" ui-sref="descuentos">
                 <i class="icon ion-android-happy"></i>Selecciona Descuento</ion-item>
-            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item97" ui-sref="menEChango.misListas">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item97" ui-sref="misListas">
                 <i class="icon ion-android-clipboard"></i>Selecciona Tipo de Lista</ion-item>
         </ion-list>
-        <a ui-sref="menEChango.eChango" id="parametrizaciNDeCompra-button134" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-cart">Ir al Chango</a>
     </ion-content>
 </ion-view>
