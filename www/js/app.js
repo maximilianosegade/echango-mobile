@@ -24,10 +24,8 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
     }
 
     mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos);
-    DBSync.init();
-          
-    // TODO: Obtener ID de comercios a actualizar.
-    DBSync.syncPreciosPorComercio([])
+    DBSync.init();      
+    DBSync.syncPreciosPorComercio();
     
     //borrarBase(BaseLocal);
 
@@ -56,8 +54,8 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
 
 
          agregarTarjetas(BaseLocal);
-         //agregarUbicaciones(BaseLocal);
          agregarCadenas(BaseLocal);
+         //agregarUbicaciones(BaseLocal);
          //agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
