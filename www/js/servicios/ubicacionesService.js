@@ -90,6 +90,18 @@ angular.module('app.services.ubicaciones', [])
          });
     };
     
+    this.getRadio = function(){
+    	 return database.get('radio').then(function(doc){
+              return doc.radio;
+          });
+    }
+    this.actualizarRadio = function(nuevoRadio){
+    	return database.get('radio').then(function(doc){
+    		doc.radio = nuevoRadio;
+             database.put(doc,doc._id,doc._rev);
+             return doc.radio;
+        });
+    }
     
     
 });

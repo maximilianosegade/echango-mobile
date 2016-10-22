@@ -230,7 +230,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/ReaDeCompra.html',
-    controller: 'ReaDeCompraCtrl'
+    controller: 'radioCompraCtrl'
  }}})
 
  .state('menEChango.mediosDePagoYDescuentos', {

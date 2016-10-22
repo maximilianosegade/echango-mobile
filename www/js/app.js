@@ -55,6 +55,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
          agregarTarjetas(BaseLocal);
          agregarUbicaciones(BaseLocal);
          agregarProvincias(BaseComercios);
+         agregarRadioCompra(BaseLocal);
         // agregarCadenas(BaseLocal);
         //agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
@@ -128,6 +129,16 @@ function parametriaSimulacion(BaseLocal){
 				lista: null
 			});
 		});
+}
+function   agregarRadioCompra(BaseLocal){
+	BaseLocal.get('radio').then(function(doc){
+		//si está no hay que hacer nada
+	}).catch(function(){
+		BaseLocal.put({
+			_id : "radio",
+			radio: 400
+		});
+	});
 }
 
 /*

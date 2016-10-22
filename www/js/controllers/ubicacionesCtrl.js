@@ -26,6 +26,11 @@ angular.module('app.controllers.ubicaciones', [])
 
 .controller('agregarUbicaciNCtrl', function($scope,$state, $stateParams,$ionicHistory,  $ionicLoading, UbicacionesService) {
 	
+	
+	UbicacionesService.getRadio().then(function(radio){
+	      $scope.radio = radio;
+	    });
+	
   function agregarMarcador(ubicacion){
     var position = new google.maps.LatLng(ubicacion.latitud, ubicacion.longitud);
     $scope.map.setCenter(position);
@@ -54,7 +59,7 @@ angular.module('app.controllers.ubicaciones', [])
       fillOpacity: 0.35,
       map: $scope.map,
       center: position,
-      radius: areaCompra
+      radius: $scope.radio
     }); 
   }
   
@@ -76,9 +81,7 @@ angular.module('app.controllers.ubicaciones', [])
     $scope.$apply();   
   };
     
-      //TODO: modificar por valor traido de la base
-      var areaCompra = 1000; //7 cuadras
-   
+         
   $scope.buscarDireccion = function(ubicacion){
     var coordenadas = UbicacionesService.buscarDireccion(ubicacion.direccion);
   }
@@ -130,4 +133,20 @@ $scope.guardarDireccion = function(){
       alert('Unable to get location: ' + error.message);
     });
   });                    
+})
+
+.controller('radioCompraCtrl', function($scope,$state,  UbicacionesService) {
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		$scope.data = {};
+	    UbicacionesService.getRadio().then(function(radio){
+	      $scope.data.radio = radio;
+	    });
+	  }); 
+	
+	
+	$scope.actualizarRadio = function(){
+		UbicacionesService.actualizarRadio($scope.data.radio);
+	}
+	
+	
 })
