@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 
-angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista', 'app.controllers.escanearTicket', 'app.controllers.simular','app.controllers.registrarse', 'app.controllers.parametrizar'])
+angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.mapas','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista', 'app.controllers.escanearTicket', 'app.controllers.simular','app.controllers.registrarse', 'app.controllers.parametrizar'])
 
 
 
@@ -51,16 +51,85 @@ function borrarBase(BaseLocal){
 
 function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
   
-  
-        // agregarTarjetas(BaseLocal);
+		parametriaSimulacion(BaseLocal);
+         agregarTarjetas(BaseLocal);
          agregarUbicaciones(BaseLocal);
+         agregarProvincias(BaseComercios);
         // agregarCadenas(BaseLocal);
-        // agregarComercios(BaseComercios);
+        //agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
         // agregarProductos(BaseProductos);
 
 } 
+
+function agregarProvincias(db){
+	
+	db.get('tarjetas').then(function(doc){
+	      //si lo encuentra lo borra
+	      
+	      
+	    }).catch(function (error) {
+	           //Si no lo encuentra, lo crea
+	           db.put({
+	                _id: 'provincias',
+	              provincias: [
+	             {
+	              nombre: 'Capital Federal',
+	              localidades : [{nombre: 'Almagro',
+	            	  					cadenas: ['Coto','Disco', 'DIA']},
+	            	  					{nombre: 'Boedo',
+		            	  				cadenas: ['Coto','Disco', 'DIA']},
+		            	  				{nombre: 'Palermo',
+		            	  				cadenas: ['Coto','Disco', 'DIA']},
+		            	  				{nombre: 'Balvanera',
+		            	  				cadenas: ['Coto','Disco', 'DIA']},
+		            	  				{nombre: 'Caballito',
+		            	  				cadenas: ['Coto','Disco', 'DIA']}]
+	             },
+	             {
+	              nombre: 'Buenos Aires',
+	              localidades : [{nombre: 'Avellaneda',
+	            	  					cadenas: ['Coto','Disco', 'DIA']},
+	            	  					{nombre: 'Lanús',
+		            	  				cadenas: ['Coto','Disco', 'DIA']},
+		            	  				{nombre: 'La Plata',
+		            	  				cadenas: ['Coto','Disco', 'DIA']},
+		            	  				{nombre: 'Mar del Plata',
+		            	  				cadenas: ['Coto','Disco', 'DIA']},
+		            	  				{nombre: 'Bulogne',
+		            	  				cadenas: ['Coto','Disco', 'DIA']}]
+	             },
+	             {
+	              nombre: 'Santa Fé',
+	              localidades : [{nombre: 'Rosario',
+	            	  					cadenas: ['Coto','Disco', 'DIA']},
+	            	  					{nombre: 'Santa Fé',
+		            	  				cadenas: ['Coto','Disco', 'DIA']},
+		            	  				{nombre: 'Libertad',
+		            	  				cadenas: ['Coto','Disco', 'DIA']},
+		            	  				{nombre: 'San Lorenzo',
+		            	  				cadenas: ['Coto','Disco', 'DIA']}
+		            	  				]
+	             }
+	           ]});
+	         });
+}
+
+function parametriaSimulacion(BaseLocal){
+	 BaseLocal.get('parametrosSimulacion').then(function(doc){
+			//si está no hay que hacer nada
+		}).catch(function(){
+			BaseLocal.put({
+				_id : "parametrosSimulacion",
+				comercio: null,
+				medioDePago: null,
+				descuento: null,
+				lista: null
+			});
+		});
+}
+
 /*
  * El id del objeto precio se corresponde con el _id de comercios
  * 
@@ -249,16 +318,60 @@ function agregarUbicaciones(BaseLocal){
         //si lo borra bien lo vuelve a crear
         BaseLocal.put({
                 _id: 'ubicaciones',
-              "ubicaciones": [],
-            "comercios":[ ]
+              "ubicaciones": [ {
+                  "nombre": "Sin selección",
+                  "direccion": "Sin selección"
+                },
+                {
+                  "nombre": "Sin selección",
+                  "direccion": "Sin selección"
+                },
+                {
+                    "nombre": "Sin selección",
+                    "direccion": "Sin selección"
+                  }],
+            "comercios":[ {
+                "nombre": "Sin selección",
+                "direccion": "Sin selección"
+              },
+              {
+                "nombre": "Sin selección",
+                "direccion": "Sin selección"
+              },
+              {
+                  "nombre": "Sin selección",
+                  "direccion": "Sin selección"
+                } ]
         });
       });
     }).catch(function (error) {
            //Si no lo encuentra, lo crea
            BaseLocal.put({
         	   _id: 'ubicaciones',
-               "ubicaciones": [],
-             "comercios":[ ]
+               "ubicaciones": [ {
+                   "nombre": "Sin selección",
+                   "direccion": "Sin selección"
+                 },
+                 {
+                   "nombre": "Sin selección",
+                   "direccion": "Sin selección"
+                 },
+                 {
+                     "nombre": "Sin selección",
+                     "direccion": "Sin selección"
+                   }],
+             "comercios":[ {
+                 "nombre": "Sin selección",
+                 "direccion": "Sin selección"
+               },
+               {
+                 "nombre": "Sin selección",
+                 "direccion": "Sin selección"
+               },
+               {
+                   "nombre": "Sin selección",
+                   "direccion": "Sin selección"
+                 }]
             });
          });
 
@@ -304,80 +417,49 @@ function agregarCadenas(BaseLocal){
 	}
 	
 function agregarTarjetas(BaseLocal){
-	//Busca el documento 'medioDePagoTarjetasNombres'
-    BaseLocal.get('medioDePagoTarjetasNombres').then(function(doc){
-      //si lo encuentra lo borra
-      BaseLocal.remove(doc._id, doc._rev).then(function(){
-        //si lo borra bien lo vuelve a crear
-        BaseLocal.put({
-                _id: 'medioDePagoTarjetasNombres',
-              "medioDePagoTarjetasNombres": [{
-              id: 0,
-              nombre: 'Visa Crédito',
-            }, {
-              id: 1,
-              nombre: 'MasterCard',
-            },
-            {
-              id: 2,
-              nombre: 'American Express',
-            }
-            ]});
-      });
-    }).catch(function (error) {
-           //Si no lo encuentra, lo crea
-           BaseLocal.put({
-                _id: 'medioDePagoTarjetasNombres',
-              "medioDePagoTarjetasNombres": [{
-              id: 0,
-              nombre: 'Visa Crédito',
-            }, {
-              id: 1,
-              nombre: 'MasterCard',
-            },
-            {
-              id: 2,
-              nombre: 'American Express',
-            }
-            ]});
-         });
-	
-	//Busca el documento 'medioDePagoTarjetasBancos'
-    BaseLocal.get('medioDePagoTarjetasBancos').then(function(doc){
-      //si lo encuentra lo borra
-      BaseLocal.remove(doc._id, doc._rev).then(function(){
-        //si lo borra bien lo vuelve a crear
-        BaseLocal.put({
-                _id: 'medioDePagoTarjetasBancos',
-              "medioDePagoTarjetasBancos": [{
-              id: 0,
-              nombre: 'Santander Río',
-            }, {
-              id: 1,
-              nombre: 'Galicia',
-            },
-            {
-              id: 2,
-              nombre: 'Francés',
-            }
-            ]});
-      });
-    }).catch(function (error) {
-           //Si no lo encuentra, lo crea
-           BaseLocal.put({
-                _id: 'medioDePagoTarjetasBancos',
-              "medioDePagoTarjetasBancos": [{
-              id: 0,
-              nombre: 'Santander Río',
-            }, {
-              id: 1,
-              nombre: 'Galicia',
-            },
-            {
-              id: 2,
-              nombre: 'Francés',
-            }
-            ]});
-         });
+	BaseLocal.get('tarjetas').then(function(doc){
+	      //si lo encuentra lo borra
+	      BaseLocal.remove(doc._id, doc._rev).then(function(){
+	        //si lo borra bien lo vuelve a crear
+	        BaseLocal.put({
+	        	 _id: 'tarjetas',
+	             tarjetas: [{
+	             _id: 1,
+	             nombre: 'Visa Crédito',
+	             bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:3, nombre: 'Banco Ciudad'},{_id:4, nombre: 'HSBC'}]
+	           }, {
+	             _id: 2,
+	             nombre: 'MasterCard',
+	             bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:5, nombre: 'Banco Provincia'},{_id:6, nombre: 'ICBC'}]
+	           
+	           },
+	           {
+	             _id: 3,
+	             nombre: 'American Express',
+	             bancos : [{_id:7, nombre: 'AMEX'},{_id:2, nombre: 'Banco Nación'},{_id:8, nombre: 'Banco Patagonia'},{_id:4, nombre: 'HSBC'}]            
+	           }
+	           ]});
+	      });
+	    }).catch(function (error) {
+	           //Si no lo encuentra, lo crea
+	           BaseLocal.put({
+	                _id: 'tarjetas',
+	              tarjetas: [
+	             {
+	              _id: 1,
+	              nombre: 'Visa Crédito',
+	              bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:3, nombre: 'Banco Ciudad'},{_id:4, nombre: 'HSBC'}]
+	            }, {
+	              _id: 2,
+	              nombre: 'MasterCard',
+	              bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:5, nombre: 'Banco Provincia'},{_id:6, nombre: 'ICBC'}]            
+	            },
+	            {
+	              _id: 3,
+	              nombre: 'American Express',
+	              bancos : [{_id:7, nombre: 'AMEX'},{_id:2, nombre: 'Banco Nación'},{_id:8, nombre: 'Banco Patagonia'},{_id:4, nombre: 'HSBC'}]            
+	            }
+	            ]});
+	         });
 }
 

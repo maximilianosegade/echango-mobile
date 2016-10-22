@@ -13,6 +13,15 @@ angular.module('app.services.ubicaciones', [])
            return doc.comercios;
          });
    };
+	
+	this.actualizarComercioFavorito = function(comercio, indice){
+		return database.get('ubicaciones').then(function(doc){
+					doc.comercios[indice] = comercio;
+					return database.put(doc).then(function(doc){
+						return doc;
+					});
+	         });
+	}
    
    this.agregarComercioFavorito = function(comercio) {
        return database.get('ubicaciones').then(function(doc){

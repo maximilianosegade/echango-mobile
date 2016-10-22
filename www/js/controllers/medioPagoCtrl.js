@@ -1,6 +1,6 @@
    
 angular.module('app.controllers.medioPago', [])
-.controller('agregarMedioDePagoCtrl', function($scope,BaseLocal,$ionicModal,MediosDePagoService) {
+.controller('agregarMedioDePagoCtrl', function($state,$scope,BaseLocal,$ionicModal,MediosDePagoService,ComprarService) {
   
     var dbLocal = BaseLocal;
     $scope.item = {};
@@ -8,6 +8,14 @@ angular.module('app.controllers.medioPago', [])
     $scope.tarjetaSeleccionada = {};
     
     $scope.$on("$ionicView.beforeEnter", function(event, data){
+    	$scope.simular = ComprarService.simular;
+    	MediosDePagoService.getMediosDePagoRegistrados().then(function(doc){
+    	    if(doc.mediosDePagoRegistrados) {
+    	        $scope.mediosDePagoRegistrados = doc.mediosDePagoRegistrados;
+    	        $scope.$apply();
+    	    }
+    	});
+    	
     	MediosDePagoService.getTarjetas().then(function(doc){
     	    $scope.tarjetas = doc.tarjetas;
     	    $scope.$apply();
@@ -15,15 +23,20 @@ angular.module('app.controllers.medioPago', [])
 });
    
 
-// Obtener medios de pago registrados
-
-MediosDePagoService.getMediosDePagoRegistrados().then(function(doc){
-    if(doc.mediosDePagoRegistrados) {
-        $scope.mediosDePagoRegistrados = doc.mediosDePagoRegistrados;
-        $scope.$apply();
+   $scope.seleccionar = function(item){
+	   	 if($scope.simular){
+	   		 $scope.elegirMedioDePago(item);
+	   	 }
+    };
+    
+    $scope.elegirMedioDePago = function (item){
+   	 ComprarService.seleccionarMedioDePago(item).then(function(){
+   		 $state.go('menEChango.parametrizaciNDeCompra');		 
+   	 });
+   		
     }
 
-});
+
 
 /* Funciones modal INICIO*/
 $ionicModal.fromTemplateUrl('tarjetas-modal.html', {

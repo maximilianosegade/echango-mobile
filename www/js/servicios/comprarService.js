@@ -7,12 +7,24 @@ angular.module('app.services.compras', [])
 	var descuento = null;
 	var simular = false;
 	var simulacion = null;
+	var parametrosSim = null;
 	
 	this.obtenerParametrosSimulacion = function(){
 		return BaseLocal.get('parametrosSimulacion').then(function(doc){
 			actualizarParametrosSimulacion(doc);
+			parametrosSim = doc;
 			return doc;
 		});
+	}
+	
+	function updateParametros(){
+		return BaseLocal.get('parametrosSimulacion').then(function(doc) {
+			doc.comercio = parametrosSim.comercio;
+			doc.lista = parametrosSim.lista;
+			doc.medioDePago = parametrosSim.medioDePago;
+			doc.descuento = parametrosSim.descuento;		
+   	        return BaseLocal.put(doc);
+        })
 	}
 	
 	function actualizarParametrosSimulacion(doc){		
@@ -22,24 +34,27 @@ angular.module('app.services.compras', [])
 			this.descuento = doc.descuento;			
 	}
 	
-	this.seleccionarComercio = function (com){
-		comercio = com;
+	this.seleccionarComercio = function (com){		
+		parametrosSim.comercio = com;
+		return updateParametros();
 	}
-	
-
-	this.comercioSeleccionado = function (){
-		return comercio;
-	}
-	
 	
 	this.seleccionarLista = function (lis){
-		lista = lis;
+		parametrosSim.lista = lis;		
+		return updateParametros();		
+	}
+	
+	this.seleccionarMedioDePago = function (medioDePago){		
+		parametrosSim.medioDePago = medioDePago;
+		return updateParametros();
+	}
+	
+	this.seleccionarDescuento = function (descuento){
+		parametrosSim.descuento = descuento;		
+		return updateParametros();		
 	}
 	
 
-	this.listaSeleccionada = function (){
-		return lista;
-	}
 	/*
 	 * Cada elemento de la lista es de la forma, donde precio es un elemento de precios
 	 * {

@@ -214,7 +214,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/agregarSucursal.html',
-    controller: 'comerciosCtrl'
+    controller: 'comerciosABMCtrl'
  }}})
 
  .state('menEChango.agregarLugar', {

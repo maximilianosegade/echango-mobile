@@ -1,5 +1,5 @@
 angular.module('app.controllers.lista', [])
-.controller('listaCtrl', function($scope,$ionicHistory,$state,ListaService, ComprarService) {
+.controller('listaCtrl', function($scope,$ionicHistory,$state,ListaService, ComprarService,$stateParams) {
 
  $scope.$on("$ionicView.beforeEnter", function(event, data){
 		 
@@ -10,15 +10,24 @@ angular.module('app.controllers.lista', [])
 					 $scope.listasGuardadas.push(result[i].doc);
 			        }  
 		    $scope.$apply();
-		 })
+		 });
+		 
+		 $scope.simular = ComprarService.simular;
  });
  
+ $scope.seleccionar = function(lista){
+	 if($scope.simular){
+		 $scope.elegirLista(lista);
+	 }else{
+		 $scope.editar(lista);
+	 }
+ };
+ 
  $scope.elegirLista = function (lista){
-	 ComprarService.seleccionarLista(lista);
-		$ionicHistory.nextViewOptions({
-		      disableBack: false
-		    });
-		 $state.go('menu.miChango');
+	 ComprarService.seleccionarLista(lista).then(function(){
+		 $state.go('menEChango.parametrizaciNDeCompra');		 
+	 });
+		
  }
  
  $scope.combinarListas = function (){
