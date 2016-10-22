@@ -52,19 +52,20 @@ angular.module('app.services.ubicaciones', [])
         });
    };
    
-    this.agregarUbicacion = function(ubicacion) {
+    this.agregarUbicacion = function(ubicacion, indice) {
+    	    	
         return database.get('ubicaciones').then(function(doc){
             //para editar, primero lo saco y después lo vuelvo a agregar
-            doc.ubicaciones = removerElemento(doc.ubicaciones,ubicacion); 
-            doc.ubicaciones.push(ubicacion);
+            doc.ubicaciones[indice] = ubicacion;            
             database.put(doc,doc._id,doc._rev);
             return doc;
          }).catch(function (error) {
            //Si no lo encuentra, lo crea
+        	 //No debería pasar nunca
            var doc = {
                 _id: 'ubicaciones',
               "ubicaciones": [{
-              id: 0,
+              id: indice,
               nombre: ubicacion.nombre,
               direccion: ubicacion.direccion,
               latitud: ubicacion.latitud,

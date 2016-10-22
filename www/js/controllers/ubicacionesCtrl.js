@@ -7,7 +7,6 @@ angular.module('app.controllers.ubicaciones', [])
     UbicacionesService.getUbicaciones().then(function(doc){
       $scope.ubicaciones = doc;
     });
-    console.log("State Params: ", data.stateParams);
   }); 
 
   $scope.borrar = function(ubicacion){
@@ -16,6 +15,13 @@ angular.module('app.controllers.ubicaciones', [])
       $scope.$apply();
     });
   };
+  
+  $scope.seleccionar = function(index){
+		UbicacionesService.indice = index;	
+		UbicacionesService.ubicacionAEditar = $scope.ubicaciones[index];
+	  	   $state.go('menEChango.agregarLugar');
+	  		
+	  	 }
  
   $scope.editar = function(ubicacion){    
     $scope.$apply();
@@ -27,9 +33,40 @@ angular.module('app.controllers.ubicaciones', [])
 .controller('agregarUbicaciNCtrl', function($scope,$state, $stateParams,$ionicHistory,  $ionicLoading, UbicacionesService) {
 	
 	
-	UbicacionesService.getRadio().then(function(radio){
-	      $scope.radio = radio;
-	    });
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		$scope.ubicacionAEditar = UbicacionesService.ubicacionAEditar;
+		$scope.indice = UbicacionesService.indice;		
+		UbicacionesService.getRadio().then(function(radio){
+		      $scope.radio = Number(radio);
+		    });
+		if(!$scope.ubicacionAEditar.latitud){
+			$scope.ubicacionAEditar = {};
+		}
+			   
+	  }); 
+
+	  
+	$scope.guardarDireccion = function(){
+		
+		if ($scope.ubicacionAEditar.nombre && $scope.ubicacionAEditar.direccion){	                
+			UbicacionesService.agregarUbicacion($scope.ubicacionAEditar, $scope.indice).then(function(doc){
+		        $ionicHistory.nextViewOptions({
+		          disableBack: true
+		        });
+		    
+		      $state.go('menEChango.misLugares');
+		      });
+
+	    } else {
+	        alert('Faltan datos requeridos');
+	        return;
+	    };	      
+	      
+	};	
+	
+	
+	   
+	  
 	
   function agregarMarcador(ubicacion){
     var position = new google.maps.LatLng(ubicacion.latitud, ubicacion.longitud);
@@ -87,16 +124,6 @@ angular.module('app.controllers.ubicaciones', [])
   }
   
 
-$scope.guardarDireccion = function(){
-      UbicacionesService.agregarUbicacion($scope.ubicacionAEditar).then(function(doc){
-        $ionicHistory.nextViewOptions({
-          disableBack: true
-        });
-    
-      $state.go('menu.ubicaciones');
-      });
-      
-};
   
   $scope.$on('ionGooglePlaceSetLocation',function(event,location){
         
