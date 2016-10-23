@@ -8,23 +8,23 @@
         <div class="list card" id="cerrarChango-card21">
             <ion-item class="item-thumbnail-left dark" id="cerrarChango-list-item122">
                 <img src="img/EvbzvxA1RY6V2slRVg2A_Coto.png">
-                <h2dark>Sucursal 1 - Italia 77
-                    <p style="white-space:normal;">29/09/2016</p>
+                <h2dark>{{compra.comercio.nombre}}-{{compra.comercio.direccion}}
+                    <p style="white-space:normal;">{{compra.fecha}}</p>
                 </h2dark>
             </ion-item>
             <div class="item item-body" id="cerrarChango-list-item-container15">
                 <ion-list id="cerrarChango-list40">
                     <ion-item id="cerrarChango-list-item126">Medio de Pago:
-                        <span class="item-note">Visa BBVA</span>
+                        <span class="item-note">{{compra.medioDePago.nombre}}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item127">Tarjeta de Descuento:
-                        <span class="item-note">Comunidad Coto</span>
+                        <span class="item-note">{{compra.descuento.nombre}}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item128">Valor de Compra:
-                        <span class="item-note">$376,29</span>
+                        <span class="item-note">{{compra.descuento.valorTotal}}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item129">Cantidad de Productos:
-                        <span class="item-note">74 prod.</span>
+                        <span class="item-note">{{compra.lista.totalProductos}}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item130">Valor de Descuento:
                         <span class="item-note">$76,29</span>

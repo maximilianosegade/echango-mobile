@@ -3,7 +3,14 @@ angular.module('app.services.lista', [])
 	
 	 var database = BaseListas;
 	 var listaSeleccionada = null;
-	   
+	 
+	   function calcularTotalElementos($lista){
+		   var total = 0;
+		   for(var i = 0; i < $lista.length; i++){
+			   total += Number($lista[i].cantidad);
+		   }
+		   return total;
+	   }
 	   
 	  this.getListas = function() {
 	        return database.allDocs({include_docs:true}).then(function(result){
@@ -14,9 +21,11 @@ angular.module('app.services.lista', [])
 	   this.guardarLista = function($nombre,$desc,$lista, $editando){
 		   var nuevaLista = {};
 		   nuevaLista.nombre = $nombre;
+		   
 		   nuevaLista.descripcion = $desc;
 		   nuevaLista.productos = $lista;
 		   nuevaLista._id = $nombre;
+		   nuevaLista.totalProductos = calcularTotalElementos($lista);
 		   if($editando){
 			   return database.get($nombre).then(function(doc) {
 				   nuevaLista._rev=doc._rev;

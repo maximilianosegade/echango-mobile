@@ -1,37 +1,43 @@
 <ion-view title="Parámetros de Simulación" id="page12">
     <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
-        <div id="parMetrosDeSimulaciN-markdown38" style="color:#000000;font-size:16px;text-align:center;">
+        <div id="parametrizaciNDeCompra-markdown45" style="color:#000000;font-size:16px;text-align:center;">
             <p>Ayuda a eChango a parametrizar tu compra. Dinos dónde te encuentras, cómo pagarás y si usarás una lista de compra definida por ti.</p>
         </div>
-        <ion-list id="parMetrosDeSimulaciN-list48">
-            <ion-item class="item-icon-left dark" id="parMetrosDeSimulaciN-list-item110" ui-sref="agregarSucursal">
-                <i class="icon ion-android-compass"></i>Selecciona Comercio</ion-item>
-            <ion-item class="item-icon-left dark" id="parMetrosDeSimulaciN-list-item111" ui-sref="mediosDePago">
-                <i class="icon ion-cash"></i>Selecciona Medio de Pago</ion-item>
-            <ion-item class="item-icon-left dark" id="parMetrosDeSimulaciN-list-item112" ui-sref="descuentos">
-                <i class="icon ion-android-happy"></i>Selecciona Descuento</ion-item>
-        </ion-list>
-        <div class="list card" id="parMetrosDeSimulaciN-card24">
-            <div class="item item-body" id="parMetrosDeSimulaciN-list-item-container13">
-                <h2 id="parMetrosDeSimulaciN-heading15" style="color:#000000;font-weight:600;text-align:center;">Parámetros Seleccionados</h2>
-                <ion-list id="parMetrosDeSimulaciN-list49">
-                    <ion-item class="item-thumbnail-left dark" id="parMetrosDeSimulaciN-list-item114">
-                        <img src="img/wrwn2KGnQfOgXdi041HL_Mapa.PNG">
-                        <h2dark>Sucursal 1 - Italia 77</h2dark>
+
+        <div class="list card" id="parametrizaciNDeCompra-card23">
+            <div class="item item-body" id="parametrizaciNDeCompra-list-item-container12">
+                <h2 id="parametrizaciNDeCompra-heading14" style="color:#000000;font-weight:600;text-align:center;">Parámetros Seleccionados</h2>
+                <ion-list id="parametrizaciNDeCompra-list46">
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item98" ng-click="elegirComercio()">
+                      <!--  <img src="img/wrwn2KGnQfOgXdi041HL_Mapa.PNG"> -->
+                      <i class="icon ion-android-compass"></i>Comercio:
+                        <span class="item-note">{{comercio.nombre}},{{comercio.direccion}}</span>                        
                     </ion-item>
-                    <ion-item class="item-icon-left dark" id="parMetrosDeSimulaciN-list-item115">
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item100"  ng-click="elegirMedioDePago()">
                         <i class="icon ion-cash"></i>Medio de Pago:
-                        <span class="item-note">Visa BBVA</span>
+                        <span class="item-note">{{medioDePago.tarjeta.nombre}} {{medioDePago.banco.nombre}}</span>
                     </ion-item>
-                    <ion-item class="item-icon-left dark" id="parMetrosDeSimulaciN-list-item119">
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item101" ng-click="elegirDescuento()" >
                         <i class="icon ion-android-happy"></i>Descuento:
-                        <span class="item-note">N/A</span>
+                        <span class="item-note">{{descuento.nombre}}</span>
                     </ion-item>
-                    <ion-item class="item-icon-left dark" id="parMetrosDeSimulaciN-list-item120">
-                        <i class="icon ion-android-clipboard"></i>Lista de Compra: Casa</ion-item>
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item109" ng-click="elegirLista()">
+                        <i class="icon ion-android-clipboard"></i>Lista de Compra: 
+                        <span class="item-note">{{lista.nombre}}</span>
+                        </ion-item>
                 </ion-list>
             </div>
         </div>
-        <a ui-sref="eChango" id="parMetrosDeSimulaciN-button103" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-cart">Simular Compra</a>
+        <a ng-click="simularCompra()" id="parametrizaciNDeCompra-button134" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-cart">Seleccionar Fecha y Simular</a>
+          <!--      <ion-list id="parametrizaciNDeCompra-list33">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item94" ng-click="elegirComercio()" >
+                <i class="icon ion-android-compass"></i>Selecciona Comercio</ion-item>
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item95" ng-click="elegirMedioDePago()" >
+                <i class="icon ion-cash"></i>Selecciona Medio de Pago</ion-item>
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item96" ng-click="elegirDescuento()" >
+                <i class="icon ion-android-happy"></i>Selecciona Descuento</ion-item>
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item97" ng-click="elegirLista()">
+                <i class="icon ion-android-clipboard"></i>Selecciona Tipo de Lista</ion-item>
+        </ion-list>-->
     </ion-content>
 </ion-view>

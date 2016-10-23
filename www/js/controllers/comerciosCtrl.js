@@ -41,8 +41,12 @@ $scope.seleccionar = function(index){
    
    $scope.elegirComercio = function (index){
 	   UbicacionesService.indice = index;
-  	 ComprarService.seleccionarComercio(item).then(function(){
-  		 $state.go('menEChango.parametrizaciNDeCompra');		 
+  	 ComprarService.seleccionarComercio( $scope.comercios[index]).then(function(){
+  		 if(ComprarService.simulacion){
+		 	$state.go('menEChango.parMetrosDeSimulaciN');	
+		 }else{
+			 $state.go('menEChango.parametrizaciNDeCompra');
+		 }	 
   	 });
   		
    } 

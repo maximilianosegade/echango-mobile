@@ -31,7 +31,11 @@ angular.module('app.controllers.medioPago', [])
     
     $scope.elegirMedioDePago = function (item){
    	 ComprarService.seleccionarMedioDePago(item).then(function(){
-   		 $state.go('menEChango.parametrizaciNDeCompra');		 
+   		 if(ComprarService.simulacion){
+   			$state.go('menEChango.parMetrosDeSimulaciN');	
+   		 }else{
+   			 $state.go('menEChango.parametrizaciNDeCompra');
+   		 }
    	 });
    		
     }

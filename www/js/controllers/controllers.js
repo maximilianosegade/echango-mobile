@@ -64,11 +64,10 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('gestiNDeCompraCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+.controller('gestiNDeCompraCtrl', function ($scope, $stateParams, ListaService) {
+ListaService.simulacion = false;
 
-
-}])
+})
    
 .controller('parametrizaciNDeCompraCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
@@ -93,12 +92,12 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+   /*
 .controller('cerrarChangoCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
 
-}])
+}])*/
    
 .controller('compraSimuladaCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {

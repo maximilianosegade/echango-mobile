@@ -2,9 +2,8 @@
     <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
         <ion-list id="eChango-list35">
             <ion-item class="item-thumbnail-left dark" id="eChango-list-item102">
-                <img src="img/Lfb0Rr7Tz2VnOPijvrXg_Coto.png">
-                <h2dark>Sucursal 1 - Italia 77
-                    <p style="white-space:normal;">Cant. Prod.: 04/28 --------------------Valorizado: $137,48</p>
+                <h2dark>{{comercio.nombre}},{{comercio.direccion}}
+                    <p style="white-space:normal;">Cant. Prod.: {{chango.cantidadElementos}}/{{lista.totalProductos}} --------------------Valorizado: ${{chango.total}}</p>
                 </h2dark>
             </ion-item>
         </ion-list>
@@ -14,31 +13,20 @@
         </div>
         <div class="spacer" style="width: 320px; height: 12px;"></div>
         <div class="item item-body" id="eChango-list-item-container9">
-            <a ui-sref="menEChango.agregarProducto" id="eChango-button139" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-qr-scanner">Escanear Producto</a>
+            <a ng-click="escannear()" id="eChango-button139" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-qr-scanner">Escanear Producto</a>
             <form id="eChango-form37" class="list">
-                <label class="item item-input">
+         <!--       <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>
                     <input type="search" placeholder="">
                 </label>
-                <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
-                <ion-item class="dark" id="eChango-list-item104" ui-sref="agregarProducto">
-                    <span class="item-note">Coca Cola 2.25 lt (4 u.)</span>
-                </ion-item>
-                <ion-item id="eChango-list-item105" ui-sref="agregarProducto">
-                    <span class="item-note">Yerba Mate 0.5 kg (2 u.)</span>
-                </ion-item>
-                <ion-item id="eChango-list-item106" ui-sref="agregarProducto">
-                    <span class="item-note">Hamburguesas (8 u.)</span>
-                </ion-item>
+         -->      
                 <ion-item class="item-divider" id="eChango-list-item-divider4">Productos en Chango</ion-item>
-                <ion-item class="dark" id="eChango-list-item103" ui-sref="agregarProducto">Yogurt Descremado (3 u.)
-                    <span class="item-note">$27,36</span>
+                                <ion-item ng-repeat="producto in chango.productos" >
+                	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
-                <ion-item class="dark" id="eChango-list-item107" ui-sref="agregarProducto">Galletitas Óreo (2 u.)
-                    <span class="item-note">$42,64</span>
-                </ion-item>
-                <ion-item class="dark" id="eChango-list-item108" ui-sref="agregarProducto">Vino Bravío Malbec (1 u.)
-                    <span class="item-note">$67,48</span>
+                <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
+                                <ion-item ng-repeat="producto in lista.productos" >
+                	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
             </form>
         </div>

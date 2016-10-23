@@ -30,7 +30,12 @@ angular.module('app.controllers.agregarTarjetaPromocional', [])
     
     $scope.elegirDescuento = function (item){
    	 ComprarService.seleccionarDescuento(item).then(function(){
-   		 $state.go('menEChango.parametrizaciNDeCompra');		 
+   		 if(ComprarService.simulacion){
+   			$state.go('menEChango.parMetrosDeSimulaciN');	
+   		 }else{
+   			 $state.go('menEChango.parametrizaciNDeCompra');
+   		 }
+   				 
    	 });
    		
     }

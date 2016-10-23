@@ -13,7 +13,17 @@ angular.module('app.controllers.lista', [])
 		 });
 		 
 		 $scope.simular = ComprarService.simular;
+		 if($scope.simular){
+			 ComprarService.obtenerParametrosSimulacion();
+		 }
+		 
  });
+ 
+ $scope.simularConLista = function(){
+	 ComprarService.simular = true;
+	 ListaService.simular = true;
+	 $state.go('menEChango.misListas');
+ }
  
  $scope.seleccionar = function(lista){
 	 if($scope.simular){
@@ -25,7 +35,11 @@ angular.module('app.controllers.lista', [])
  
  $scope.elegirLista = function (lista){
 	 ComprarService.seleccionarLista(lista).then(function(){
-		 $state.go('menEChango.parametrizaciNDeCompra');		 
+		 	if($scope.simular){
+		 	$state.go('menEChango.parMetrosDeSimulaciN');	
+		 }else{
+			 $state.go('menEChango.parametrizaciNDeCompra');
+		 }	 
 	 });
 		
  }
