@@ -28,30 +28,28 @@ angular.module('app.services', [])
   dbSync.baseComerciosLocal = BaseComercios;
   dbSync.basePreciosPorComercio = BasePreciosPorComercio;
   dbSync.comerciosService = ComerciosService;
-
+    
   dbSync.init = function(){
-    //this.compactDb();
-    console.log("[DB Sync] Iniciando sincronizacion...");
+    this.compactDb();
     this.syncProductos();
     this.syncComercios();
   }
 
-  // TODO: Implementar Compactacion de DB al iniciar la APP.
   dbSync.compactDb = function(){
     
-    console.log('Iniciando compactacion de BD.');
-      
-    console.log('Compactando BD Productos... ');
+    console.log('[Compactar BD] - Productos.');
     this.baseProductosLocal.compact().then(function(){
-      console.log('Compactando BD Comercios... ');
-      return this.baseComerciosLocal.compact();
-    }).then(function(){
-      console.log('Compactando BD Precios por Comercios... ');
-      return this.basePreciosPorComercio.compact();
-    }).then(function(){
-      console.log('Finalizo la compactacion.');
-    }).catch(function(err){
-        console.log('Fallo la compactacion de la BD. ' + err);
+      console.log('[Compactar BD] - Fin Productos.');
+    });
+      
+    console.log('[Compactar BD] - Comercios.');
+    this.baseComerciosLocal.compact().then(function(){
+      console.log('[Compactar BD] - Fin Comercios.');
+    });
+      
+    console.log('[Compactar BD] - Precios por comercio.');
+    this.basePreciosPorComercio.compact().then(function(){
+      console.log('[Compactar BD] - Fin Precios por comercio.');
     });
       
   }
@@ -78,18 +76,22 @@ angular.module('app.services', [])
       
     dbSync.comerciosService.comerciosCercanosPosicionActual().then(function(ids){
     
+        console.debug('[DB Sync] IDs comercios pos actual: ' + ids);
         idComercios = idComercios.concat(ids);
         return dbSync.comerciosService.comerciosCercanosUbicacionesSeleccionadas();
     
     }).then(function(ids){
         
+        console.debug('[DB Sync] IDs comercios cercanos a ubicaciones seleccionadas: ' + ids);
         idComercios = idComercios.concat(ids);
         return dbSync.comerciosService.comerciosSeleccionados();
         
     }).then(function(ids){
     
+        console.debug('[DB Sync] IDs comercios seleccionados: ' + ids);
         idComercios = idComercios.concat(ids);
-        console.log(idComercios);
+        
+        idComercios = _.uniq(idComercios);
         
         if (idComercios.length > 0){
             
@@ -98,7 +100,7 @@ angular.module('app.services', [])
                 dbSync.basePreciosPorComercioSyncHandler.cancel();
             }
 
-            console.log("Replicar DB precios para comercios cercanos: " + JSON.stringify(idComercios));
+            console.log("Replicar DB precios para comercios: " + idComercios);
 
             dbSync.basePreciosPorComercioSyncHandler =  dbSync.basePreciosPorComercio.replicate.from('https://webi.certant.com/echango/precios_por_comercio', {
                 live: true,

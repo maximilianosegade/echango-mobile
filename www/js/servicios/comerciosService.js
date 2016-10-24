@@ -3,8 +3,7 @@ angular.module('app.services.comercios', [])
     
     const URL_COMERCIOS_CERCANOS = 
           'http://marte.certant.com/msegade/echango/comercios_cercanos.js'
-    const RADIO_DEFAULT = 0.1;
-    
+        
     var baseLocal = BaseLocal;
 	
 	function mapNombreCadena(doc) {
@@ -26,75 +25,39 @@ angular.module('app.services.comercios', [])
     }
     
     /*
-    Obtiene los comercios en una zona geografica determinada.
-    Se toma como centro el punto geografico definido por ('lat', 'long').
+    Obtiene los comercios en una zona geografica determinada por un
+    punto central y un radio.
+    Recibe un array de posiciones, del estilo: 
+        {
+            lat: -34.454645,
+            long: -58.54564654
+        }
     El parametro 'radio' (opcional), indica delimita el radio de dicha
-    zona en KM. Si no se especifica se toma el valor default RADIO_DEFAULT.
+    zona en KM. Si no se especifica se toma el valor default en el servidor.
     */
-    var comerciosCercanosAUnPuntoGeografico = function(lat, long, radio){
+    var comerciosCercanosPuntosGeograficos = function(posiciones, radio){
 		
-        var url = URL_COMERCIOS_CERCANOS +  
-            '?lat=' + lat +
-            '&long=' + long;
+        var url = URL_COMERCIOS_CERCANOS + '?';
         
+        for (var i=0; i<posiciones.length; i++){
+            url += 
+                ('lat' + i + '=' + posiciones[i].lat + '&' +
+                'long' + i + '=' + posiciones[i].long + '&');            
+        }
+                
         if (radio)
-            url += '&radio=' + radio;
+            url += 'radio=' + radio;
         
-        console.debug('[Comercios cercanos ('+lat+', '+long+') - query]: ' + url);
+        console.debug('[Comercios cercanos - query]: ' + url);
         
         // TODO: Invocar servicio REST
         //comerciosQuery = $http.jsonp(url);
         comerciosQuery = new Promise(function(resolve, reject){
-           resolve({data: ['12-1-186']}) 
+           resolve(['12-1-186','12-1-91']);
         });
         
         return comerciosQuery;    
-    }
-    
-    /*
-    Obtiene los comercios en zonas geograficas determinadas por el array
-    'puntos', que contiene objetos del tipo: {lat:-34.546454, long:-58.65465465}.
-    El parametro 'radio' (opcional), indica delimita el radio de dicha
-    zona en KM. Si no se especifica se toma el valor default RADIO_DEFAULT.
-    */
-    var comerciosCercanosASerieDePuntosGeograficos = function(puntos, radio){		
-        
-        var puntosConsultados = 0;
-        var comerciosCercanos = [];
-
-        return new Promise(function(resolve, reject){
-            
-            for(var i=0; i<puntos.length; i++){
-
-                (function(){
-                    var punto = puntos[i];
-                    var lat = punto.lat;
-                    var long = punto.long;
-
-                    var query = comerciosCercanosAUnPuntoGeografico(lat, long, radio);
-
-                    query.then(function(response){                            
-                        console.debug('[Comercios cercanos ('+lat+', '+long+') - response]: ' + 
-                            JSON.stringify(response.data));
-
-                        for (var j=0; j<response.data.length; j++)
-                            comerciosCercanos.push(response.data[j]);
-
-                        puntosConsultados++;
-                        if (puntosConsultados == puntos.length)
-                            resolve(comerciosCercanos);
-                    }).catch(function(err){
-                        console.error('[Comercios cercanos]: ' + JSON.stringify(err));
-                        reject(err);
-                    });
-
-                })();
-
-            }
-        
-        });
-
-    }
+    }    
     
     this.comerciosCercanosPosicionActual = function(){        
         console.log('[ID Comercios - Ubicacion actual].');
@@ -103,10 +66,18 @@ angular.module('app.services.comercios', [])
             
             navigator.geolocation.getCurrentPosition(function (pos) {
 
-                resolve(comerciosCercanosASerieDePuntosGeograficos([{
-                    lat: pos.coords.latitude,
-                    long: pos.coords.longitude
-                }]));
+                var queryComerciosCercanos = 
+                    comerciosCercanosPuntosGeograficos([{
+                        lat: pos.coords.latitude,
+                        long: pos.coords.longitude
+                    }]);
+                
+                queryComerciosCercanos.then(function(idComercios){
+                    resolve(idComercios);
+                }).catch(function(err){
+                    console.error('[ID Comercios - Ubicacion actual]: ' + err);    
+                    resolve([]);
+                });
 
             }, function (error) {
                 console.error('[ID Comercios - Ubicacion actual]: ' + error.message);    
@@ -125,20 +96,24 @@ angular.module('app.services.comercios', [])
             
             baseLocal.get('ubicaciones').then(function(resp){
                 var puntosGeograficos = [];
-
-                for (var i=0; i<resp.ubicaciones.length; i++){
-                    puntosGeograficos.push({
-                        lat: resp.ubicaciones[i].latitud,
-                        long: resp.ubicaciones[i].longitud                    
-                    });
+                
+                if (resp.ubicaciones){ 
+                    for (var i=0; i<resp.ubicaciones.length; i++){
+                        puntosGeograficos.push({
+                            lat: resp.ubicaciones[i].latitud,
+                            long: resp.ubicaciones[i].longitud                    
+                        });
+                    }
                 }
 
-                // TODO: Definir radio.
-                resolve(comerciosCercanosASerieDePuntosGeograficos(puntosGeograficos));
+                return comerciosCercanosPuntosGeograficos(puntosGeograficos);
+                
+            }).then(function(idComercios){
+                resolve(idComercios);
             }).catch(function(err){
                 console.error('[ID Comercios - Ubicaciones seleccionadas]: ' + err)
                 resolve([]);
-            })
+            });
             
         });
         
@@ -154,14 +129,15 @@ angular.module('app.services.comercios', [])
             baseLocal.get('ubicaciones').then(function(resp){
                 var idComercios = [];
                 
-                for (var i=0; i<resp.comercios.length; i++){
-                    idComercios.push(resp.comercios[i]._id);
+                if (resp.comercios){   
+                    for (var i=0; i<resp.comercios.length; i++){
+                        idComercios.push(resp.comercios[i]._id);
+                    }
                 }
 
-                // TODO: Definir radio.
                 resolve(idComercios);
             }).catch(function(err){
-                console.error('[ID Comercios - Preferidos]: ' + err)
+                console.error('[ID Comercios - Preferidos]: ' + err);
                 resolve([]);
             });
             
