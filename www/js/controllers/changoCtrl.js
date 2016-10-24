@@ -63,13 +63,28 @@ angular.module('app.controllers.chango', [])
 	 }
  
 })
-.controller('cerrarChangoCtrl', function($scope,ComprarService, ) {
+.controller('cerrarChangoCtrl', function($scope,$state,ComprarService ) {
+	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		$scope.simulacion = ComprarService.simulacion;
 		
 		if($scope.simulacion){
 			$scope.compra = $scope.simulacion;
+			$scope.compra.simulada = true;
 		}
 	 });
+	
+	
+	$scope.guardarCompra = function(){
+		
+		ComprarService.guardarCompra($scope.compra).then(function(){
+			if($scope.compra.simulada){
+				$state.go('menEChango.parMetrosDeSimulaciN');	
+			}else{
+				$state.go('menuPrincipal');	
+			}
+		})
+		
+	}
 	
 })

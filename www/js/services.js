@@ -17,6 +17,9 @@ angular.module('app.services', [])
 .factory('BaseProductos', function() {
   return new PouchDB('baseProductos');
 })
+.factory('BaseCompras', function() {
+  return new PouchDB('baseCompras');
+})
 
 
 
