@@ -144,6 +144,14 @@ angular.module('app.routes', [])
     templateUrl: 'templates/misListas.html',
     controller: 'listaCtrl'
  }}})
+ 
+ .state('menEChango.listaParaCompra', {
+    url: '/my-shopping-lists',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/listaParaCompra.html',
+    controller: 'listaCtrl'
+ }}})
 
  .state('menEChango.simularCompraConLista', {
     url: '/purchase-simulation',

@@ -1,9 +1,9 @@
 angular.module('app.controllers.chango', [])
-.controller('miChangoCtrl', function($scope,EscannerService, ProductoService,ComprarService) {
+.controller('miChangoCtrl', function($scope, $state,EscannerService, ProductoService,ComprarService) {
 
 	$scope.chango =  {productos:[],
 			total:0,
-			cantidadElementos: 0};
+			totalProductos: 0};
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
@@ -52,7 +52,7 @@ angular.module('app.controllers.chango', [])
 	 }
  
 	 function agregarAlChango(producto){
-		 $scope.chango.cantidadElementos++;
+		 $scope.chango.totalProductos++;
 		 for(var i = 0; $scope.chango.productos.length> i;i++){
 			 if($scope.chango.productos[i]._id = producto._id){
 				 $scope.chango.productos[i].cantidad++;
@@ -61,17 +61,26 @@ angular.module('app.controllers.chango', [])
 		 }	
 		 $scope.chango.productos.push(producto)	 
 	 }
+	 
+	 $scope.cerrarChango = function () {
+		 ComprarService.simulacion = false;
+					 ComprarService.simularCompra($scope.chango,$scope.comercio,
+								$scope.medioDePago, $scope.descuento,new Date() ).then(function(simulacion){
+									
+									ComprarService.simulacion = simulacion;
+									ComprarService.simulada = false;
+		
+									$state.go('menEChango.cerrarChango');
+								});
+		 }	
  
 })
 .controller('cerrarChangoCtrl', function($scope,$state,ComprarService ) {
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
-		$scope.simulacion = ComprarService.simulacion;
+		$scope.compra = ComprarService.simulacion;
+		$scope.compra.simulada = ComprarService.simulada;
 		
-		if($scope.simulacion){
-			$scope.compra = $scope.simulacion;
-			$scope.compra.simulada = true;
-		}
 	 });
 	
 	

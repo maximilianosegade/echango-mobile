@@ -35,7 +35,7 @@ angular.module('app.controllers.lista', [])
  
  $scope.elegirLista = function (lista){
 	 ComprarService.seleccionarLista(lista).then(function(){
-		 	if($scope.simular){
+		 	if(ComprarService.simulacion){
 		 	$state.go('menEChango.parMetrosDeSimulaciN');	
 		 }else{
 			 $state.go('menEChango.parametrizaciNDeCompra');

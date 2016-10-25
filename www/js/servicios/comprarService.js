@@ -204,7 +204,15 @@ angular.module('app.services.compras', [])
 	}
 	
 	this.guardarCompra = function(compra){
-		compra._id = "" + compra.medioDePago.tarjeta._id+  compra.medioDePago.banco._id+ compra.descuento._id+ compra.fecha.getTime() + compra.comercio._id;
+		compra._id = "" +  compra.fecha.getTime() + compra.comercio._id;
+		
+		if(compra.medioDePago){
+			compra._id +=compra.medioDePago.tarjeta._id;
+			compra._id += compra.medioDePago.banco._id;
+		}
+		if(compra.descuento){
+			compra._id +=compra.descuento._id;
+		}
 		return BaseCompras.put(compra)
 	}
 	

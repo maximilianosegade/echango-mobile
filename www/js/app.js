@@ -60,7 +60,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
         //agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
-        // agregarProductos(BaseProductos);
+       // agregarProductos(BaseProductos);
 
 } 
 
@@ -163,9 +163,14 @@ function agregarProductos(BaseProductos){
             			   						tarjeta:1,
             			   						acumulable: 0}]},
 				                	   {id: '2',
-				                		   lista: 60},
+				                		   lista: 60,
+				                		   promociones:[{plastico:1,
+           			   						banco:1,
+           			   						tarjeta:1,
+           			   						acumulable: 0}]},
 				                	   {id: '3',
-				                		   lista: 80}],
+				                		   lista: 80,
+				                		   promociones:[]}],
             		   
 	     	        	
 	                 }, {
@@ -174,11 +179,14 @@ function agregarProductos(BaseProductos){
 	 	                   ean: '7790290001193',
 	 	                   etiquetas: ['Fernet','alcohol'],
 	 	                   precios: [{id: '1',
-	 	                	   					lista: 90},
+	 	                	   					lista: 90,
+	 				                		   promociones:[]},
 	 				                	   {id: '2',
-	 				                		   lista: 40},
+	 				                		   lista: 40,
+					                		   promociones:[]},
 	 				                	   {id: '3',
-	 				                		   lista: 20}]
+	 				                		   lista: 20,
+					                		   promociones:[]}]
 	 	                 },
 	 	                {
 		     					_id: '7891136052000',
@@ -186,11 +194,14 @@ function agregarProductos(BaseProductos){
 		                   ean: '7891136052000',
 		                   etiquetas: ['Campari','alcohol'],
 		                   precios: [{id: '1',
-		                	   					lista: 70},
+		                	   					lista: 70,
+						                		   promociones:[]},
 					                	   {id: '2',
-					                		   lista: 60},
+					                		   lista: 60,
+					                		   promociones:[]},
 					                	   {id: '3',
-					                		   lista: 80}]
+					                		   lista: 80,
+					                		   promociones:[]}]
 		                 },
 		 	                {
 		     					_id: '088004144708',
