@@ -52,6 +52,7 @@ function borrarBase(BaseLocal){
 function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
   
 		parametriaSimulacion(BaseLocal);
+		ubicacionesYcomercios(BaseLocal);
          agregarTarjetas(BaseLocal);
          agregarUbicaciones(BaseLocal);
          agregarProvincias(BaseComercios);
@@ -63,6 +64,29 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
        // agregarProductos(BaseProductos);
 
 } 
+
+function ubicacionesYcomercios(db){
+	
+	db.get('ubicaciones').then(function(doc){
+           if(doc.ubicaciones){        		   
+     	   for(var i = doc.ubicaciones.length; 3 >    i ; i++){
+     		  doc.ubicaciones[i] = {
+                      "nombre": "Sin selección",
+                      "direccion": "Sin selección"
+                    };
+        	   }
+           }
+           if(doc.comercios){ 
+     	  for(var j= doc.comercios.length; 3 >    j ; j++){
+     		  doc.comercios[j] = {
+                      "nombre": "Sin selección",
+                      "direccion": "Sin selección"
+                    };
+        	   }
+           }
+           db.put(doc);
+         });
+   }
 
 function agregarProvincias(db){
 	

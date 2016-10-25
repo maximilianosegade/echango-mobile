@@ -179,8 +179,9 @@ angular.module('app.controllers.login', [])
         $scope.showGooglePlus = false;
         //$state.go('app.home');
       },
-      function (msg) {
+      function (msg) {    	  
         alert('Google+ login fail!');
+        console.log(msg)
         $ionicLoading.hide();
       }
     );
