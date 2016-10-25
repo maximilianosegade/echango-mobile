@@ -1,29 +1,60 @@
 angular.module('app.services.compras', [])
-.service("ComprarService", function(BaseLocal,ProductoService) {
+.service("ComprarService", function(BaseLocal,ProductoService, BaseCompras) {
 	
 	var comercio = null;
 	var lista = null;
+	var medioDePago = null;
+	var descuento = null;
 	var simular = false;
 	var simulacion = null;
+	var parametrosSim = null;
 	
-	this.seleccionarComercio = function (com){
-		comercio = com;
+	this.obtenerParametrosSimulacion = function(){
+		return BaseLocal.get('parametrosSimulacion').then(function(doc){
+			actualizarParametrosSimulacion(doc);
+			parametrosSim = doc;
+			return doc;
+		});
 	}
 	
-
-	this.comercioSeleccionado = function (){
-		return comercio;
+	function updateParametros(){
+		return BaseLocal.get('parametrosSimulacion').then(function(doc) {
+			doc.comercio = parametrosSim.comercio;
+			doc.lista = parametrosSim.lista;
+			doc.medioDePago = parametrosSim.medioDePago;
+			doc.descuento = parametrosSim.descuento;		
+   	        return BaseLocal.put(doc);
+        })
 	}
 	
+	function actualizarParametrosSimulacion(doc){		
+			this.comercio = doc.comercio;
+			this.lista = doc.lista;
+			this.medioDePago = doc.medioDePago;
+			this.descuento = doc.descuento;			
+	}
+	
+	this.seleccionarComercio = function (com){		
+		parametrosSim.comercio = com;
+		return updateParametros();
+	}
 	
 	this.seleccionarLista = function (lis){
-		lista = lis;
+		parametrosSim.lista = lis;		
+		return updateParametros();		
+	}
+	
+	this.seleccionarMedioDePago = function (medioDePago){		
+		parametrosSim.medioDePago = medioDePago;
+		return updateParametros();
+	}
+	
+	this.seleccionarDescuento = function (descuento){
+		parametrosSim.descuento = descuento;		
+		return updateParametros();		
 	}
 	
 
-	this.listaSeleccionada = function (){
-		return lista;
-	}
 	/*
 	 * Cada elemento de la lista es de la forma, donde precio es un elemento de precios
 	 * {
@@ -82,7 +113,7 @@ angular.module('app.services.compras', [])
 	function actualizarProductos(productos, productosNuevos){
 		
 		if(productos.length > 0){
-			return ProductoService.getProductoPorEAN(productos[0].ean).then(function (producto){	
+			return ProductoService.getProductoPorEAN(productos[0]._id).then(function (producto){	
 				 producto.cantidad = productos[0].cantidad;
 				 productosNuevos.push(producto);
 				 productos.splice(0,1);
@@ -96,7 +127,97 @@ angular.module('app.services.compras', [])
 		
 	}
 	
-	this.simularCompra = function(lista, comercio, mediosDePagoRegistrados,tarjetasPromocionalesRegistradas,fecha ){
+	this.simularCompra = function(lista, comercio, medioDePago,descuento,fecha ){
+		
+		
+		return actualizarProductos(lista.productos, []).then(function( productosNuevos){
+			lista.productos = productosNuevos;
+			var simulacion = {};
+			var costos = [];
+			var costo = {
+									valorTotal: 0,
+									descuentoTotal: 0,
+									valorLista:0,
+									productos: []
+								};
+			var precioASumar = null;
+			var descuentoActual = 0;
+			
+				for(var j=0;productosNuevos.length > j; j++){
+					
+					for(var k = 0; productosNuevos[j].precios.length > k;k++){
+						if(productosNuevos[j].precios[k].id == comercio._id){
+							//estamos en el comercio seleccionado
+							
+							precioASumar = productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
+							costo.valorLista =+ precioASumar;
+							seguirPromocion = true;
+							for(var l = 0; productosNuevos[j].precios[k].promociones.length > l ;l++){
+								if(productosNuevos[j].precios[k].promociones[l].plastico < 1 || productosNuevos[j].precios[k].promociones[l].plastico == medioDePago.tarjeta._id){
+									//La promoción no implica plástico o tiene el plástico de la promoción
+									if(productosNuevos[j].precios[k].promociones[l].banco < 1 || productosNuevos[j].precios[k].promociones[l].banco == medioDePago.banco._id){
+										//La promoción no implica ningún banco o el plastico es del banco de la promoción										
+											if(productosNuevos[j].precios[k].promociones[l].tarjeta < 1 || productosNuevos[j].precios[k].promociones[l].tarjeta == descuento._id){
+												//La promoción no implica tarjeta de descuento o tiene la tarjeta de descuento
+												if(productosNuevos[j].precios[k].promociones[l].valor > 0){
+													//promocion estilo precios cuidados
+													descuentoActual = precioASumar-  productosNuevos[j].precios[k].promociones[l].valor * productosNuevos[j].cantidad ;
+													precioASumar = precioASumar - descuentoActual;
+												}else if (productosNuevos[j].precios[k].promociones[l].cantidad > 0){
+													//promocion tipo 2x1
+													descuentoActual = productosNuevos[j].precios[k] * productosNuevos[j].cantidad * productosNuevos[j].precios[k].promociones[l].porcentaje;
+													precioASumar = precioASumar - descuentoActual;
+												}else if(productosNuevos[j].precios[k].promociones[l].porcentaje > 0){
+													//promociones tipo 20% de descuento con credito
+													descuentoActual = productosNuevos[j].precios[k] * productosNuevos[j].cantidad * productosNuevos[j].precios[k].promociones[l].porcentaje;
+													precioASumar = precioASumar - descuentoActual;
+												}
+												//se aplicó alguno de los tipos de promoción, salimso del for de promociones
+												l = 64000; //para salir de promociones											
+											}
+									}
+								}
+							}//cierre FOR promociones
+							//recorrida las promociones o encontró una o dejó el precio de lista
+							costo.productos.push({_id: productosNuevos[j]._id,
+								nombre: productosNuevos[j].nombre,
+								precio: precioASumar});
+							costo.valorTotal =+ precioASumar;
+							costo.descuentoTotal =+  descuentoActual;
+							k = 64000;//para salir de comercios
+						}
+					}//ciere For de PRECIOS	
+				
+				
+			}//ciere FOR de PRODUCTOS
+				//costos.push(costo);
+			simulacion.costo = costo;
+			simulacion.lista = lista;
+			simulacion.comercio = comercio;
+			simulacion.fecha = fecha;
+			simulacion.medioDePago = medioDePago;
+			simulacion.descuento = descuento;
+			return simulacion;
+		});
+		
+		
+	}
+	
+	this.guardarCompra = function(compra){
+		compra._id = "" +  compra.fecha.getTime() + compra.comercio._id;
+		
+		if(compra.medioDePago){
+			compra._id +=compra.medioDePago.tarjeta._id;
+			compra._id += compra.medioDePago.banco._id;
+		}
+		if(compra.descuento){
+			compra._id +=compra.descuento._id;
+		}
+		return BaseCompras.put(compra)
+	}
+	
+	
+this.verificarChango = function(lista, comercio, mediosDePagoRegistrados,tarjetasPromocionalesRegistradas,fecha ){
 		
 		
 		return actualizarProductos(lista.productos, []).then(function( productosNuevos){
@@ -170,7 +291,6 @@ angular.module('app.services.compras', [])
 		
 		
 	}
-	
 	
 	
 	

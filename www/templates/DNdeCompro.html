@@ -1,0 +1,21 @@
+<ion-view title="¿Dónde Compro?" id="page38">
+    <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <div class="spacer" style="width: 320px; height: 13px;"></div>
+        <div id="DNdeCompro-markdown19" style="color:#000000;font-size:16px;text-align:center;">
+            <p>Con eChango podés configurar hasta 3 sucursales donde realices compras de manera frecuente.</p>
+
+            <p>Dichas sucursales serán utilizadas como referencia para sugerencia de descuentos y promociones.</p>
+        </div>
+        <ion-list id="DNdeCompro-list14">
+            <ion-item class="item-thumbnail-left item-icon-right energized" 
+            ng-repeat="(i,item) in  comercios track by $index" 
+          ng-click="seleccionar(i)">
+                <h2energized>{{item.nombre}}
+                    <p style="white-space:normal;">{{item.direccion}}</p>
+                    <i class="icon ion-android-bookmark"></i>
+                </h2energized>
+            </ion-item>
+            
+        </ion-list>
+    </ion-content>
+</ion-view>

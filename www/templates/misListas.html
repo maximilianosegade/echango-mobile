@@ -1,18 +1,26 @@
-<ion-view title="Mis listas" id="page10" class=" ">
-    <ion-content padding="true" class="has-header">
-        <a ui-sref="menu.nuevaLista" id="misListas-button29" class=" button button-positive  button-block icon-left ion-android-add ">Nueva Lista</a>
-        <a ng-click="combinarListas()" id="misListas-button29" class=" button button-positive  button-block icon-left ion-android-add ">Combinar Listas Seleccionadas</a>
-        <ion-list id="misListas-list7" can-swipe="true" show-delete="true" type="list-inset" >
-              <ion-item class="enable-pointer-events"
-               ng-repeat="(i,item) in listasGuardadas  track by $index"  id="item._id" on-hold="onHold(item)" >
-               
-	            <ion-toggle style="width: 50%; float: left;" ng-model="listasGuardadas[i].selected">{{item.nombre }}</ion-toggle>
-	            <a ng-click="editar(item)" id="misListas-button37" class=" button button-positive icon-left ion-edit ">Editar</a>
-	            <a ng-click="simular(item)" id="misListas-button37" class=" button button-positive icon-left ion-eye ">Simular</a>
-	            
+<ion-view title="Mis Listas" id="page10">
+    <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <div class="spacer" style="width: 320px; height: 13px;"></div>
+        <div id="misListas-markdown36" style="color:#000000;font-size:16px;text-align:center;">
+            <p>¡Gestioná tus listas según más te convenga! Haz una para tu hogar, otra para un evento en particular o incluso una lista para comprar los productos para un hermoso almuerzo familiar.</p>
+
+            <p>¡Simple y sencillo, como a vos te gusta!</p>
+        </div>
+        <div class="spacer" style="width: 320px; height: 9px;"></div>
+        <ion-list id="misListas-list26" can-swipe="true" show-delete="true">
+        <ion-item class="enable-pointer-events item-thumbnail-left energized"
+               ng-repeat="(i,item) in listasGuardadas  track by $index"  id="item._id" ng-click="seleccionar(item)" >
+              <!-- <img src="img/1spZKGlfTnLpthErjxRJ_casa.png"> -->
+                <h2energized>{{item.nombre }}
+                    <p style="white-space:normal;">{{item.descripcion }}</p>
+                </h2energized>
 	            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
 	            
           </ion-item>
+            
         </ion-list>
+        <div id="misListas-button-bar9" class="button-bar">
+            <a ui-sref="menEChango.verModificarLista" id="misListas-button119" style="font-weight:600;color:#000000;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Nueva Lista de Compra</a>
+        </div>
     </ion-content>
 </ion-view>

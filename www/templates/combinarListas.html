@@ -1,0 +1,24 @@
+<ion-view title="Combinar Listas" id="page11">
+    <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <div class="spacer" style="width: 320px; height: 11px;"></div>
+        <div id="combinarListas-markdown39" style="color:#000000;font-size:16px;text-align:center;">
+            <p>eChango te permite combinar tus listas para generar una nueva lista o reemplazar una existente. Ten en cuenta que al combinar aquellos productos que estén repetidos serán incluidos una única vez, y sus unidades de compra se sumarán.</p>
+
+            <p>¡Selecciona al menos dos listas y luego combínalas!</p>
+        </div>
+        <div class="item item-body" id="combinarListas-list-item-container6">
+            <form id="combinarListas-form35" class="list">
+            	<ion-item class="enable-pointer-events"
+               ng-repeat="(i,item) in listasGuardadas  track by $index"  id="item._id" on-hold="onHold(item)" >
+               <ion-checkbox ng-model="listasGuardadas[i].selected">{{item.nombre }}</ion-checkbox>
+	            
+	            
+	            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
+	            
+          </ion-item>
+                
+            </form>
+        </div>
+        <a ng-click="combinarListas()" id="combinarListas-button126" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-merge">Combinar</a>
+    </ion-content>
+</ion-view>

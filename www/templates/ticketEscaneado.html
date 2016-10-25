@@ -1,0 +1,76 @@
+<ion-view title="Ticket Escaneado" id="page15">
+    <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <div class="spacer" style="width: 320px; height: 13px;"></div>
+        <ion-list id="ticketEscaneado-list31">
+            <ion-item class="item-thumbnail-left energized" id="ticketEscaneado-list-item88">
+                <img  style="width: 50%;" id="pic" src="" ng-click="showActionSheet()">
+                <h2energized>Ticket Escaneado
+                    <p style="white-space:normal;" >Cadena: {{datosParseados.cadenaSupermercado}} <br>Fecha: {{datosParseados.fechaDeCompra}}</p>
+                </h2energized>
+            </ion-item>
+        </ion-list>
+        <div id="ticketEscaneado-button-bar14" class="button-bar">
+            <a ui-sref="menEChango.listasDeCompra" id="ticketEscaneado-button131" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkbox-outline">Confirmar</a>
+            <a ui-sref="menEChango.listasDeCompra" id="ticketEscaneado-button132" style="font-weight:600;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-android-cancel">Cancelar</a>
+        </div>
+        <div class="item item-body" id="ticketEscaneado-list-item-container8">
+            <ion-list id="ticketEscaneado-list32">
+                <ion-item class="item-icon-right" id="ticketEscaneado-list-item89" ng-repeat="item in datosParseados.productosLeidos">
+                    <div class="icon">
+                        <span class="item-note">{{item.cantidad}} un.</span>
+                        &nbsp;
+                        <span class=" calm ion-edit " ng-click="editItem(item)"></span>
+                        &nbsp;
+                        <span class=" assertive ion-trash-a " ng-click="deleteItem(item)"></span>
+                    </div>
+                    {{item.ean}} 
+                    <!--
+                    <span class="item-note">{{item.cantidad}} un.</span>
+                    -->
+                    </ion-item>
+                <!--
+                <ion-item id="ticketEscaneado-list-item89">Papel Higiénico
+                    <span class="item-note">4 uni.</span>
+                </ion-item>
+                <ion-item class="dark" id="ticketEscaneado-list-item90">Leche Entera
+                    <span class="item-note">1 uni.</span>
+                </ion-item>
+                <ion-item class="dark" id="ticketEscaneado-list-item91">Colita de Cuadril
+                    <span class="item-note">2 uni.</span>
+                </ion-item>
+                <ion-item class="dark" id="ticketEscaneado-list-item92">Jugo Clight
+                    <span class="item-note">2 uni.</span>
+                </ion-item>
+                -->
+            </ion-list>
+        </div>
+        <div id="ticketEscaneado-button-bar15" class="button-bar"></div>
+    </ion-content>
+</ion-view>
+
+       <script id="editItem-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Editar Item</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            <div class="list">
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Código</span>
+    <input type="text" placeholder="" ng-model="currentItem.ean">
+  </label>
+  <label class="item item-input item-stacked-label">
+    <span class="input-label">Cantidad</span>
+    <input type="text" placeholder="" ng-model="currentItem.cantidad">
+  </label>
+</div>
+        <div id="ticketEscaneado-button-bar14" class="button-bar">
+            <a ng-click="closeAndConfirmModal()" id="ticketEscaneado-button131" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkbox-outline">Confirmar</a>
+            <a ng-click="closeModal()" id="ticketEscaneado-button132" style="font-weight:600;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-android-cancel">Cancelar</a>
+        </div> 
+            
+          </ion-content>
+        </ion-modal-view>
+      </script>

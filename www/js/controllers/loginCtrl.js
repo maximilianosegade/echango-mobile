@@ -3,8 +3,8 @@ angular.module('app.controllers.login', [])
 .controller('loginCtrl', function($scope,BaseLocal,$ionicModal,$state,$q,$ionicLoading,LoginService,$ionicActionSheet) {
   
     var dbLocal = BaseLocal;
-    $scope.showFB = true;
-    $scope.showGooglePlus = true;
+    //$scope.showFB = true;
+    //$scope.showGooglePlus = true;
 
   // Facebook Functionality
   // This is the success callback from the login method
@@ -29,8 +29,8 @@ angular.module('app.controllers.login', [])
         picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
       });
       $ionicLoading.hide();
-      alert('fbLoginSuccess!');
-      $scope.showFB = false;
+      alert('¡Se ha iniciado sesión con Facebook exitosamente!');
+      //$scope.showFB = false;
       //$state.go('menu.eChango');
     }, function(fail){
       // Fail get profile info
@@ -85,9 +85,9 @@ angular.module('app.controllers.login', [])
 							email: profileInfo.email,
 							picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
 						});
-            alert('Success!')
-            $scope.showFB = false;
-            $scope.apply();
+            alert('¡Éxito!')
+            //$scope.showFB = false;
+            //$scope.apply();
 						//$state.go('menu.eChango');
 					}, function(fail){
 						// Fail get profile info
@@ -179,8 +179,9 @@ angular.module('app.controllers.login', [])
         $scope.showGooglePlus = false;
         //$state.go('app.home');
       },
-      function (msg) {
+      function (msg) {    	  
         alert('Google+ login fail!');
+        console.log(msg)
         $ionicLoading.hide();
       }
     );

@@ -1,0 +1,54 @@
+<ion-view title="Ver/Modificar Lista" id="page9">
+    <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <div class="spacer" style="width: 320px; height: 13px;"></div>
+        <ion-list id="verModificarLista-list25">
+            <ion-item class="item-thumbnail-left energized" id="verModificarLista-list-item67">
+              <!--  <img src="img/1spZKGlfTnLpthErjxRJ_casa.png"> -->
+                <h2energized><input type="text" placeholder="Nombre de la lista" ng-model="lista.nombre">
+                    <p style="white-space:normal;"><input type="text" placeholder="Descripción de la lista" ng-model="lista.descripcion"></p>
+                </h2energized>
+            </ion-item>
+        </ion-list>
+        <div id="verModificarLista-button-bar10" class="button-bar">
+            <button ng-click="guardar()" id="verModificarLista-button122" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkbox-outline">Confirmar</button>
+            <button ng-click="eliminarLista()" id="verModificarLista-button124" style="font-weight:600;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-ios-trash-outline">Eliminar</button>
+            </div>
+            <div id="verModificarLista-button-bar10" class="button-bar">
+            <button style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkbox-outline" id="miChango-button26" ng-click="escannear()">Agregar producto </button>
+        	<button id="nuevaLista-button32" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkbox-outline"ng-click="openModal()">Buscar Producto por Nombre</button>
+        
+        </div>
+        <div class="item item-body" id="verModificarLista-list-item-container4">
+            <ion-list id="verModificarLista-list27">              
+                
+                <ion-item ng-repeat="(i,item) in productos  track by $index">
+                {{item.nombre }}  
+                    <span class="item-note">               
+            <input id="{{item.id}}" type="text" value="{{item.cantidad}}" ng-model="productos[i].cantidad">
+            </span>
+          <button ng-click="borrar(item)" id="borrar{{item.id}}" class=" button button-positive  button-block icon-left ion-android-cart ">BORRAR </button>
+            
+          </ion-item>
+            </ion-list>
+        </div>
+    </ion-content>
+    <script id="productos-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Ingrese el nombre del producto</h1>
+          </ion-header-bar>
+          <ion-content>
+ 			<input type="text" placeholder="Nombre del producto" ng-model="busqueda.nombreBuscado">
+            <button class="button button-energized  button-block " id="miChango-button26" ng-click="buscarPorNombre()">Buscar </button>
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="producto in productosCandidatos" ng-click="elegirProducto(producto.doc)">
+                  {{producto.doc.nombre}}--{{producto.doc.ean}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+</ion-view>

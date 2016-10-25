@@ -1,38 +1,29 @@
-<ion-view title="Login" id="page4" class=" ">
-    <ion-content padding="true" class="has-header">
-        <form id="login-form3" class="list ">
-            <ion-list id="login-list3" class=" ">
-                <label class="item item-input " id="login-input1" name="nombre">
-                    <input type="text" placeholder="Usuario">
-                </label>
-                <label class="item item-input " id="login-input2" name="password">
-                    <input type="password" placeholder="Password">
-                </label>
-            </ion-list>
-            <!--
-            <ion-item class="item-thumbnail-left  " id="login-list-item6" ui-sref="menu.socialLogin">
-                <img src="img/BFrgW45sRipGx7hgOrnv_face.png">
-                <h2>Facebook</h2>
-            </ion-item>
-            <ion-item class="item-thumbnail-left  " id="login-list-item8" ui-sref="menu.socialLogin">
-                <img src="img/doD3rF0lR5eZrNJZIFCB_goog.png">
-                <h2>Google</h2>
-            </ion-item>
-            -->
-            <div class="spacer" style="height: 40px;"></div>
-            <a ui-sref="menu.datosAdicionales" id="login-button1" class=" button button-stable  button-block icon-left ion-android-done ">Log in</a>
-            <div class="spacer" style="height: 40px;"></div>
-            <button class="button button-stable">Or create an account</button>
-            <!--<a href="#" onclick="window.open('/signup', '_system', 'location=yes'); return false;" id="login-button2" class=" button button-positive  button-block button-clear ">Or create an account</a>-->
+<ion-view title="Login" id="page4" style="background-color:#ECECEC;">
+    <ion-content padding="true" style="background: url(img/wNRrc7AgQzqBTHOaRJY6_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <form id="login-form13" class="list">
+            <a ui-sref="registrarse" id="login-button53" style="font-weight:600;font-size:18px;border-radius:40px 40px 40px 40px;" class="button button-balanced  button-block icon-left ion-android-create">Registrarse</a>
+            <div id="login-button-bar6" class="button-bar">
+                <!--
+                <a ui-sref="loginFacebook" id="login-button50" style="font-weight:600;font-size:18px;border-radius:40px 40px 40px 40px;" class="button button-positive  button-block icon-left ion-social-facebook">Facebook</a>
+                -->
+                <button ng-click="facebookSignIn()" id="login-button50" style="font-weight:600;font-size:18px;border-radius:40px 40px 40px 40px;" class="button button-positive  button-block icon-left ion-social-facebook">Facebook</button>
+                <!--
+                <a ui-sref="loginGoogle" id="login-button51" style="font-weight:600;font-size:18px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-social-googleplus">Google</a>
+                -->
+                <button ng-click="googleSignIn()" id="login-button51" style="font-weight:600;font-size:18px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-social-googleplus">Google</button>
+            </div>
+            <div class="spacer" style="width: 300px; height: 52px;"></div>
+            <label class="item item-input item-floating-label" id="login-input17" name="usuario">
+                <input type="email" placeholder="Correo electrónico">
+            </label>
+            <div class="spacer" style="width: 300px; height: 11px;"></div>
+            <label class="item item-input item-floating-label" id="login-input18" name="password">
+                <input type="password" placeholder="Contraseña">
+            </label>
+            <div class="spacer" style="width: 300px; height: 23px;"></div>
+            <a ui-sref="menuPrincipal" id="login-button58" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  icon-left ion-log-in">Log In</a>
+            <button id="login-button64" style="font-weight:600;color:#ECECEC;font-size:10px;border-radius:40px 40px 40px 40px;" class="button button-light button-large button-icon"></button>
+            <a ui-sref="recuperarContraseA" id="login-button63" style="font-weight:600;color:#FFFFFF;font-size:12px;text-align:justify;border-radius:40px 40px 40px 40px;" class="button button-dark">¿Olvidó Contraseña?</a>
         </form>
-            <ion-item>
-                <button class="button button-stable ion-icon ion-social-facebook" ng-click="facebookSignIn()" ng-show="showFB">  Login with Facebook</button>
-                <button class="button button-positive ion-icon ion-social-facebook" ng-click="showFacebookLogOutMenu()" ng-hide="showFB">  Logout from Facebook</button>
-            </ion-item>
-            <ion-item>
-                <button class="button button-stable ion-icon ion-social-googleplus" ng-click="googleSignIn()" ng-show="showGooglePlus">  Login with Google+</button>
-                <button class="button button-assertive ion-icon ion-social-googleplus" ng-click="showGooglePlusLogOutMenu()" ng-hide="showGooglePlus">  Logout from Google+</button>
-            </ion-item>
-            
     </ion-content>
 </ion-view>

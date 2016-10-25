@@ -1,0 +1,16 @@
+<ion-view title="Área de Compra" id="page40">
+    <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <div class="spacer" style="width: 320px; height: 13px;"></div>
+        <div id="ReaDeCompra-markdown21" style="color:#000000;font-size:16px;text-align:center;">
+            <p>El área de compra determinará la distancia para la cual usted desea que el sistema busque precios, descuentos y promociones, para compararlos con las compras que usted esté realizando en una sucursal.</p>
+
+            <p>Sugerimos la utilización de áreas de compras menores a 1000 metros en centros urbanos.</p>
+        </div>
+        <form id="ReaDeCompra-form24" class="list">
+            <ion-item class="range range-energized" id="ReaDeCompra-range3">Área (mts)
+                <input type="range" value="1000" min="0" max="5000" step="50" name="radius" ng-model="data.radio" ng-change="actualizarRadio()">
+                {{data.radio}}
+            </ion-item>
+        </form>
+    </ion-content>
+</ion-view>

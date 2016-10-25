@@ -117,3 +117,23 @@
           </ion-content>
         </ion-modal-view>
       </script>
+
+       <script id="composicion-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Regularidad de Compra</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="regularidad in regularidades" ng-click="closeModalSeleccionComposicionFamiliar(composicion)">
+                  {{regularidad}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>

@@ -1,0 +1,68 @@
+<ion-view title="Medios de Pago" id="page26">
+    <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <div class="spacer" style="width: 320px; height: 13px;"></div>
+        <div id="mediosDePago-markdown12" style="color:#000000;font-size:16px;text-align:center;">
+            <p>Aquí podrás gestionar (agregar, modificar y eliminar) tus medios de pago disponibles.</p>
+        </div>
+        <form id="agregarMedioDePago-form6" class="list ">
+        <ion-item ng-click="openModal(1)">
+            <label class="item item-select " id="agregarMedioDePago-select7">
+                <span class="input-label" >Tarjeta: {{tarjetaSeleccionada.nombre}}</span>
+            </label>
+          </ion-item>
+                  <ion-item ng-click="openModal(2)">
+            <label class="item item-select " id="agregarMedioDePago-select7">
+                <span class="input-label" >Banco: {{bancoSeleccionado.nombre}}</span>
+            </label>
+          </ion-item>
+
+        </form>
+        <a ng-click="agregar()" id="mediosDePago-button98" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Agregar Nuevo Medio de Pago</a>
+        
+        <ion-list id="mediosDePago-list11" show-delete="true">       
+         <ion-item class="enable-pointer-events item-icon-right dark"
+               ng-repeat="(i,item) in mediosDePagoRegistrados  track by $index"  id="item._id" ng-click="seleccionar(item)" >
+            <ion-delete-button class="ion-minus-circled" ng-click="deleteItem(item)"></ion-delete-button>
+            {{item.tarjeta.nombre}} {{item.banco.nombre}}
+            </ion-item>            
+        </ion-list>
+    </ion-content>
+    <script id="tarjetas-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Tarjeta</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="tarjeta in tarjetas" ng-click="closeModalSeleccionTarjeta(tarjeta)">
+                  {{tarjeta.nombre}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      <script id="bancos-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Banco</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="banco in bancos" ng-click="closeModalSeleccionBanco(banco)">
+                  {{banco.nombre}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+</ion-view>
