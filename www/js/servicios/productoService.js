@@ -25,4 +25,12 @@ angular.module('app.services.producto', [])
 	           return doc;
 	         });
 	};
+	
+	this.obtenerDetalleProducto = function(producto){
+		producto.lista = 10;
+		producto.descuento = 3;
+		producto.aPagar = Number(producto.lista) - Number(producto.descuento) ;
+		
+		return producto;
+	}
 });
