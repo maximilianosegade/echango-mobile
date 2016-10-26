@@ -3,7 +3,9 @@ angular.module('app.controllers.chango', [])
 
 	$scope.chango =  {productos:[],
 			total:0,
-			totalProductos: 0};
+			totalProductos: 0,
+			totalLista: 0,
+			descuentoTotal: 0};
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
@@ -48,12 +50,16 @@ angular.module('app.controllers.chango', [])
 	}
 	
 	$scope.cerrar = function() {
-		agregarAlChango($scope.producto);
+		if($scope.producto.editar){
+			//vuelvo a agregar el producto que saqué al entrar en la pantalla de edición
+			agregarAlChango($scope.producto);			
+		}
 		 $scope.modal.hide();
 	}
 	
 	$scope.editar = function(producto){
 		$scope.producto = producto;		
+		$scope.producto.editar = true;
 		 sacarDelChango($scope.producto);
 		abrirModal();
 	}
@@ -68,7 +74,8 @@ angular.module('app.controllers.chango', [])
 	 $scope.escannear = function(){
 		 EscannerService.scanBarcode().then(function(codigo){
 			 ProductoService.getProductoPorEAN(codigo).then(function (producto){	
-				 producto = ProductoService.obtenerDetalleProducto(producto);
+				 producto = ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
+							$scope.medioDePago, $scope.descuento,new Date());
 				 producto.cantidad = 1;
 				 
 				 $scope.producto = producto;
@@ -99,6 +106,8 @@ angular.module('app.controllers.chango', [])
 	 function agregarAlChango(producto){
 		 $scope.chango.totalProductos += producto.cantidad ;
 		 $scope.chango.total += $scope.producto.aPagar * $scope.producto.cantidad ;
+		 $scope.chango.totalLista += $scope.producto.lista * $scope.producto.cantidad ;
+		 $scope.chango.descuentoTotal += $scope.producto.descuento * $scope.producto.cantidad ;
 		 for(var i = 0; $scope.chango.productos.length> i;i++){
 			 if($scope.chango.productos[i]._id == producto._id){
 				 $scope.chango.productos[i].cantidad+= producto.cantidad;
@@ -111,6 +120,8 @@ angular.module('app.controllers.chango', [])
 	 function sacarDelChango(producto){
 		 $scope.chango.totalProductos -= producto.cantidad ;
 		 $scope.chango.total -= $scope.producto.aPagar * $scope.producto.cantidad ;
+		 $scope.chango.totalLista -= $scope.producto.lista * $scope.producto.cantidad ;
+		 $scope.chango.descuentoTotal -= $scope.producto.descuento * $scope.producto.cantidad ;
 		 for(var i = 0; $scope.chango.productos.length> i;i++){
 			 if($scope.chango.productos[i]._id == producto._id){
 				 $scope.chango.productos.splice(i, 1);
@@ -120,15 +131,13 @@ angular.module('app.controllers.chango', [])
 	 }
 	 
 	 $scope.cerrarChango = function () {
-		 ComprarService.simulacion = false;
-					 ComprarService.simularCompra($scope.chango,$scope.comercio,
-								$scope.medioDePago, $scope.descuento,new Date() ).then(function(simulacion){
-									
-									ComprarService.simulacion = simulacion;
-									ComprarService.simulada = false;
-		
-									$state.go('menEChango.cerrarChango');
-								});
+		 
+			var compra = ComprarService.cerrarChango($scope.chango,$scope.comercio,
+										$scope.medioDePago, $scope.descuento,new Date() );
+							
+			ComprarService.simulacion = compra;
+			ComprarService.simulada = false;
+			$state.go('menEChango.cerrarChango');								
 		 }	
  
 })
@@ -142,7 +151,7 @@ angular.module('app.controllers.chango', [])
 	
 	
 	$scope.guardarCompra = function(){
-		
+		$scope.compra.correcta = true;
 		ComprarService.guardarCompra($scope.compra).then(function(){
 			if($scope.compra.simulada){
 				$state.go('menEChango.parMetrosDeSimulaciN');	
@@ -152,5 +161,16 @@ angular.module('app.controllers.chango', [])
 		})
 		
 	}
+	
+	$scope.reportarError = function(){
+		//Saraza
+		$scope.compra.correcta = false;
+		ComprarService.guardarCompra($scope.compra).then(function(){			
+			alert('Gracias por tu aporte. Juntos hacemos un eChango mejor!');
+			$state.go('menuPrincipal');	
+			
+		})
+	}
+	
 	
 })

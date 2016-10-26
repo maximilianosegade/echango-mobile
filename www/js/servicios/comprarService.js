@@ -203,6 +203,28 @@ angular.module('app.services.compras', [])
 		
 	}
 	
+	this.cerrarChango = function(chango, comercio, medioDePago,descuento,fecha){
+		//es diferente de la simulación porque cada producto ya sabe cuánto costó
+		var costo = {
+				valorTotal: chango.total,
+				descuentoTotal: chango.descuentoTotal,
+				valorLista: chango.totalLista,
+				productos: chango.productos
+			};
+		var compra = {};
+		compra.costo = costo;
+		compra.lista = {};
+		compra.lista.productos = chango.productos;	
+		compra.lista.totalProductos = chango.totalProductos;
+		compra.comercio = comercio;
+		compra.fecha = fecha;
+		compra.medioDePago = medioDePago;
+		compra.descuento = descuento;
+		
+		return compra
+	}
+	
+	
 	this.guardarCompra = function(compra){
 		compra._id = "" +  compra.fecha.getTime() + compra.comercio._id;
 		
