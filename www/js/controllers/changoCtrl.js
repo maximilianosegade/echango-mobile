@@ -167,8 +167,7 @@ angular.module('app.controllers.chango', [])
 		$scope.compra.correcta = false;
 		ComprarService.guardarCompra($scope.compra).then(function(){			
 			alert('Gracias por tu aporte. Juntos hacemos un eChango mejor!');
-			$state.go('menuPrincipal');	
-			
+			$state.go('menuPrincipal');				
 		})
 	}
 	
