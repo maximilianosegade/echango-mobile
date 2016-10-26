@@ -21,7 +21,7 @@
                 </label>
          -->      
                 <ion-item class="item-divider" id="eChango-list-item-divider4">Productos en Chango</ion-item>
-                                <ion-item ng-repeat="producto in chango.productos" >
+                                <ion-item ng-repeat="producto in chango.productos" ng-click="editar(producto)">
                 	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
                 <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
@@ -31,4 +31,45 @@
             </form>
         </div>
     </ion-content>
+    
+       <script id="producto-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Detalle del producto</h1>
+          </ion-header-bar>
+          <ion-content>
+<form id="agregarProducto-form40" class="list">
+            <label class="item item-input" id="agregarProducto-input37">
+                <span class="input-label">EAN:</span>
+                <input type="text" ng-model="producto.ean" disabled="true">
+            </label>
+            <label class="item item-input" id="agregarProducto-input38">
+                <span class="input-label">Descripción:</span>
+                <input type="text" ng-model="producto.nombre" disabled="true">
+            </label>
+            <label class="item item-input" id="agregarProducto-input39">
+                <span class="input-label">Precio de Lista Un.: $</span>
+                <input type="number" ng-model="producto.lista">
+            </label>
+            <label class="item item-input" id="agregarProducto-input40">
+                <span class="input-label">Cantidad:</span>
+                <input type="number" ng-model="producto.cantidad">
+            </label>
+            <label class="item item-input" id="agregarProducto-input41">
+                <span class="input-label">Descuento: $</span>
+                <input type="number" ng-model="producto.descuento" disabled="true">
+            </label>
+            <label class="item item-input" id="agregarProducto-input42">
+                <span class="input-label">Precio: $</span>
+                <input type="number" ng-model="producto.aPagar" disabled="true">
+            </label>
+        </form>
+        <div id="agregarProducto-button-bar17" class="button-bar">
+            <a ng-click="cerrarYagregar()" id="agregarProducto-button140" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-checkmark-circled">Agregar</a>
+            <a ng-click="cerrar()" id="agregarProducto-button141" style="font-weight:600;color:#FFFFFF;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-android-cancel">Cancelar</a>
+        </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
 </ion-view>
