@@ -7,7 +7,7 @@
 // 'starter.controllers' is found in controllers.js
 
 
-angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.mapas','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista', 'app.controllers.escanearTicket', 'app.controllers.simular','app.controllers.registrarse', 'app.controllers.parametrizar'])
+angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.services.reporte','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.mapas','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista', 'app.controllers.escanearTicket', 'app.controllers.simular','app.controllers.registrarse', 'app.controllers.parametrizar','app.controllers.reporte'])
 
 
 
@@ -61,7 +61,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
         //agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
-       // agregarProductos(BaseProductos);
+        agregarProductos(BaseProductos);
 
 } 
 

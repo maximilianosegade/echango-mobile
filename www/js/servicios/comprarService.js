@@ -1,5 +1,5 @@
 angular.module('app.services.compras', [])
-.service("ComprarService", function(BaseLocal,ProductoService, BaseCompras) {
+.service("ComprarService", function(BaseLocal,ProductoService, BaseCompras, BaseSimulaciones) {
 	
 	var comercio = null;
 	var lista = null;
@@ -191,12 +191,15 @@ angular.module('app.services.compras', [])
 				
 			}//ciere FOR de PRODUCTOS
 				//costos.push(costo);
+				var porcentajeDescuento = (costo.descuentoTotal / costo.valorTotal * 100).toFixed(2);
+			costo.porcentajeDescuento = porcentajeDescuento;
 			simulacion.costo = costo;
 			simulacion.lista = lista;
 			simulacion.comercio = comercio;
 			simulacion.fecha = fecha;
 			simulacion.medioDePago = medioDePago;
 			simulacion.descuento = descuento;
+			simulacion.simulada = true;
 			return simulacion;
 		});
 		
@@ -211,6 +214,8 @@ angular.module('app.services.compras', [])
 				valorLista: chango.totalLista,
 				productos: chango.productos
 			};
+		var porcentajeDescuento = (costo.descuentoTotal / costo.valorTotal * 100).toFixed(2);
+		costo.porcentajeDescuento = porcentajeDescuento;
 		var compra = {};
 		compra.costo = costo;
 		compra.lista = {};
@@ -234,8 +239,30 @@ angular.module('app.services.compras', [])
 		}
 		if(compra.descuento){
 			compra._id +=compra.descuento._id;
+		}		
+		
+		if(compra.simulada){
+			return BaseSimulaciones.put(compra);	
+		}else{
+			return BaseCompras.put(compra);			
 		}
-		return BaseCompras.put(compra)
+	}
+	
+	
+	
+	this.obtenerCompras = function(simuladas){
+		if(simuladas){
+			return BaseSimulaciones.allDocs({
+			  include_docs: true
+			}).then(function (result) {
+			 return result.rows;
+			});
+		}
+		return BaseCompras.allDocs({
+			  include_docs: true
+			}).then(function (result) {
+			 return result.rows;
+			});
 	}
 	
 	

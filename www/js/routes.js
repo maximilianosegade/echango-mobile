@@ -316,7 +316,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/comprasRealizadas.html',
-    controller: 'comprasRealizadasCtrl'
+    controller: 'reporteCtrl'
  }}})
 
  .state('menEChango.productosYPrecios', {
@@ -324,7 +324,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/productosYPrecios.html',
-    controller: 'productosYPreciosCtrl'
+    controller: 'reporteCtrl'
  }}})
 
  .state('menEChango.ahorrosAcumulados', {
@@ -332,7 +332,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/ahorrosAcumulados.html',
-    controller: 'ahorrosAcumuladosCtrl'
+    controller: 'reporteCtrl'
  }}})
 
  .state('menEChango.relevarProducto', {

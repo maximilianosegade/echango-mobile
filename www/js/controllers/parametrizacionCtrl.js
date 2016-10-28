@@ -59,7 +59,7 @@ angular.module('app.controllers.parametrizar', [])
 					 ComprarService.simularCompra($scope.lista,$scope.comercio,
 								$scope.medioDePago, $scope.descuento,new Date() ).then(function(simulacion){
 									ComprarService.simulacion = simulacion;
-		
+									ComprarService.simulada = true;
 									$state.go('menEChango.cerrarChango');
 								});
 				 	};
