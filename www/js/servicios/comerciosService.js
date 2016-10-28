@@ -149,20 +149,22 @@ angular.module('app.services.comercios', [])
         
 	
 	this.provincias = function(){
-			return doc.provincias;
+			
 		return BaseComercios.get('provincias').then(function(doc){
+			return doc.provincias;
 		});
 	}
 	
 	this.comerciosFiltrados = function(provincia, localidad,cadena){
-		return BaseComercios.query(function(doc,emit){
+		return BaseComercios.query(function(doc,emit){				
+			if(doc.cadena == cadena && doc.provincia == provincia && doc.localidad == localidad){
 				emit(doc);
-			if(doc.nombrecadena == cadena && doc.provincia == provincia && doc.localidad == localidad){
 			}
-				  	return res.rows;
+				  	
 		}).then(function (res) {
-				  	return null;
+			return res.rows;
 		}).catch(function (err) {
+			return null;
 			});
 	}
 	
