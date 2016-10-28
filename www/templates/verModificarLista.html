@@ -43,8 +43,8 @@
             <button class="button button-energized  button-block " id="miChango-button26" ng-click="buscarPorNombre()">Buscar </button>
             <div class="list">
               <ion-list>
-                <ion-item ng-repeat="producto in productosCandidatos" ng-click="elegirProducto(producto.doc)">
-                  {{producto.doc.nombre}}--{{producto.doc.ean}}
+                <ion-item ng-repeat="producto in productosCandidatos" ng-click="elegirProducto(producto)">
+                  {{producto.nombre}}--{{producto.ean}}
                 </ion-item>
               </ion-list>
             </div>

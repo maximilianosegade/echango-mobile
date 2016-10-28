@@ -9,7 +9,7 @@
         <button id="nuevaLista-button32" class=" button button-positive  button-block icon-left ion-clipboard " ng-click="openModal()">Buscar Producto por Nombre</button>
         <button id="nuevaLista-button33" class=" button button-positive  button-block icon-left  " ng-click="guardar()">Guardar Lista</button>
         <ion-list id="listaNueva" class=" ">
-            <ion-item ng-repeat="(i,item) in productos  track by $index">
+            <ion-item class="item-text-wrap" ng-repeat="(i,item) in productos  track by $index">
             {{item.nombre }}     
             <input id="{{item.id}}" type="text" value="{{item.cantidad}}" ng-model="productos[i].cantidad">
           <button ng-click="borrar(item)" id="borrar{{item.id}}" class=" button button-positive  button-block icon-left ion-android-cart ">BORRAR </button>
@@ -29,8 +29,8 @@
             <button class="button button-energized  button-block " id="miChango-button26" ng-click="buscarPorNombre()">Buscar </button>
             <div class="list">
               <ion-list>
-                <ion-item ng-repeat="producto in productosCandidatos" ng-click="elegirProducto(producto.doc)">
-                  {{producto.doc.nombre}}--{{producto.doc.ean}}
+                <ion-item class="item-text-wrap" ng-repeat="producto in productosCandidatos" ng-click="elegirProducto(producto)">
+                  {{producto.nombre}}--{{producto.ean}}
                 </ion-item>
               </ion-list>
             </div>
