@@ -324,7 +324,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/productosYPrecios.html',
-    controller: 'reporteCtrl'
+    controller: 'reporteProductosCtrl'
  }}})
 
  .state('menEChango.ahorrosAcumulados', {

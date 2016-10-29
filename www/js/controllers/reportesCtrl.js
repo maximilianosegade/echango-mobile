@@ -9,3 +9,21 @@ angular.module('app.controllers.reporte', [])
 		})
 	});
 })
+.controller('reporteProductosCtrl', function($scope, $state,$ionicModal,BaseCompras, ProductoService,ReporteService) {
+	
+	
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		ReporteService.productosMasComprados(5).then(function(productos){
+			//devuelve un array de objetos de la forma
+			/*
+			 * {_id: 414124,
+			 * 		nombre: 'nombre producto',
+			 *   valores[{fecha:123123123, valor:12312312}] 
+			 * */
+			$scope.productos = productos;
+		})
+	});
+})
+
+
+
