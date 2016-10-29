@@ -12,7 +12,7 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   });
 })
 
-.controller('escanearTicketCtrl', function($scope, $ionicActionSheet, $ionicLoading, $ionicPlatform, $cordovaCamera, $ionicModal) {
+.controller('escanearTicketCtrl', function($scope, $ionicActionSheet, $ionicLoading, $ionicPlatform, $cordovaCamera, $ionicModal, ProductoService, ListaService, $state) {
 
   $ionicPlatform.ready(function() {
 
@@ -24,8 +24,14 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
 
     $scope.currentItem = {
       'ean': '',
+      'nombre': '',
       'cantidad': '',
       'index': 0
+    }
+
+    $scope.currentList = {
+      'nombre': '',
+      'desc': ''
     }
 
 
@@ -132,12 +138,23 @@ $scope.parsearTexto = function() {
       // Leyendo Cantidad
         if (!cantLeida) {
           var splittedText = lineaActual.split(' ');
-          var cantidad = splittedText[0];
+          
+          var cantidad = Number(splittedText[0].replace(",","."));
           cantLeida = true;
         } else {
           if (!eanLeido) {
             // Leyendo EAN
-           var ean = lineaActual.substr(0,12);
+           var ean = lineaActual.substr(0,13);
+           var lastSpace = 0;
+
+           for (k = lineaActual.length - 1; k > 0; k--  ) {
+              if (lineaActual[k] == ' '){
+                lastSpace = k;
+                break;
+              } 
+           }
+
+           var nombre = lineaActual.substr(13,lastSpace - 13);
 //            var ean = lineaActual;
             eanLeido = true;
           }
@@ -145,15 +162,33 @@ $scope.parsearTexto = function() {
 
         if (cantLeida && eanLeido) {
           // Agregar productosLeidos
-          var obj = {
+          /*var obj = {
+            
             "ean": ean,
+            "desc": desc,
             "cantidad": cantidad,
-          };
-          $scope.datosParseados.productosLeidos.push(obj);
-          $scope.$apply();
-          eanLeido = false;
-          cantLeida = false;
-          //alert($scope.productosLeidos.length);
+          };*/
+           var currentProd = {
+                      	  _id: ean,
+	                        nombre: nombre,
+	                        ean: ean
+
+                    };
+
+          ProductoService.getProductoPorEAN(ean).then(function(doc) {
+                  alert('Producto encontrado');
+                  currentProd = doc;
+
+
+                });
+
+            currentProd.cantidad = cantidad;
+            
+            $scope.datosParseados.productosLeidos.push(currentProd);
+            $scope.$apply();
+            eanLeido = false;
+            cantLeida = false;
+            //alert($scope.productosLeidos.length);
         }
 
         break;
@@ -167,7 +202,7 @@ $scope.parsearTexto = function() {
   //alert($scope.productosLeidos);
 
   for (var i = 0; i < $scope.datosParseados.productosLeidos.length; i++) {
-    alert('Codigo: ' + $scope.datosParseados.productosLeidos[i].ean + '\nCant: ' + $scope.datosParseados.productosLeidos[i].cantidad);
+    alert('Codigo: ' + $scope.datosParseados.productosLeidos[i].ean + '\nDesc: ' + $scope.datosParseados.productosLeidos[i].nombre + '\nCant: ' + $scope.datosParseados.productosLeidos[i].cantidad);
   }
 //$scope.$apply();
   return;
@@ -185,7 +220,8 @@ $scope.editItem = function(item) {
   $scope.currentItem.index = $scope.datosParseados.productosLeidos.indexOf(item);
   $scope.currentItem.ean = item.ean;
   $scope.currentItem.cantidad = item.cantidad;
-  $scope.openModal();
+  $scope.currentItem.nombre = item.nombre;
+  $scope.openModal(1);
 }
 
     /* Funciones modal INICIO*/
@@ -198,19 +234,83 @@ $scope.editItem = function(item) {
         
     });
 
-$scope.openModal = function() {
-    $scope.modal1.show();
+    $ionicModal.fromTemplateUrl('editList-modal.html', {
+        id: '2',
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal2 = modal;
+        
+    });
+
+$scope.openModal = function(index) {
+  switch(index) {
+        case 1:
+            $scope.modal1.show();
+            break;
+        case 2:
+            $scope.modal2.show();
+            break;
+        default:
+            break;
+
+  }
+    
 };
 
-$scope.closeAndConfirmModal = function() {
-    $scope.datosParseados.productosLeidos[$scope.currentItem.index].ean = $scope.currentItem.ean;
-    $scope.datosParseados.productosLeidos[$scope.currentItem.index].cantidad = $scope.currentItem.cantidad;
+$scope.closeAndConfirmModal = function(index) {
+
+    switch(index) {
+      case 1:
+          $scope.datosParseados.productosLeidos[$scope.currentItem.index].ean = $scope.currentItem.ean;
+          $scope.datosParseados.productosLeidos[$scope.currentItem.index].nombre = $scope.currentItem.nombre;
+          $scope.datosParseados.productosLeidos[$scope.currentItem.index].cantidad = $scope.currentItem.cantidad;
+          $scope.$apply();
+          $scope.closeModal(1);
+          break;
+      case 2:
+          //Guardar lista
+          if($scope.currentList.nombre){
+		
+            ListaService.guardarLista($scope.currentList.nombre,$scope.currentList.desc, $scope.datosParseados.productosLeidos, false).then(function(){
+
+                alert('¡Lista guardada!')
+                $scope.closeModal(2);
+                //$state.go('menEChango.misListas');
+                $state.go('menEChango.listasDeCompra');
+                          
+              
+            }).catch(function(err){
+              if(err.status = 409){
+                alert("Ya existe una lista con este nombre ->" + err);
+              }else{
+                alert("Ocurrió un error");				 
+              }
+              return;
+            });
+          }else{
+            alert('Ingrese un nombre para la lista');
+                		 
+          }
+          break;
+      default:
+          break;
+    }
     $scope.$apply();
-    $scope.closeModal();
+    
 };
 
-$scope.closeModal = function () {
-    $scope.modal1.hide();
+$scope.closeModal = function (index) {
+  switch(index) {
+    case 1:
+      $scope.modal1.hide();
+      break;
+    case 2:
+      $scope.modal2.hide();
+      break;
+    default:
+      break;
+  }
 }
 
 $scope.$on('$destroy', function() {
