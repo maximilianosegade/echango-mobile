@@ -73,7 +73,7 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
                     };
                 }                
                 
-                
+                $state.go('menEChango.relevarProducto');
             } else {
                 alert('Se deben completar todos los campos.\nCodigo:' + $scope.data.currentEAN + '\nDesc: ' + $scope.data.currentDesc + '\nPre: $' + $scope.data.currentPrice)
             }
