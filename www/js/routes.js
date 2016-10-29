@@ -292,7 +292,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/redesSociales.html',
-    controller: 'redesSocialesCtrl'
+    controller: 'loginCtrl'
  }}})
 
  .state('menEChango.eliminarCuentaEChango', {
