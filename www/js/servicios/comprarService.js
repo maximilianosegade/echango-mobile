@@ -1,5 +1,5 @@
 angular.module('app.services.compras', [])
-.service("ComprarService", function(BaseLocal,ProductoService, BaseCompras) {
+.service("ComprarService", function(BaseLocal,ProductoService, BaseCompras, BasePreciosPorComercio) {
 	
 	var comercio = null;
 	var lista = null;
@@ -115,6 +115,8 @@ angular.module('app.services.compras', [])
 		if(productos.length > 0){
 			return ProductoService.getProductoPorEAN(productos[0]._id).then(function (producto){	
 				 producto.cantidad = productos[0].cantidad;
+                 producto.precio = productos[0].precio;
+                 producto.precios = productos[0].precios;
 				 productosNuevos.push(producto);
 				 productos.splice(0,1);
 				 if(productos.length < 1){
@@ -129,8 +131,19 @@ angular.module('app.services.compras', [])
 	
 	this.simularCompra = function(lista, comercio, medioDePago,descuento,fecha ){
 		
-		
-		return actualizarProductos(lista.productos, []).then(function( productosNuevos){
+        return BasePreciosPorComercio.get(comercio._id).then(function(precios){
+            for (var i=0; i<lista.productos.length; i++){
+                var precio = {
+                    id: comercio._id, 
+                    lista: precios.precios[lista.productos[i].ean],
+                    promociones: []
+                }
+                lista.productos[i].precio = precio;
+                lista.productos[i].precios = [];
+                lista.productos[i].precios.push(precio);
+            }
+            return actualizarProductos(lista.productos, []);    
+        }).then(function( productosNuevos){
 			lista.productos = productosNuevos;
 			var simulacion = {};
 			var costos = [];
@@ -150,7 +163,7 @@ angular.module('app.services.compras', [])
 							//estamos en el comercio seleccionado
 							
 							precioASumar = productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
-							costo.valorLista =+ precioASumar;
+							costo.valorLista += precioASumar;
 							seguirPromocion = true;
 							for(var l = 0; productosNuevos[j].precios[k].promociones.length > l ;l++){
 								if(productosNuevos[j].precios[k].promociones[l].plastico < 1 || productosNuevos[j].precios[k].promociones[l].plastico == medioDePago.tarjeta._id){
@@ -182,8 +195,8 @@ angular.module('app.services.compras', [])
 							costo.productos.push({_id: productosNuevos[j]._id,
 								nombre: productosNuevos[j].nombre,
 								precio: precioASumar});
-							costo.valorTotal =+ precioASumar;
-							costo.descuentoTotal =+  descuentoActual;
+							costo.valorTotal += precioASumar;
+							costo.descuentoTotal +=  descuentoActual;
 							k = 64000;//para salir de comercios
 						}
 					}//ciere For de PRECIOS	
@@ -292,7 +305,7 @@ this.verificarChango = function(lista, comercio, mediosDePagoRegistrados,tarjeta
 							costo.productos.push({_id: productosNuevos[j]._id,
 								nombre: productosNuevos[j].nombre,
 								precio: precioASumar});
-							costo.valorTotal =+ precioASumar;
+							costo.valorTotal += precioASumar;
 							k = 64000;//para salir de comercios
 						}
 					}

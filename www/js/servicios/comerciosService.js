@@ -53,7 +53,7 @@ angular.module('app.services.comercios', [])
         // TODO: Invocar servicio REST
         //comerciosQuery = $http.jsonp(url);
         comerciosQuery = new Promise(function(resolve, reject){
-           resolve(['12-1-186','12-1-91']);
+           resolve(['10-3-580','12-1-186','12-1-91']);
         });
         
         return comerciosQuery;    
@@ -131,7 +131,9 @@ angular.module('app.services.comercios', [])
                 
                 if (resp.comercios){   
                     for (var i=0; i<resp.comercios.length; i++){
-                        idComercios.push(resp.comercios[i]._id);
+                        if (resp.comercios[i]._id){
+                            idComercios.push(resp.comercios[i]._id);
+                        }
                     }
                 }
 
