@@ -58,7 +58,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
          agregarUbicaciones(BaseLocal);
          agregarProvincias(BaseComercios);
          agregarRadioCompra(BaseLocal);
-        // agregarCadenas(BaseLocal);
+         agregarCadenas(BaseLocal);
         //agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
@@ -90,56 +90,66 @@ function ubicacionesYcomercios(db){
    }
 
 function agregarProvincias(db){
-	
-	db.get('tarjetas').then(function(doc){
-	      //si lo encuentra lo borra
-	      
-	      
-	    }).catch(function (error) {
-	           //Si no lo encuentra, lo crea
-	           db.put({
-	                _id: 'provincias',
-	              provincias: [
-	             {
-	              nombre: 'Capital Federal',
-	              localidades : [{nombre: 'Almagro',
-	            	  					cadenas: ['Coto','Disco', 'DIA']},
-	            	  					{nombre: 'Boedo',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Palermo',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Balvanera',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Caballito',
-		            	  				cadenas: ['Coto','Disco', 'DIA']}]
-	             },
-	             {
-	              nombre: 'Buenos Aires',
-	              localidades : [{nombre: 'Avellaneda',
-	            	  					cadenas: ['Coto','Disco', 'DIA']},
-	            	  					{nombre: 'Lanús',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'La Plata',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Mar del Plata',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Bulogne',
-		            	  				cadenas: ['Coto','Disco', 'DIA']}]
-	             },
-	             {
-	              nombre: 'Santa Fé',
-	              localidades : [{nombre: 'Rosario',
-	            	  					cadenas: ['Coto','Disco', 'DIA']},
-	            	  					{nombre: 'Santa Fé',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Libertad',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'San Lorenzo',
-		            	  				cadenas: ['Coto','Disco', 'DIA']}
-		            	  				]
-	             }
-	           ]});
-	         });
+	db.put({
+        _id: 'provincias',
+	    provincias: [{
+            nombre: 'Capital Federal',
+            localidades : [                                
+                {nombre: 'Agronomía'},
+                {nombre: 'Almagro'},
+                {nombre: 'Balvanera'},
+                {nombre: 'Barracas'},
+                {nombre: 'Belgrano'},
+                {nombre: 'Boedo'},
+                {nombre: 'Caballito'},
+                {nombre: 'Chacarita'},
+                {nombre: 'Coghlan'},
+                {nombre: 'Colegiales'},
+                {nombre: 'Constitución'},
+                {nombre: 'Flores'},
+                {nombre: 'Floresta'},
+                {nombre: 'La Boca'},
+                {nombre: 'La Paternal'},
+                {nombre: 'Liniers'},
+                {nombre: 'Mataderos'},
+                {nombre: 'Monte Castro'},
+                {nombre: 'Montserrat'},
+                {nombre: 'Nueva Pompeya'},
+                {nombre: 'Nuñez'},
+                {nombre: 'Palermo'},
+                {nombre: 'Parque Avellaneda'},
+                {nombre: 'Parque Chacabuco'},
+                {nombre: 'Parque Chas'},
+                {nombre: 'Parque Patricios'},
+                {nombre: 'Puerto Madero'},
+                {nombre: 'Recoleta'},
+                {nombre: 'Retiro'},
+                {nombre: 'Saavedra'},
+                {nombre: 'San Cristóbal'},
+                {nombre: 'San Nicolás'},
+                {nombre: 'San Telmo'},
+                {nombre: 'Versalles'},
+                {nombre: 'Villa Crespo'},
+                {nombre: 'Villa Devoto'},
+                {nombre: 'Villa General Mitre'},
+                {nombre: 'Villa Lugano'},
+                {nombre: 'Villa Luro'},
+                {nombre: 'Villa Ortúzar'},
+                {nombre: 'Villa Pueyrredón'},
+                {nombre: 'Villa Real'},
+                {nombre: 'Villa Riachuelo'},
+                {nombre: 'Villa Santa Rita'},
+                {nombre: 'Villa Soldati'},
+                {nombre: 'Villa Urquiza'},
+                {nombre: 'Villa del Parque'},
+                {nombre: 'Vélez Sarsfield'}
+            ]
+        }]
+    }).then(function(resp){
+        console.log('[DB Agregar provincias] - OK.');
+    }).catch(function(err){
+        console.error('[DB Agregar provincias] - Error. ' + err);
+    });
 }
 
 function parametriaSimulacion(BaseLocal){

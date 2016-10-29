@@ -166,13 +166,18 @@ $scope.agregar = function(){
 	
 		$scope.indice = UbicacionesService.indice;
 		
-		//recuperar provincias
 		ComerciosService.provincias().then(function(doc){
+            console.log('[Agregar comercio] - Cargando provincias / localidades...')
 			$scope.provincias = doc;
-		})
-		  		
+            // Inicialmente, solo Capital, por ende fuerzo la posicion 0.
+            $scope.localidades = doc[0].localidades;
+            return BaseLocal.get('cadenasDisponibles');
+	    }).then(function(cadenas){
+            console.log('[Agregar comercio] - Cargando cadenas de supermercados...')
+            $scope.cadenas = cadenas.cadenasDisponibles;
+		});
     
-  }); 	
+    }); 	
 	
 	$scope.agregar = function(){
 	    if ($scope.comercio){	                
@@ -185,7 +190,6 @@ $scope.agregar = function(){
 	        return;
 	    };
 	};
-	
 	
 	/* Funciones modal INICIO*/
 	$ionicModal.fromTemplateUrl('provincias-modal.html', {
@@ -239,7 +243,6 @@ $scope.agregar = function(){
 	};
 	$scope.closeModalSeleccionLocalidad = function(localidad) {
 	    $scope.localidad = localidad;
-	    $scope.cadenas = localidad.cadenas;
 	    $scope.$apply();
 	    $scope.modal2.hide();
 	};
@@ -247,12 +250,11 @@ $scope.agregar = function(){
 
 	$scope.closeModalSeleccionCadena = function(cadena) {
 	    $scope.cadena = cadena;	    
-	    ComerciosService.comerciosFiltrados($scope.provincia.nombre,$scope.localidad.nombre,$scope.cadena).then(function(comercios){
-	    	$scope.comercios = comercios;
-	    	 $scope.$apply();
-	 	    $scope.modal3.hide();
+	    ComerciosService.comerciosFiltrados($scope.provincia.nombre,$scope.localidad.nombre,$scope.cadena._id).then(function(comercios){
+	       $scope.comercios = comercios;
+	       $scope.$apply();
 	    });
-	   
+        $scope.modal3.hide();	   
 	};
 
 	$scope.closeModalSeleccionComercio = function(comercio) {

@@ -149,21 +149,37 @@ angular.module('app.services.comercios', [])
         
 	
 	this.provincias = function(){
-			return doc.provincias;
 		return BaseComercios.get('provincias').then(function(doc){
+			return doc.provincias;
 		});
 	}
 	
-	this.comerciosFiltrados = function(provincia, localidad,cadena){
-		return BaseComercios.query(function(doc,emit){
-				emit(doc);
-			if(doc.nombrecadena == cadena && doc.provincia == provincia && doc.localidad == localidad){
-			}
-				  	return res.rows;
-		}).then(function (res) {
-				  	return null;
-		}).catch(function (err) {
-			});
+	this.comerciosFiltrados = function(filtroProvincia, filtroLocalidad, filtroCadena){
+        return BaseComercios.query(function(doc,emit){
+            var cumpleCriterio = true;
+
+            cumpleCriterio = !(doc._id === 'provincias')
+
+            if (cumpleCriterio && filtroProvincia){
+                cumpleCriterio = ( filtroProvincia.toLowerCase() === doc.zona.toLowerCase() );
+            }
+
+            if (cumpleCriterio && filtroLocalidad){
+                cumpleCriterio = ( filtroLocalidad.toLowerCase() === doc.nombre.toLowerCase() );
+            }
+
+            if (cumpleCriterio && filtroCadena){
+                cumpleCriterio = ( filtroCadena.toString().toLowerCase() === doc.id_cadena.toLowerCase() );
+            }
+
+            if (cumpleCriterio)
+                emit(doc);
+        }).then(function(res){
+            return res.rows;
+        }).catch(function(err){
+            return null;
+        });
+
 	}
 	
 });

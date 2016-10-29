@@ -18,7 +18,7 @@
           </ion-item>
           <ion-item ng-click="openModal(3)">
             <label class="item item-select " id="agregarMedioDePago-select7">
-                <span class="input-label" >Cadena: {{cadena}}</span>
+                <span class="input-label" >Cadena: {{cadena.nombre}}</span>
             </label>
           </ion-item>
     <ion-item ng-click="openModal(4)">
@@ -91,7 +91,7 @@
             <div class="list">
               <ion-list>
                 <ion-item ng-repeat="item in cadenas" ng-click="closeModalSeleccionCadena(item)">
-                  {{item}}
+                  {{item.nombre}}
                 </ion-item>
               </ion-list>
             </div>
