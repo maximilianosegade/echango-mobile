@@ -73,4 +73,35 @@ angular.module('app.services.producto', [])
 		
 		return producto;
 	}
+
+	this.updateProducto = function(obj) {
+		database.get(obj.ean).then(function(doc) {
+            return database.put({                
+				_id: obj.ean,
+                _rev: doc._rev,
+				nombre: obj.nombre,
+                precios: obj.precios,
+                ean: obj.ean,
+				etiquetas: doc.etiquetas
+			});
+        }).then(function(response) {
+				if(response.ok){
+					alert('Datos informados. ¡Gracias!');
+				}
+				else {
+					alert(response.ok);
+				}
+              
+        }).catch(function (err) {
+             alert(err);
+             database.put({
+                _id: obj.ean,
+                nombre:obj.nombre,
+                precios: obj.precios,
+                ean: obj.ean,
+				etiquetas: []
+			});
+        	
+   		});
+	};
 });
