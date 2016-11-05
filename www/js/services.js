@@ -77,44 +77,59 @@ angular.module('app.services', [])
     console.log('[DB Sync] Sincronizando DB precios por comercio...');
     var idComercios = [];
       
-    dbSync.comerciosService.comerciosCercanosPosicionActual().then(function(ids){
-    
-        console.debug('[DB Sync] IDs comercios pos actual: ' + ids);
-        idComercios = idComercios.concat(ids);
+    dbSync.comerciosService.comerciosCercanosPosicionActual().then(function(resp){
+        
+        var i;
+        for (i=0; i<resp.length; i++){
+          console.debug('[DB Sync] IDs comercios pos actual: ', resp[i].comerciosCercanos);
+          idComercios = idComercios.concat(resp[i].comerciosCercanos);
+        }
         return dbSync.comerciosService.comerciosCercanosUbicacionesSeleccionadas();
     
-    }).then(function(ids){
+    }).then(function(resp){
         
-        console.debug('[DB Sync] IDs comercios cercanos a ubicaciones seleccionadas: ' + ids);
-        idComercios = idComercios.concat(ids);
+        var i;
+        for (i=0; i<resp.length; i++){
+          console.debug('[DB Sync] IDs comercios cercanos a ubicaciones seleccionadas: ', resp[i].comerciosCercanos);
+          idComercios = idComercios.concat(resp[i].comerciosCercanos);
+        }
         return dbSync.comerciosService.comerciosSeleccionados();
         
-    }).then(function(ids){
-    
-        console.debug('[DB Sync] IDs comercios seleccionados: ' + ids);
-        idComercios = idComercios.concat(ids);
+    }).then(function(resp){
         
-        idComercios = _.uniq(idComercios);
-        
-        if (idComercios.length > 0){
-            
-            if (dbSync.basePreciosPorComercioSyncHandler){
-                console.log("Cancelando replica DB precios para comercios cercanos existente...");
-                dbSync.basePreciosPorComercioSyncHandler.cancel();
-            }
-
-            console.log("Replicar DB precios para comercios: " + idComercios);
-
-            dbSync.basePreciosPorComercioSyncHandler =  dbSync.basePreciosPorComercio.replicate.from('https://webi.certant.com/echango/precios_por_comercio', {
-                live: true,
-                retry: true,
-                doc_ids: idComercios
-            });
-            
+        var i;
+        for (i=0; i<resp.length; i++){
+          console.debug('[DB Sync] IDs comercios seleccionados: ', resp);
+          idComercios = idComercios.concat(resp);
         }
+        return Promise.resolve();
     
     }).catch(function(err){
-        console.error('[DB Sync] Error sincronizando DB precios por comercio: ' + err);
+
+        console.error('[DB Sync] Error obteniendo comercios cercanos: ', err);
+        return Promise.resolve();
+
+    }).then(function(){
+        
+      if (idComercios.length){
+
+          idComercios = _.uniq(idComercios);
+          
+          if (dbSync.basePreciosPorComercioSyncHandler){
+              console.log("Cancelando replica DB precios para comercios cercanos existente...");
+              dbSync.basePreciosPorComercioSyncHandler.cancel();
+          }
+
+          console.log("Replicar DB precios para comercios: ", idComercios);
+
+          dbSync.basePreciosPorComercioSyncHandler =  dbSync.basePreciosPorComercio.replicate.from('https://webi.certant.com/echango/precios_por_comercio', {
+              live: true,
+              retry: true,
+              doc_ids: idComercios
+          });
+          
+      }
+
     });
     
   }

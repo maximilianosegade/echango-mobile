@@ -2,7 +2,7 @@ angular.module('app.services.comercios', [])
 .service("ComerciosService", function($rootScope, $q, $http, BaseLocal, BaseComercios) {
     
     const URL_COMERCIOS_CERCANOS = 
-          'http://marte.certant.com/msegade/echango/comercios_cercanos.js'
+          'http://ec2-35-162-193-58.us-west-2.compute.amazonaws.com:3000/comercios/cercanos';
         
     var baseLocal = BaseLocal;
 	
@@ -36,63 +36,70 @@ angular.module('app.services.comercios', [])
     zona en KM. Si no se especifica se toma el valor default en el servidor.
     */
     var comerciosCercanosPuntosGeograficos = function(posiciones, radio){
-		
-        var url = URL_COMERCIOS_CERCANOS + '?';
-        
-        for (var i=0; i<posiciones.length; i++){
-            url += 
-                ('lat' + i + '=' + posiciones[i].lat + '&' +
-                'long' + i + '=' + posiciones[i].long + '&');            
-        }
+
+		return new Promise(function(resolve, reject){
+
+            if (!posiciones)
+                reject(new Error('[Comercios cercanos] - No se indicaron posiciones.'));
+
+            var url = URL_COMERCIOS_CERCANOS + '?';
+
+            for (var i=0; i<posiciones.length; i++){
+                // Fix para el caso en que no se definen lat y long.
+                if (posiciones[i].lat && posiciones[i].long){
+                    url += 
+                        ('lat' + i + '=' + posiciones[i].lat + '&' +
+                        'long' + i + '=' + posiciones[i].long + '&');            
+                }
+            }
                 
-        if (radio)
-            url += 'radio=' + radio;
+            if (radio)
+                url += 'radio=' + radio;
         
-        console.debug('[Comercios cercanos - query]: ' + url);
+            console.debug('[Comercios cercanos - query]: ' + url);
         
-        // TODO: Invocar servicio REST
-        //comerciosQuery = $http.jsonp(url);
-        comerciosQuery = new Promise(function(resolve, reject){
-           resolve(['10-3-580','12-1-186','12-1-91']);
+            $http.get(url).success(function (data) {
+                resolve(data);
+            }).error(function (data, status) {
+                reject(new Error(
+                    '[Comercios cercanos]: Error consultando backend.',
+                    status, data));
+            });
+
         });
-        
-        return comerciosQuery;    
+
     }    
     
-    this.comerciosCercanosPosicionActual = function(){        
-        console.log('[ID Comercios - Ubicacion actual].');
-        
-        var promise = new Promise(function(resolve, reject){
+    this.comerciosCercanosPosicionActual = function(){                
+        return new Promise(function(resolve, reject){
+            
+            console.log('[ID Comercios - Ubicacion actual].');
             
             navigator.geolocation.getCurrentPosition(function (pos) {
 
-                var queryComerciosCercanos = 
-                    comerciosCercanosPuntosGeograficos([{
-                        lat: pos.coords.latitude,
-                        long: pos.coords.longitude
-                    }]);
-                
-                queryComerciosCercanos.then(function(idComercios){
-                    resolve(idComercios);
+                comerciosCercanosPuntosGeograficos([{
+                    lat: pos.coords.latitude,
+                    long: pos.coords.longitude
+                }]).then(function(resp){
+                    resolve(resp);
                 }).catch(function(err){
-                    console.error('[ID Comercios - Ubicacion actual]: ' + err);    
+                    console.error('[ID Comercios - Ubicacion actual]: ', err);
                     resolve([]);
                 });
-
-            }, function (error) {
-                console.error('[ID Comercios - Ubicacion actual]: ' + error.message);    
+                
+            }, function (err) {
+                console.error('[ID Comercios - Ubicacion actual]: ', err);    
                 resolve([]);
             });
             
         });
                                   
-        return promise;        
     }
     
     this.comerciosCercanosUbicacionesSeleccionadas = function(){
-        console.log('[ID Comercios - Ubicaciones seleccionadas].');
+        return new Promise(function(resolve, reject){
         
-        var promise = new Promise(function(resolve, reject){
+            console.log('[ID Comercios - Ubicaciones seleccionadas].');
             
             baseLocal.get('ubicaciones').then(function(resp){
                 var puntosGeograficos = [];
@@ -111,20 +118,18 @@ angular.module('app.services.comercios', [])
             }).then(function(idComercios){
                 resolve(idComercios);
             }).catch(function(err){
-                console.error('[ID Comercios - Ubicaciones seleccionadas]: ' + err)
+                console.error('[ID Comercios - Ubicaciones seleccionadas]: ', err)
                 resolve([]);
             });
             
         });
         
-        return promise;
-        
     } 
     
     this.comerciosSeleccionados = function(){        
-        console.log('[ID Comercios - Preferidos].')
+        return new Promise(function(resolve, reject){
         
-        var promise = new Promise(function(resolve, reject){
+            console.log('[ID Comercios - Preferidos].')
             
             baseLocal.get('ubicaciones').then(function(resp){
                 var idComercios = [];
@@ -138,8 +143,9 @@ angular.module('app.services.comercios', [])
                 }
 
                 resolve(idComercios);
+
             }).catch(function(err){
-                console.error('[ID Comercios - Preferidos]: ' + err);
+                console.error('[ID Comercios - Preferidos]: ', err);
                 resolve([]);
             });
             
