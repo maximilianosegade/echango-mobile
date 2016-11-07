@@ -8,24 +8,16 @@
         </div>
         <div class="spacer" style="width: 320px; height: 9px;"></div>
         <ion-list id="simularCompraConLista-list30">
-            <ion-item class="item-thumbnail-left energized" id="simularCompraConLista-list-item85" ui-sref="parMetrosDeSimulaciN">
-                <img src="img/1spZKGlfTnLpthErjxRJ_casa.png">
-                <h2energized>Casa
-                    <p style="white-space:normal;">Lista de compra de productos esenciales</p>
+        <ion-item class="enable-pointer-events item-thumbnail-left energized"
+               ng-repeat="(i,item) in listasGuardadas  track by $index"  id="item._id" ng-click="simular(item)" >
+              <!-- <img src="img/1spZKGlfTnLpthErjxRJ_casa.png"> -->
+                <h2energized>{{item.nombre }}
+                    <p style="white-space:normal;">{{item.descripcion }}</p>
                 </h2energized>
-            </ion-item>
-            <ion-item class="item-thumbnail-left energized" id="simularCompraConLista-list-item86" ui-sref="parMetrosDeSimulaciN">
-                <img src="img/iXhAFSIgTsW9shtMzbf9_cumpleaos.png">
-                <h2energized>Cumpleaños
-                    <p style="white-space:normal;">Lista de compra para eventos</p>
-                </h2energized>
-            </ion-item>
-            <ion-item class="item-thumbnail-left energized" id="simularCompraConLista-list-item87" ui-sref="parMetrosDeSimulaciN">
-                <img src="img/rl5zdVjR2acPiolYZmEh_almuerzoenfamilia.png">
-                <h2energized>Almuerzo en familia
-                    <p style="white-space:normal;">Lista de compra para reuniones</p>
-                </h2energized>
-            </ion-item>
+	            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
+	            
+          </ion-item>
+            
         </ion-list>
         <div id="simularCompraConLista-button-bar13" class="button-bar"></div>
     </ion-content>

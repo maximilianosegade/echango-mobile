@@ -1,10 +1,11 @@
    
 angular.module('app.controllers.agregarTarjetaPromocional', [])
-.controller('agregarTarjetaPromocionalCtrl', function($scope,BaseLocal,$ionicModal,TarjetaPromocionalService) {
+.controller('agregarTarjetaPromocionalCtrl', function($scope,$state,BaseLocal,$ionicModal,TarjetaPromocionalService,ComprarService) {
   
     var dbLocal = BaseLocal;
     
     $scope.$on("$ionicView.beforeEnter", function(event, data){
+    	$scope.simular = ComprarService.simular;
     	TarjetaPromocionalService.getTarjetasPromocionales().then(function(doc){
             $scope.tarjetasPromocionales = doc.tarjetasPromocionales;
             $scope.$apply();
@@ -21,7 +22,23 @@ angular.module('app.controllers.agregarTarjetaPromocional', [])
     $scope.tarjetaPromocionalSeleccionada = '';
 
 
-
+    $scope.seleccionar = function(item){
+   	 if($scope.simular){
+   		 $scope.elegirDescuento(item);
+   	 }
+    };
+    
+    $scope.elegirDescuento = function (item){
+   	 ComprarService.seleccionarDescuento(item).then(function(){
+   		 if(ComprarService.simulacion){
+   			$state.go('menEChango.parMetrosDeSimulaciN');	
+   		 }else{
+   			 $state.go('menEChango.parametrizaciNDeCompra');
+   		 }
+   				 
+   	 });
+   		
+    }
 
    
     /* Funciones modal INICIO*/

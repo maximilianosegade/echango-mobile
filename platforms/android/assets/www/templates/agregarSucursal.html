@@ -6,49 +6,117 @@
         </div>
         <div class="spacer" style="width: 320px; height: 35px;"></div>
         <form id="agregarSucursal-form21" class="list">
-            <label class="item item-select" id="agregarSucursal-select26" name="Cadenas">
-                <span class="input-label">Supermercado</span>
-                <select>
-                    <option>Carrefour</option>
-                    <option>COTO</option>
-                    <option>DIA%</option>
-                    <option>Disco</option>
-                    <option>Jumbo</option>
-                    <option>Wallmart</option>
-                </select>
+        <ion-item ng-click="openModal(1)">
+            <label class="item item-select " id="agregarMedioDePago-select7">
+                <span class="input-label" >Provincia: {{provincia.nombre}}</span>
             </label>
-            <label class="item item-select" id="agregarSucursal-select27" name="Provincia">
-                <span class="input-label">Provincia</span>
-                <select>
-                    <option>Buenos Aires</option>
-                </select>
+          </ion-item>
+    <ion-item ng-click="openModal(2)">
+            <label class="item item-select " id="agregarComercio-select7">
+                <span class="input-label" >Localidad: {{localidad.nombre}}</span>
             </label>
-            <label class="item item-select" id="agregarSucursal-select28" name="Localidad">
-                <span class="input-label">Localidad</span>
-                <select>
-                    <option>Ciudad Autónoma de Buenos Aires</option>
-                    <option>Avellaneda</option>
-                    <option>Lanús</option>
-                    <option>Lomas de Zamora</option>
-                    <option>Banfield</option>
-                    <option>Ramos Mejía</option>
-                    <option>Olivos</option>
-                    <option>Martinez</option>
-                    <option>San Martín</option>
-                </select>
+          </ion-item>
+          <ion-item ng-click="openModal(3)">
+            <label class="item item-select " id="agregarMedioDePago-select7">
+                <span class="input-label" >Cadena: {{cadena}}</span>
             </label>
-            <label class="item item-select" id="agregarSucursal-select29" name="Sucursal">
-                <span class="input-label">Sucursal</span>
-                <select>
-                    <option>Sucursal 1</option>
-                </select>
+          </ion-item>
+    <ion-item ng-click="openModal(4)">
+            <label class="item item-select " id="agregarComercio-select7">
+                <span class="input-label" >Comercio: {{comercio.direccion}}</span>
             </label>
+          </ion-item>
+        
+            
+            
             <div class="spacer" style="width: 320px; height: 27px;"></div>
-            <div>
-                <img src="img/aKNYlOo8TPu71AeHOs6o_Mapa.PNG" width="40%" height="" style="display: block; margin-left: auto; margin-right: auto;">
-            </div>
+            <div class="mapa">            
+            	<map on-create="mapCreated(map)"></map>
+        	</div>
             <div class="spacer" style="width: 320px; height: 12px;"></div>
         </form>
-        <a ui-sref="DNdeCompro" id="agregarSucursal-button83" style="color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Agregar</a>
+        <a ng-click="agregar()" id="agregarSucursal-button83" style="color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Agregar</a>
     </ion-content>
+    
+    
+    <script id="provincias-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Provincia</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="item in provincias" ng-click="closeModalSeleccionProvincia(item)">
+                  {{item.nombre}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+    
+    <script id="localidades-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Localidad</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="item in localidades" ng-click="closeModalSeleccionLocalidad(item)">
+                  {{item.nombre}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      
+      <script id="cadenas-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Cadena</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="item in cadenas" ng-click="closeModalSeleccionCadena(item)">
+                  {{item}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+      
+      <script id="comercios-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Comercio</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="item in comercios" ng-click="closeModalSeleccionComercio(item.key)">
+                  {{item.key.direccion}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+    
 </ion-view>

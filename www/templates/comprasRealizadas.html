@@ -9,7 +9,7 @@
         <ion-list id="comprasRealizadas-list21">
             <ion-item class="energized" ng-repeat="item in compras">
                 <h2energized>{{item.doc.comercio.nombreCadena}}-{{item.doc.comercio.direccion}}
-                    <p style="white-space:normal;">{{item.doc.fecha | date: 'dd/MM/yyyy'}} - ${{item.doc.costo.valorTotal}}   - {{{item.doc.lista.totalProductos}}   artículos comprados</p>
+                    <p style="white-space:normal;">{{item.doc.fecha | date: 'dd/MM/yyyy'}} - ${{item.doc.costo.valorTotal}}   - {{item.doc.lista.totalProductos}}   artículos comprados</p>
                 </h2energized>
             </ion-item>
         </ion-list>

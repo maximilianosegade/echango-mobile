@@ -34,12 +34,6 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('registrarseCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
-   
 .controller('informaciNDeUsuarioCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
@@ -70,11 +64,10 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('gestiNDeCompraCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+.controller('gestiNDeCompraCtrl', function ($scope, $stateParams, ListaService) {
+ListaService.simulacion = false;
 
-
-}])
+})
    
 .controller('parametrizaciNDeCompraCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
@@ -99,12 +92,12 @@ function ($scope, $stateParams) {
 
 
 }])
-   
+   /*
 .controller('cerrarChangoCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
 
-}])
+}])*/
    
 .controller('compraSimuladaCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
@@ -294,21 +287,21 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('relevarProductoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+/*.controller('relevarProductoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
 
-}])
+}])*/
    
-.controller('informarProductoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
+/*.controller('informarProductoCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller
 // You can include any angular dependencies as parameters for this function
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
 
-}])
+}])*/
    
 .controller('agregarProductoCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {

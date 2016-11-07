@@ -2,45 +2,74 @@
     <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
         <ion-list id="eChango-list35">
             <ion-item class="item-thumbnail-left dark" id="eChango-list-item102">
-                <img src="img/Lfb0Rr7Tz2VnOPijvrXg_Coto.png">
-                <h2dark>Sucursal 1 - Italia 77
-                    <p style="white-space:normal;">Cant. Prod.: 04/28 --------------------Valorizado: $137,48</p>
+                <h2dark>{{comercio.nombre}},{{comercio.direccion}}
+                    <p style="white-space:normal;">Cant. Prod.: {{chango.totalProductos}}/{{lista.totalProductos}} --------------------Valorizado: ${{chango.total}}</p>
                 </h2dark>
             </ion-item>
         </ion-list>
         <div id="eChango-button-bar16" class="button-bar">
-            <a ui-sref="verificarChango" id="eChango-button136" style="font-weight:600;color:#000000;font-size:14px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-alert">Verificar Chango</a>
-            <a ui-sref="cerrarChango" id="eChango-button138" style="font-weight:600;color:#FFFFFF;font-size:14px;border-radius:40px 40px 40px 40px;" class="button button-balanced  button-block icon-right ion-android-arrow-dropright-circle">Cerrar Chango</a>
+            <a ng-click="verificarChango()" id="eChango-button136" style="font-weight:600;color:#000000;font-size:14px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-alert">Verificar Chango</a>
+            <a ng-click="cerrarChango()"  id="eChango-button138" style="font-weight:600;color:#FFFFFF;font-size:14px;border-radius:40px 40px 40px 40px;" class="button button-balanced  button-block icon-right ion-android-arrow-dropright-circle">Cerrar Chango</a>
         </div>
         <div class="spacer" style="width: 320px; height: 12px;"></div>
         <div class="item item-body" id="eChango-list-item-container9">
-            <a ui-sref="agregarProducto" id="eChango-button139" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-qr-scanner">Escanear Producto</a>
+            <a ng-click="escannear()" id="eChango-button139" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-qr-scanner">Escanear Producto</a>
             <form id="eChango-form37" class="list">
-                <label class="item item-input">
+         <!--       <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>
                     <input type="search" placeholder="">
                 </label>
-                <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
-                <ion-item class="dark" id="eChango-list-item104" ui-sref="agregarProducto">
-                    <span class="item-note">Coca Cola 2.25 lt (4 u.)</span>
-                </ion-item>
-                <ion-item id="eChango-list-item105" ui-sref="agregarProducto">
-                    <span class="item-note">Yerba Mate 0.5 kg (2 u.)</span>
-                </ion-item>
-                <ion-item id="eChango-list-item106" ui-sref="agregarProducto">
-                    <span class="item-note">Hamburguesas (8 u.)</span>
-                </ion-item>
+         -->      
                 <ion-item class="item-divider" id="eChango-list-item-divider4">Productos en Chango</ion-item>
-                <ion-item class="dark" id="eChango-list-item103" ui-sref="agregarProducto">Yogurt Descremado (3 u.)
-                    <span class="item-note">$27,36</span>
+                                <ion-item ng-repeat="producto in chango.productos" ng-click="editar(producto)">
+                	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
-                <ion-item class="dark" id="eChango-list-item107" ui-sref="agregarProducto">Galletitas Óreo (2 u.)
-                    <span class="item-note">$42,64</span>
-                </ion-item>
-                <ion-item class="dark" id="eChango-list-item108" ui-sref="agregarProducto">Vino Bravío Malbec (1 u.)
-                    <span class="item-note">$67,48</span>
+                <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
+                                <ion-item ng-repeat="producto in lista.productos" >
+                	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
             </form>
         </div>
     </ion-content>
+    
+       <script id="producto-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Detalle del producto</h1>
+          </ion-header-bar>
+          <ion-content>
+<form id="agregarProducto-form40" class="list">
+            <label class="item item-input" id="agregarProducto-input37">
+                <span class="input-label">EAN:</span>
+                <input type="text" ng-model="producto.ean" disabled="true">
+            </label>
+            <label class="item item-input" id="agregarProducto-input38">
+                <span class="input-label">Descripción:</span>
+                <input type="text" ng-model="producto.nombre" disabled="true">
+            </label>
+            <label class="item item-input" id="agregarProducto-input39">
+                <span class="input-label">Precio de Lista Un.: $</span>
+                <input type="number" ng-model="producto.lista">
+            </label>
+            <label class="item item-input" id="agregarProducto-input40">
+                <span class="input-label">Cantidad:</span>
+                <input type="number" ng-model="producto.cantidad">
+            </label>
+            <label class="item item-input" id="agregarProducto-input41">
+                <span class="input-label">Descuento: $</span>
+                <input type="number" ng-model="producto.descuento" disabled="true">
+            </label>
+            <label class="item item-input" id="agregarProducto-input42">
+                <span class="input-label">Precio: $</span>
+                <input type="number" ng-model="producto.aPagar" disabled="true">
+            </label>
+        </form>
+        <div id="agregarProducto-button-bar17" class="button-bar">
+            <a ng-click="cerrarYagregar()" id="agregarProducto-button140" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-checkmark-circled">Agregar</a>
+            <a ng-click="cerrar()" id="agregarProducto-button141" style="font-weight:600;color:#FFFFFF;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-android-cancel">Cancelar</a>
+        </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
 </ion-view>

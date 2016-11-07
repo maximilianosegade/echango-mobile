@@ -42,7 +42,7 @@ angular.module('app.services.ubicaciones', [])
              id: 0,
              nombre: comercio.nombre,
              direccion: comercio.direccion,
-             nombrecadena: comercio.nombrecadena,
+             cadena: comercio.cadena,
              latitud: comercio.latitud,
              longitud:  comercio.longitud
            }

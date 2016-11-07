@@ -1,5 +1,5 @@
 angular.module('app.controllers.lista', [])
-.controller('listaCtrl', function($scope,$ionicHistory,$state,ListaService, ComprarService) {
+.controller('listaCtrl', function($scope,$ionicHistory,$state,ListaService, ComprarService,$stateParams) {
 
  $scope.$on("$ionicView.beforeEnter", function(event, data){
 		 
@@ -10,15 +10,39 @@ angular.module('app.controllers.lista', [])
 					 $scope.listasGuardadas.push(result[i].doc);
 			        }  
 		    $scope.$apply();
-		 })
+		 });
+		 
+		 $scope.simular = ComprarService.simular;
+		 if($scope.simular){
+			 ComprarService.obtenerParametrosSimulacion();
+		 }
+		 
  });
  
+ $scope.simularConLista = function(){
+	 ComprarService.simular = true;
+	 ComprarService.simulacion = true;
+	 ListaService.simular = true;
+	 $state.go('menEChango.misListas');
+ }
+ 
+ $scope.seleccionar = function(lista){
+	 if($scope.simular){
+		 $scope.elegirLista(lista);
+	 }else{
+		 $scope.editar(lista);
+	 }
+ };
+ 
  $scope.elegirLista = function (lista){
-	 ComprarService.seleccionarLista(lista);
-		$ionicHistory.nextViewOptions({
-		      disableBack: false
-		    });
-		 $state.go('menu.miChango');
+	 ComprarService.seleccionarLista(lista).then(function(){
+		 	if(ComprarService.simulacion){
+		 	$state.go('menEChango.parMetrosDeSimulaciN');	
+		 }else{
+			 $state.go('menEChango.parametrizaciNDeCompra');
+		 }	 
+	 });
+		
  }
  
  $scope.combinarListas = function (){
@@ -55,16 +79,16 @@ angular.module('app.controllers.lista', [])
 			}
 		}
 	}
-	ListaService.listaEditar = listaCombinada;
+	ListaService.listaSeleccionada = listaCombinada;
 	ListaService.editando = false;
-	 $state.go('menu.nuevaLista');
+	 $state.go('menEChango.verModificarLista');
 	 
  }
  
  $scope.editar = function (lista){
 	 ListaService.listaSeleccionada = lista;
 	 ListaService.editando = true;
-	 $state.go('menu.nuevaLista');
+	 $state.go('menEChango.verModificarLista');
  }
  
  $scope.simular = function (lista){

@@ -3,17 +3,41 @@
         <div id="parametrizaciNDeCompra-markdown45" style="color:#000000;font-size:16px;text-align:center;">
             <p>Ayuda a eChango a parametrizar tu compra. Dinos dónde te encuentras, cómo pagarás y si usarás una lista de compra definida por ti.</p>
         </div>
-        <div class="spacer" style="width: 320px; height: 12px;"></div>
-        <ion-list id="parametrizaciNDeCompra-list33">
-            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item94" ui-sref="agregarSucursal">
+
+        <div class="list card" id="parametrizaciNDeCompra-card23">
+            <div class="item item-body" id="parametrizaciNDeCompra-list-item-container12">
+                <h2 id="parametrizaciNDeCompra-heading14" style="color:#000000;font-weight:600;text-align:center;">Parámetros Seleccionados</h2>
+                <ion-list id="parametrizaciNDeCompra-list46">
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item98" ng-click="elegirComercio()">
+                      <!--  <img src="img/wrwn2KGnQfOgXdi041HL_Mapa.PNG"> -->
+                      <i class="icon ion-android-compass"></i>Comercio:
+                        <span class="item-note">{{comercio.nombre}},{{comercio.direccion}}</span>                        
+                    </ion-item>
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item100"  ng-click="elegirMedioDePago()">
+                        <i class="icon ion-cash"></i>Medio de Pago:
+                        <span class="item-note">{{medioDePago.tarjeta.nombre}} {{medioDePago.banco.nombre}}</span>
+                    </ion-item>
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item101" ng-click="elegirDescuento()" >
+                        <i class="icon ion-android-happy"></i>Descuento:
+                        <span class="item-note">{{descuento.nombre}}</span>
+                    </ion-item>
+                    <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item109" ng-click="elegirLista()">
+                        <i class="icon ion-android-clipboard"></i>Lista de Compra: 
+                        <span class="item-note">{{lista.nombre}}</span>
+                        </ion-item>
+                </ion-list>
+            </div>
+        </div>
+        <a ui-sref="menEChango.eChango" id="parametrizaciNDeCompra-button134" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-cart">Ir al Chango</a>
+          <!--      <ion-list id="parametrizaciNDeCompra-list33">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item94" ng-click="elegirComercio()" >
                 <i class="icon ion-android-compass"></i>Selecciona Comercio</ion-item>
-            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item95" ui-sref="mediosDePago">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item95" ng-click="elegirMedioDePago()" >
                 <i class="icon ion-cash"></i>Selecciona Medio de Pago</ion-item>
-            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item96" ui-sref="descuentos">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item96" ng-click="elegirDescuento()" >
                 <i class="icon ion-android-happy"></i>Selecciona Descuento</ion-item>
-            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item97" ui-sref="misListas">
+            <ion-item class="item-icon-left dark" id="parametrizaciNDeCompra-list-item97" ng-click="elegirLista()">
                 <i class="icon ion-android-clipboard"></i>Selecciona Tipo de Lista</ion-item>
-        </ion-list>
-        <a ui-sref="eChango" id="parametrizaciNDeCompra-button134" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-cart">Ir al Chango</a>
+        </ion-list>-->
     </ion-content>
 </ion-view>

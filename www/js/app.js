@@ -9,9 +9,7 @@
 
 angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'app.services', 'app.directives', 'app.controllers.comercios', 'app.controllers.medioPago','app.services.ubicaciones','app.services.comercios','app.services.producto','app.services.reporte','app.controllers.ubicaciones','app.controllers.datosAdicionales','app.controllers.agregarTarjetaPromocional','app.services.datosAdicionales','app.services.mediosDePago','app.services.tarjetaPromocional','app.controllers.login','app.services.login','app.services.mapas','app.services.compras','app.services.escanner','app.services.lista','app.controllers.prepararCompra','app.controllers.chango','app.controllers.lista','app.controllers.escanner', 'app.controllers.nuevaLista', 'app.controllers.escanearTicket', 'app.controllers.simular','app.controllers.registrarse', 'app.controllers.parametrizar','app.controllers.reporte','app.controllers.relevarProducto','app.controllers.informarProducto'])
 
-
-
-.run(function($ionicPlatform, BaseLocal, BaseComercios,BaseProductos, BaseListas, $rootScope, $ionicHistory,$ionicNavBarDelegate) {
+.run(function($ionicPlatform, BaseLocal, BaseComercios, BasePreciosPorComercio, BaseProductos, BaseListas, DBSync,$rootScope, $ionicHistory,$ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
     // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
     // for form inputs)
@@ -24,25 +22,28 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
       // org.apache.cordova.statusbar required
       StatusBar.styleDefault();
     }
-    
+
     mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos);
-    //borrarBase(BaseLocal);
+    DBSync.init();      
+    DBSync.syncPreciosPorComercio();
     
+    //borrarBase(BaseLocal);
+
   });
-  
+
   $rootScope.myGoBack = function(){
   	$ionicHistory.goBack();
   };
-  
+
   $rootScope.$on('$stateChangeSuccess', function  (event, toState, toParams, fromState, fromParams) {
-    
+
     	if(toState.name.indexOf('eChango') == -1){
     		$ionicNavBarDelegate.showBackButton(true);
     	}else{
     		$ionicNavBarDelegate.showBackButton(false);
     	}
   });
-  
+
 })
 
 function borrarBase(BaseLocal){
@@ -57,7 +58,7 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
          agregarUbicaciones(BaseLocal);
          agregarProvincias(BaseComercios);
          agregarRadioCompra(BaseLocal);
-        // agregarCadenas(BaseLocal);
+         agregarCadenas(BaseLocal);
         //agregarComercios(BaseComercios);
          //agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
@@ -89,56 +90,66 @@ function ubicacionesYcomercios(db){
    }
 
 function agregarProvincias(db){
-	
-	db.get('tarjetas').then(function(doc){
-	      //si lo encuentra lo borra
-	      
-	      
-	    }).catch(function (error) {
-	           //Si no lo encuentra, lo crea
-	           db.put({
-	                _id: 'provincias',
-	              provincias: [
-	             {
-	              nombre: 'Capital Federal',
-	              localidades : [{nombre: 'Almagro',
-	            	  					cadenas: ['Coto','Disco', 'DIA']},
-	            	  					{nombre: 'Boedo',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Palermo',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Balvanera',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Caballito',
-		            	  				cadenas: ['Coto','Disco', 'DIA']}]
-	             },
-	             {
-	              nombre: 'Buenos Aires',
-	              localidades : [{nombre: 'Avellaneda',
-	            	  					cadenas: ['Coto','Disco', 'DIA']},
-	            	  					{nombre: 'Lanús',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'La Plata',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Mar del Plata',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Bulogne',
-		            	  				cadenas: ['Coto','Disco', 'DIA']}]
-	             },
-	             {
-	              nombre: 'Santa Fé',
-	              localidades : [{nombre: 'Rosario',
-	            	  					cadenas: ['Coto','Disco', 'DIA']},
-	            	  					{nombre: 'Santa Fé',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'Libertad',
-		            	  				cadenas: ['Coto','Disco', 'DIA']},
-		            	  				{nombre: 'San Lorenzo',
-		            	  				cadenas: ['Coto','Disco', 'DIA']}
-		            	  				]
-	             }
-	           ]});
-	         });
+	db.put({
+        _id: 'provincias',
+	    provincias: [{
+            nombre: 'Capital Federal',
+            localidades : [                                
+                {nombre: 'Agronomía'},
+                {nombre: 'Almagro'},
+                {nombre: 'Balvanera'},
+                {nombre: 'Barracas'},
+                {nombre: 'Belgrano'},
+                {nombre: 'Boedo'},
+                {nombre: 'Caballito'},
+                {nombre: 'Chacarita'},
+                {nombre: 'Coghlan'},
+                {nombre: 'Colegiales'},
+                {nombre: 'Constitución'},
+                {nombre: 'Flores'},
+                {nombre: 'Floresta'},
+                {nombre: 'La Boca'},
+                {nombre: 'La Paternal'},
+                {nombre: 'Liniers'},
+                {nombre: 'Mataderos'},
+                {nombre: 'Monte Castro'},
+                {nombre: 'Montserrat'},
+                {nombre: 'Nueva Pompeya'},
+                {nombre: 'Nuñez'},
+                {nombre: 'Palermo'},
+                {nombre: 'Parque Avellaneda'},
+                {nombre: 'Parque Chacabuco'},
+                {nombre: 'Parque Chas'},
+                {nombre: 'Parque Patricios'},
+                {nombre: 'Puerto Madero'},
+                {nombre: 'Recoleta'},
+                {nombre: 'Retiro'},
+                {nombre: 'Saavedra'},
+                {nombre: 'San Cristóbal'},
+                {nombre: 'San Nicolás'},
+                {nombre: 'San Telmo'},
+                {nombre: 'Versalles'},
+                {nombre: 'Villa Crespo'},
+                {nombre: 'Villa Devoto'},
+                {nombre: 'Villa General Mitre'},
+                {nombre: 'Villa Lugano'},
+                {nombre: 'Villa Luro'},
+                {nombre: 'Villa Ortúzar'},
+                {nombre: 'Villa Pueyrredón'},
+                {nombre: 'Villa Real'},
+                {nombre: 'Villa Riachuelo'},
+                {nombre: 'Villa Santa Rita'},
+                {nombre: 'Villa Soldati'},
+                {nombre: 'Villa Urquiza'},
+                {nombre: 'Villa del Parque'},
+                {nombre: 'Vélez Sarsfield'}
+            ]
+        }]
+    }).then(function(resp){
+        console.log('[DB Agregar provincias] - OK.');
+    }).catch(function(err){
+        console.error('[DB Agregar provincias] - Error. ' + err);
+    });
 }
 
 function parametriaSimulacion(BaseLocal){
@@ -265,8 +276,8 @@ function agregarProductos(BaseProductos){
 }
 
 function agregarListas(BaseListas){
-	
-	
+
+
 		BaseListas.bulkDocs([
 	        	{
 					_id: '1',
@@ -289,7 +300,7 @@ function agregarListas(BaseListas){
                 productos: []
             }
             ]);
-	
+
 }
 
 function agregarQuery(BaseComercios){
@@ -297,11 +308,11 @@ function agregarQuery(BaseComercios){
 		  _id: '_design/my_index',
 		  views: {
 		    by_cadena: {
-		      map: function (doc) { emit(doc.nombrecadena); }.toString()
+		      map: function (doc) { emit(doc.cadena); }.toString()
 		    }
 		  }
 		};
-	
+
 	BaseComercios.get('_design/my_index').then(function(doc){
 		BaseComercios.remove(doc._id, doc._rev).then(function(){
 			BaseComercios.put(ddoc).then(function () {
@@ -314,16 +325,16 @@ function agregarQuery(BaseComercios){
 		}).catch(function (err) {
 		  // some error (maybe a 409, because it already exists?)
 		});
-			
+
 		});
-		
+
 }
 
 function agregarComercios(BaseLocal){
-	
-		
-	
-		
+
+
+
+
 	        BaseLocal.bulkDocs([
 	        	{
 					_id: '1',
@@ -338,7 +349,7 @@ function agregarComercios(BaseLocal){
               direccion: 'Castrobarros 166, caba, Argentina',
               nombrecadena: 'Disco',
               latitud: '-34.613968',
-              longitud:  '-58.420387' 
+              longitud:  '-58.420387'
             },
             {
 				_id: '3',
@@ -346,12 +357,12 @@ function agregarComercios(BaseLocal){
               direccion: 'Medrano 850, caba, Argentina',
               nombrecadena: 'Disco',
               latitud: '-34.598658',
-              longitud:  '-58.420187' 
+              longitud:  '-58.420187'
             }
             ]);
-	
-	
-	
+
+
+
 }
 
 function agregarUbicaciones(BaseLocal){
@@ -423,45 +434,35 @@ function agregarUbicaciones(BaseLocal){
 
 }
 function agregarCadenas(BaseLocal){
+    var cadenasDisponibles = {
+        _id: 'cadenasDisponibles',
+        "cadenasDisponibles": [{
+            _id: 12,
+            nombre: 'COTO',
+        }, {
+            _id: 15,
+            nombre: 'DIA',
+        },
+        {
+            _id: 10,
+            nombre: 'CARREFOUR',
+        }
+        ]
+    }
+    
 	//Busca el documento 'medioDePagoTarjetasNombres'
     BaseLocal.get('cadenasDisponibles').then(function(doc){
       //si lo encuentra lo borra
       BaseLocal.remove(doc._id, doc._rev).then(function(){
         //si lo borra bien lo vuelve a crear
-        BaseLocal.put({
-                _id: 'cadenasDisponibles',
-              "cadenasDisponibles": [{
-              _id: 0,
-              nombre: 'Disco',
-            }, {
-              _id: 1,
-              nombre: 'Coto',
-            },
-            {
-              _id: 2,
-              nombre: 'Jumbo',
-            }
-            ]});
+        BaseLocal.put(cadenasDisponibles);
       });
     }).catch(function (error) {
-           //Si no lo encuentra, lo crea
-           BaseLocal.put({
-                _id: 'cadenasDisponibles',
-              "cadenasDisponibles": [{
-              id: 0,
-              nombre: 'Disco',
-            }, {
-              id: 1,
-              nombre: 'Coto',
-            },
-            {
-              id: 2,
-              nombre: 'Jumbo',
-            }
-            ]});
-         });
-	}
-	
+        //Si no lo encuentra, lo crea
+        BaseLocal.put(cadenasDisponibles);
+    });
+}
+
 function agregarTarjetas(BaseLocal){
 	BaseLocal.get('tarjetas').then(function(doc){
 	      //si lo encuentra lo borra
@@ -508,4 +509,3 @@ function agregarTarjetas(BaseLocal){
 	            ]});
 	         });
 }
-

@@ -5,13 +5,45 @@
             <p>Aquí podrás gestionar (agregar, modificar y eliminar) tus descuentos y tarjetas de beneficio.</p>
         </div>
         <ion-list id="descuentos-list13">
-            <ion-item class="item-icon-right dark" id="descuentos-list-item43" ui-sref="agregarDescuento">Coto - Comunidad Coto
-                <i class="icon ion-card"></i>
-            </ion-item>
-            <ion-item class="item-icon-right" id="descuentos-list-item44" ui-sref="agregarDescuento">Carrefour - Voucher ($30)
-                <i class="icon ion-document"></i>
+        <ion-item class="enable-pointer-events item-icon-right dark"
+               ng-repeat="(i,item) in descuentos  track by $index"  id="item._id" ng-click="seleccionar(item)" >
+            {{nombre}}
             </ion-item>
         </ion-list>
-        <a ui-sref="agregarDescuento" id="descuentos-button99" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Agregar Nuevo Descuento</a>
+        <form id="agregarTarjetaPromocional-form7" class="list ">
+        <ion-item ng-click="openModal()">
+            <label class="item item-select " id="agregarMedioDePago-select7">
+                <span class="input-label" >Tarjeta: {{tarjetaPromocionalSeleccionada.nombre}}</span>
+            </label>
+        </ion-item>
+        </form>
+        <a ng-click="agregar()" id="descuentos-button99" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Agregar Nuevo Descuento</a>
+        <ion-list show-delete="true" >
+          <ion-item class="enable-pointer-events item-icon-right dark" ng-repeat="(i,item) in  tarjetasPromocionalesRegistradas track by $index" 
+          ng-click="seleccionar(item)">
+            <ion-delete-button class="ion-minus-circled" ng-click="deleteItem(item)"></ion-delete-button>
+                {{item.nombre}}
+          </ion-item>
+        </ion-list>  
     </ion-content>
 </ion-view>
+
+ <script id="my-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Tarjeta Promocional</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="tarjeta in tarjetasPromocionales" ng-click="closeModal(tarjeta)">
+                  {{tarjeta.nombre}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>

@@ -13,6 +13,15 @@ angular.module('app.services.ubicaciones', [])
            return doc.comercios;
          });
    };
+	
+	this.actualizarComercioFavorito = function(comercio, indice){
+		return database.get('ubicaciones').then(function(doc){
+					doc.comercios[indice] = comercio;
+					return database.put(doc).then(function(doc){
+						return doc;
+					});
+	         });
+	}
    
    this.agregarComercioFavorito = function(comercio) {
        return database.get('ubicaciones').then(function(doc){
@@ -43,19 +52,20 @@ angular.module('app.services.ubicaciones', [])
         });
    };
    
-    this.agregarUbicacion = function(ubicacion) {
+    this.agregarUbicacion = function(ubicacion, indice) {
+    	    	
         return database.get('ubicaciones').then(function(doc){
             //para editar, primero lo saco y después lo vuelvo a agregar
-            doc.ubicaciones = removerElemento(doc.ubicaciones,ubicacion); 
-            doc.ubicaciones.push(ubicacion);
+            doc.ubicaciones[indice] = ubicacion;            
             database.put(doc,doc._id,doc._rev);
             return doc;
          }).catch(function (error) {
            //Si no lo encuentra, lo crea
+        	 //No debería pasar nunca
            var doc = {
                 _id: 'ubicaciones',
               "ubicaciones": [{
-              id: 0,
+              id: indice,
               nombre: ubicacion.nombre,
               direccion: ubicacion.direccion,
               latitud: ubicacion.latitud,
@@ -81,6 +91,18 @@ angular.module('app.services.ubicaciones', [])
          });
     };
     
+    this.getRadio = function(){
+    	 return database.get('radio').then(function(doc){
+              return doc.radio;
+          });
+    }
+    this.actualizarRadio = function(nuevoRadio){
+    	return database.get('radio').then(function(doc){
+    		doc.radio = nuevoRadio;
+             database.put(doc,doc._id,doc._rev);
+             return doc.radio;
+        });
+    }
     
     
 });

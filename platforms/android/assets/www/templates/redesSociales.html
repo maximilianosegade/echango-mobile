@@ -5,21 +5,58 @@
             <p>Administra tus redes sociales. Puedes vincular una nueva cuenta o eliminar una existente.</p>
         </div>
         <ion-list id="redesSociales-list19">
+            <!--
             <ion-item class="item-avatar item-icon-right dark" id="redesSociales-list-item53" ui-sref="loginFacebook">
                 <img src="img/2UNz5d2SZCAG0Ks9w4sG_Avatarredsocial.png">
                 <h2dark>Maximiliano Alberto Bracho
                     <p>maximiliano.bracho@outlook.com.ar</p>
-                    <i class="icon ion-social-facebook"></i>
+                    <i class="icon ion-social-facebook positive"></i>
                 </h2dark>
             </ion-item>
+            -->
+            <ion-item class="item-avatar item-icon-right dark" id="redesSociales-list-item53" ng-show="showFacebook" ng-click="showFacebookLogOutMenu()">
+                <!--
+                <img src="img/2UNz5d2SZCAG0Ks9w4sG_Avatarredsocial.png">
+                -->
+                <img ng-src="{{facebookUser.picture}}">
+                <h2dark>{{facebookUser.name}}
+                    <p>{{facebookUser.email}}</p>
+                    <i class="icon ion-social-facebook positive"></i>
+                </h2dark>
+            </ion-item>
+            <ion-item class="item-avatar item-icon-right dark" id="redesSociales-list-item53" ng-hide="showFacebook" ng-click="facebookSignIn()">
+                
+                <h2dark>Inicia sesión en
+                    <p>Facebook </p>
+                    <i class="icon ion-social-facebook stable"></i>
+                </h2dark>
+            </ion-item>
+            <!--
             <ion-item class="item-avatar item-icon-right dark" id="redesSociales-list-item54" ui-sref="loginGoogle">
                 <img src="img/2UNz5d2SZCAG0Ks9w4sG_Avatarredsocial.png">
                 <h2dark>Maximiliano Bracho
                     <p>maximiliano.bracho@gmail.com</p>
-                    <i class="icon ion-social-googleplus"></i>
+                    <i class="icon ion-social-googleplus assertive"></i>
                 </h2dark>
             </ion-item>
+            -->
+            <ion-item class="item-avatar item-icon-right dark" id="redesSociales-list-item54" ng-show="showGooglePlus" ng-click="showGooglePlusLogOutMenu()">
+                <!--
+                    <img src="img/2UNz5d2SZCAG0Ks9w4sG_Avatarredsocial.png">
+                    -->
+                <img ng-src="{{googleUser.picture}}">
+                <h2dark>{{googleUser.name}}
+                    <p>{{googleUser.email}}</p>
+                    <i class="icon ion-social-googleplus assertive"></i>
+                </h2dark>
+            </ion-item>      
+            <ion-item class="item-avatar item-icon-right dark" id="redesSociales-list-item54" ng-hide="showGooglePlus" ng-click="googleSignIn()">
+                <h2dark>Inicia sesión con
+                    <p>Google</p>
+                    <i class="icon ion-social-googleplus stable"></i>
+                </h2dark>
+            </ion-item>   
         </ion-list>
-        <a ui-sref="cuentaEChango" id="redesSociales-button73" style="font-weight:600;color:#000000;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkmark-circle">Confirmar</a>
+        <a ui-sref="menEChango.cuentaEChango" id="redesSociales-button73" style="font-weight:600;color:#000000;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkmark-circle">Confirmar</a>
     </ion-content>
 </ion-view>
