@@ -23,6 +23,28 @@ angular.module('app.controllers.reporte', [])
 			$scope.productos = productos;
 		})
 	});
+	
+	
+	 $ionicModal.fromTemplateUrl('precios-modal.html', {
+	        id: '1',
+	        scope: $scope,
+	        animation: 'slide-in-up'
+	    }).then(function(modal) {
+	        $scope.modal1 = modal;
+	    });
+
+	$scope.closeModal = function() {
+	    $scope.modal1.hide();
+	};
+
+	$scope.$on('$destroy', function() {
+	        $scope.modal.remove();
+	})
+	
+	$scope.abrirModal = function(producto){
+		$scope.producto = producto
+		$scope.modal1.show();
+	}
 })
 
 

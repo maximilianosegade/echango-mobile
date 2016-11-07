@@ -7,7 +7,7 @@
             <p>Selecciona un producto para visualizar su detalle:</p>
         </div>        
         <ion-list id="productosYPrecios-list22">
-            <ion-item class=" energized" ng-repeat="item in productos">
+            <ion-item class=" energized" ng-repeat="item in productos" ng-click="abrirModal(item)">
                 <h2energized>{{item._id}}-{{item.nombre}}	
                     <p style="white-space:normal;"> comprado {{item.valores.length}}    veces</p>
                 </h2energized>
@@ -15,4 +15,23 @@
            
         </ion-list>
     </ion-content>
+    <script id="precios-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">{{producto.nombre}}</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="item in producto.valores" >
+                  {{item.fecha| date: 'dd/MM/yyyy'}}---${{item.valor}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
 </ion-view>
