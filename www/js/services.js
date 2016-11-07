@@ -20,10 +20,14 @@ angular.module('app.services', [])
 .factory('BaseCompras', function() {
   return new PouchDB('baseCompras');
 })
+.factory('BaseSimulaciones', function() {
+  return new PouchDB('baseSimulaciones');
+})
 .factory('BasePreciosPorComercio', function() {
   return preciosPorComercioLocal = new PouchDB('basePreciosPorComercio');
 })
 .factory('DBSync', function(BaseProductos, BaseComercios, BasePreciosPorComercio, ComerciosService) {
+
 
   var dbSync = {};
 

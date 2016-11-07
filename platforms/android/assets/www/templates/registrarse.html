@@ -5,17 +5,25 @@
         </div>
         <form id="registrarse-form14" class="list">
             <label class="item item-input" id="registrarse-input21" name="usuario">
-                <input type="email" placeholder="Dirección de e-mail">
+                <input type="email" placeholder="Dirección de e-mail" ng-model="currentUser.email">
             </label>
             <div class="spacer" style="width: 300px; height: 19px;"></div>
             <label class="item item-input" id="registrarse-input22" name="password">
-                <input type="password" placeholder="Contraseña">
+                <input type="password" placeholder="Contraseña" ng-model="currentUser.password">
             </label>
             <div class="spacer" style="width: 300px; height: 25px;"></div>
             <label class="item item-input" id="registrarse-input23" name="password-confirm">
-                <input type="password" placeholder="Repetir Contraseña">
+                <input type="password" placeholder="Repetir Contraseña" ng-model="data.passwordConfirm">
             </label>
         </form>
+        <!--
         <a ui-sref="informaciNDeUsuario" id="registrarse-button59" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-person-add">Crear Usuario eChango</a>
+        -->
+        <a ng-click="createUser()" id="registrarse-button59" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-person-add">Crear Usuario eChango</a>
+        <ion-item>
+            <ul ng-repeat="error in errores">
+            <li style="color:#ff0000">{{error}}
+            </ul>
+        </ion-item>
     </ion-content>
 </ion-view>

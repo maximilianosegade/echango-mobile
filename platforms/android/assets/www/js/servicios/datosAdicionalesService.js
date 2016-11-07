@@ -21,14 +21,11 @@ angular.module('app.services.datosAdicionales', [])
                 _rev: doc._rev,
                 sexo: obj.sexo,
                 estadoCivil: obj.estadoCivil,
-                regularidadCompra: obj.regularidadCompra,
+                regularidadDeCompra: obj.regularidadDeCompra,
                 edad: obj.edad,
-                nombre: obj.nombre,
-                password: obj.password,
-                lugarCompraAlmacenBarrio: obj.lugarCompraAlmacenBarrio,
-                lugarCompraMinimercado: obj.lugarCompraMinimercado,
-                lugarCompraMinimercadoChino: obj.lugarCompraMinimercadoChino,
-                lugarCompraSupermercado: obj.lugarCompraSupermercado,
+                lugarDeCompra: obj.lugarDeCompra,
+                composicionFamiliar: obj.composicionFamiliar
+
             });
         }).then(function(response) {
               alert('Datos guardados correctamente!')

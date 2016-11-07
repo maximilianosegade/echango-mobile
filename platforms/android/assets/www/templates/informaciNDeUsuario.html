@@ -10,6 +10,35 @@
             <p>La información provista será utilizada en pos de brindarle mayores beneficios y una mejor experiencia de compra.</p>
         </div>
         <div class="item item-body" id="informaciNDeUsuario-list-item-container3">
+                <label class="item item-select " id="datosAdicionales-select1" ng-click="openModal(1)">
+                    <span class="input-label" >Sexo: {{datosAdicionales.sexo}}</span>
+                </label>
+            
+                <label class="item item-select " id="datosAdicionales-select2" ng-click="openModal(2)">
+                    <span class="input-label" >Edad: {{datosAdicionales.edad}}</span>
+                </label>
+            
+            
+                <label class="item item-select " id="datosAdicionales-select3" ng-click="openModal(3)">
+                    <span class="input-label" >Estado Civil: {{datosAdicionales.estadoCivil}}</span>
+                </label>
+              
+            
+                <label class="item item-select " id="datosAdicionales-select4" ng-click="openModal(5)">
+                    <span class="input-label" >Composicion Familiar: {{datosAdicionales.composicionFamiliar}}</span>
+                </label>
+            
+            
+                <label class="item item-select " id="datosAdicionales-select4" ng-click="openModal(4)">
+                    <span class="input-label" >Regularidad de Compra: {{datosAdicionales.regularidadDeCompra}}</span>
+                </label>
+            
+            
+                <label class="item item-select " id="datosAdicionales-select4" ng-click="openModal(6)">
+                    <span class="input-label" >Lugar de Compra: {{datosAdicionales.lugarDeCompra}}</span>
+                </label>
+            
+            <!--
             <form id="informaciNDeUsuario-form17" class="list">
                 <label class="item item-select" id="informaciNDeUsuario-select9" name="Sex">
                     <span class="input-label">Sexo</span>
@@ -71,8 +100,132 @@
                         <option>No Informa</option>
                     </select>
                 </label>
+                -->
             </form>
         </div>
+        <!--
         <a ui-sref="leyendaDeConfirmaciNDeInfo" id="informaciNDeUsuario-button76" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkmark-circle">Confirmar</a>
+        -->
+        <a ng-click="guardar()" id="informaciNDeUsuario-button76" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkmark-circle">Confirmar</a>
+        
     </ion-content>
 </ion-view>
+
+ <script id="sexo-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Sexo</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="sexo in sexos" ng-click="closeModalSeleccionSexo(sexo)">
+                  {{sexo}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+
+       <script id="edad-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Edad</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="edad in edades" ng-click="closeModalSeleccionEdad(edad)">
+                  {{edad}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+
+       <script id="estado-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Estado Civil</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="estado in estados" ng-click="closeModalSeleccionEstadoCivil(estado)">
+                  {{estado}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+
+       <script id="regularidad-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Regularidad de Compra</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="regularidad in regularidades" ng-click="closeModalSeleccionRegularidadCompra(regularidad)">
+                  {{regularidad}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+       <script id="composicion-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Composición Familiar</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="composicion in composiciones" ng-click="closeModalSeleccionComposicion(composicion)">
+                  {{composicion}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+
+             <script id="lugares-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Elegir Lugar de Compra</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="lugar in lugares" ng-click="closeModalSeleccionLugarCompra(lugar)">
+                  {{lugar}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>

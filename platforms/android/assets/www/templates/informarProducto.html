@@ -2,23 +2,30 @@
     <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
         <div class="spacer" style="width: 320px; height: 10px;"></div>
         <div>
+            <img src="img/imagen-no-disponible.png" width="75%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+            <!--
             <img src="img/ho9HAUAuRUiI3OxBYc8U_Agua.png" width="50%" height="auto" style="display: block; margin-left: auto; margin-right: auto;">
+            -->
         </div>
         <form id="informarProducto-form33" class="list">
             <label class="item item-input" id="informarProducto-input34">
                 <span class="input-label">EAN:</span>
-                <input type="number" placeholder="77881213123123">
+                <input type="number" placeholder="" ng-model="data.currentEAN">
             </label>
             <label class="item item-input" id="informarProducto-input35">
                 <span class="input-label">Descripción:</span>
-                <input type="text" placeholder="Agua Villa del Sur 2.25 lt">
+                <input type="text" placeholder="" ng-model="data.currentDesc">
             </label>
             <label class="item item-input" id="informarProducto-input36">
                 <span class="input-label">Precio de Lista Un.: $</span>
-                <input type="number" placeholder="22,98">
+                <input type="number" placeholder="" ng-model="data.currentPrice">
             </label>
         </form>
+        <!--
         <a ui-sref="menEChango.relevarProducto" id="informarProducto-button101" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-balanced  button-block icon-left ion-checkmark-circled">Informar</a>
+        -->
+        <a ng-click="updateProducto()" id="informarProducto-button101" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-balanced  button-block icon-left ion-checkmark-circled">Informar</a>
         <a ui-sref="menEChango.relevarProducto" id="informarProducto-button102" style="font-weight:600;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-alert-circled">Denunciar a Precios Claros</a>
+
     </ion-content>
 </ion-view>

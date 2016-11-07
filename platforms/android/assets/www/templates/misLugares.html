@@ -7,23 +7,12 @@
             <p>Dichos lugares serán utilizadas como referencia para sugerencia de descuentos y promociones.</p>
         </div>
         <ion-list id="misLugares-list15">
-            <ion-item class="item-thumbnail-left item-icon-right energized" id="misLugares-list-item29" ui-sref="agregarLugar">
-                <img src="img/iPmLgLG8SW2wyoBMUBGP_Mapa.PNG">
-                <h2energized>Casa
-                    <p style="white-space:normal;">Dirección 4234, Buenos Aires, Artentina</p>
-                    <i class="icon ion-ios-home"></i>
-                </h2energized>
-            </ion-item>
-            <ion-item class="item-thumbnail-left item-icon-right energized" id="misLugares-list-item37" ui-sref="agregarLugar">
-                <h2energized>Trabajo
-                    <p>Sin Selección</p>
-                    <i class="icon ion-briefcase"></i>
-                </h2energized>
-            </ion-item>
-            <ion-item class="item-thumbnail-left item-icon-right energized" id="misLugares-list-item38" ui-sref="agregarLugar">
-                <h2energized>Otro
-                    <p>Texto libre</p>
-                    <i class="icon ion-android-globe"></i>
+            <ion-item class="item-thumbnail-left item-icon-right energized" 
+            ng-repeat="(i,item) in  ubicaciones track by $index" 
+          ng-click="seleccionar(i)">
+                <h2energized>{{item.nombre}}
+                    <p style="white-space:normal;">{{item.direccion}}</p>
+                    <i class="icon ion-android-bookmark"></i>
                 </h2energized>
             </ion-item>
         </ion-list>

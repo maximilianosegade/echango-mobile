@@ -1,6 +1,17 @@
 angular.module('app.services.login', [])
 .service("LoginService", function($rootScope, $q, BaseLocal) {
    var database = BaseLocal;
+   var currentUser = {};
+
+   // eChangoUser
+
+   var getCurrentUser = function() {
+     return currentUser;
+   };
+
+   var setCurrentUser = function(aUser) {
+     this.currentUser = aUser;
+   };
    
   // Facebook Services
   // For the purpose of this example I will store user data on ionic local storage but you should save it on a database
@@ -22,11 +33,33 @@ angular.module('app.services.login', [])
     return JSON.parse(window.localStorage.starter_google_user || '{}');
   };
 
+  var userIsLoggedIn = function () {
+    return (isChangoUser() || isFacebookUser() || isGoogleUser())
+  }
+
+  var isGoogleUser = function () {
+    return (JSON.stringify(getGooglePlusUser())!='{}')
+  }
+
+  var isFacebookUser = function () {
+    return (JSON.stringify(getFacebookUser())!='{}')
+  }
+
+    var isChangoUser = function () {
+    return (JSON.stringify(getCurrentUser())!='{}')
+  }
+
   return {
     getFacebookUser: getFacebookUser,
     setFacebookUser: setFacebookUser,
     getGooglePlusUser: getGooglePlusUser,
-    setGooglePlusUser: setGooglePlusUser
+    setGooglePlusUser: setGooglePlusUser,
+    getCurrentUser: getCurrentUser,
+    setCurrentUser: setCurrentUser,
+    userIsLoggedIn: userIsLoggedIn,
+    isGoogleUser: isGoogleUser,
+    isFacebookUser: isFacebookUser,
+    isChangoUser: isChangoUser
   };
     
 })

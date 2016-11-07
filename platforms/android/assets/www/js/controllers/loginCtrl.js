@@ -3,8 +3,27 @@ angular.module('app.controllers.login', [])
 .controller('loginCtrl', function($scope,BaseLocal,$ionicModal,$state,$q,$ionicLoading,LoginService,$ionicActionSheet) {
   
     var dbLocal = BaseLocal;
-    $scope.showFB = true;
-    $scope.showGooglePlus = true;
+    $scope.facebookUser = {};
+    $scope.googleUser = {};
+
+                $scope.$on('$ionicView.enter', function() {
+                  $scope.showGooglePlus = LoginService.isGoogleUser();
+                  $scope.showFacebook = LoginService.isFacebookUser();
+                  $scope.facebookUser = LoginService.getFacebookUser();
+                	$scope.googleUser = LoginService.getGooglePlusUser();
+                  if($state.current.name == 'login') {
+                    if (LoginService.userIsLoggedIn()) {
+                      alert('¡Ya se encuentra logueado!');
+                      $state.go('menuPrincipal');
+                    } 
+                  }
+
+                  
+
+	    });
+
+    //$scope.showFB = true;
+    //$scope.showGooglePlus = true;
 
   // Facebook Functionality
   // This is the success callback from the login method
@@ -29,8 +48,14 @@ angular.module('app.controllers.login', [])
         picture : "http://graph.facebook.com/" + authResponse.userID + "/picture?type=large"
       });
       $ionicLoading.hide();
-      alert('fbLoginSuccess!');
-      $scope.showFB = false;
+      alert('¡Se ha iniciado sesión con Facebook exitosamente!');
+      $scope.showFacebook = LoginService.isFacebookUser();
+      $scope.facebookUser = LoginService.getFacebookUser();
+      $scope.$apply();
+      if ($state.current.name == 'login') {
+          $state.go('menuPrincipal');
+      };
+      //$scope.showFB = false;
       //$state.go('menu.eChango');
     }, function(fail){
       // Fail get profile info
@@ -85,9 +110,10 @@ angular.module('app.controllers.login', [])
 							email: profileInfo.email,
 							picture : "http://graph.facebook.com/" + success.authResponse.userID + "/picture?type=large"
 						});
-            alert('Success!')
-            $scope.showFB = false;
-            $scope.apply();
+            alert('¡Éxito!')
+            $scope.showFacebook = LoginService.isFacebookUser();
+            $scope.$apply();
+            //$scope.apply();
 						//$state.go('menu.eChango');
 					}, function(fail){
 						// Fail get profile info
@@ -95,8 +121,8 @@ angular.module('app.controllers.login', [])
 						console.log('profile info fail', fail);
 					});
 				}else{
-          $scope.showFB = false;
-          $scope.apply();
+          $scope.showFacebook = LoginService.isFacebookUser();
+          $scope.$apply();
 					//$state.go('menu.eChango');
 				}
       } else {
@@ -138,12 +164,14 @@ angular.module('app.controllers.login', [])
 
         // Facebook logout
         facebookConnectPlugin.logout(function(){
-          alert('Éxito logout FB')
-          $scope.showFB = true;
+          alert('Éxito logout FB');
+          LoginService.setFacebookUser({});
+          $scope.showFacebook = LoginService.isFacebookUser();
+          $scope.$apply();
           //$state.go('menu.login');
         },
         function(fail){
-            alert('Falló logout FB')
+            alert('Falló logout FB');
             
         });
         $ionicLoading.hide();
@@ -176,11 +204,16 @@ angular.module('app.controllers.login', [])
         });
         alert('Google+ login success!');
         $ionicLoading.hide();
-        $scope.showGooglePlus = false;
-        //$state.go('app.home');
+        $scope.showGooglePlus = LoginService.isGoogleUser();
+        $scope.$apply();
+        if ($state.current.name == 'login') {
+          $state.go('menuPrincipal');
+        }
+        
       },
-      function (msg) {
+      function (msg) {    	  
         alert('Google+ login fail!');
+        console.log(msg)
         $ionicLoading.hide();
       }
     );
@@ -207,13 +240,20 @@ angular.module('app.controllers.login', [])
 				window.plugins.googleplus.logout(
 					function (msg) {
 						console.log(msg);
+            
 						$ionicLoading.hide();
             alert('Logout success!')
-            $scope.showGooglePlus = true;
+            LoginService.setGooglePlusUser({});
+            $scope.showGooglePlus = LoginService.isGoogleUser();
+            $scope.$apply();
+            //$scope.showGooglePlus = LoginService.isGoogleUser();
+            
+            //$scope.showGooglePlus = true;
 						//$state.go('welcome');
 					},
 					function(fail){
-            alert('Google+ logout fail')
+            alert('Google+ logout fail -> ' + fail);
+
 						console.log(fail);
 					}
 				);

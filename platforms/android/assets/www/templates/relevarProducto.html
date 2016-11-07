@@ -7,6 +7,9 @@
             <p>¡Suma puntos relevando productos y conviértete en un eChanger!</p>
         </div>
         <div class="spacer" style="width: 320px; height: 6px;"></div>
-        <a ui-sref="menEChango.informarProducto" id="relevarProducto-button100" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-qr-scanner">Escanear Producto</a>
+        <!--
+            <a ui-sref="menEChango.informarProducto" id="relevarProducto-button100" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-qr-scanner">Escanear Producto</a>
+        -->
+            <a ng-click="scanBarcode()" id="relevarProducto-button100" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-qr-scanner">Escanear Producto</a>
     </ion-content>
 </ion-view>

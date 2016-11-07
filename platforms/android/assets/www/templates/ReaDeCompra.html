@@ -8,7 +8,8 @@
         </div>
         <form id="ReaDeCompra-form24" class="list">
             <ion-item class="range range-energized" id="ReaDeCompra-range3">Área (mts)
-                <input type="range" value="1000" min="0" max="5000" step="50" name="radius">
+                <input type="range" value="1000" min="0" max="5000" step="50" name="radius" ng-model="data.radio" ng-change="actualizarRadio()">
+                {{data.radio}}
             </ion-item>
         </form>
     </ion-content>

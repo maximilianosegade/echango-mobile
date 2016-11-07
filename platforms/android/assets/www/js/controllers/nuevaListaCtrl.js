@@ -5,10 +5,14 @@ angular.module('app.controllers.nuevaLista', [])
 	$scope.lista = {};
 	$scope.busqueda = {};
 	$scope.editando = false;
+	$scope.nombreViejo = "";
 	
  $scope.$on("$ionicView.beforeEnter", function(event, data){
+	 
 		 if(ListaService.listaSeleccionada != null){
+			
 			 $scope.lista = ListaService.listaSeleccionada;
+			 $scope.nombreViejo = $scope.lista.nombre;
 			 $scope.productos = ListaService.listaSeleccionada.productos;
 			 $scope.editando = ListaService.editando;
 			 ListaService.listaSeleccionada = null;
@@ -39,7 +43,7 @@ angular.module('app.controllers.nuevaLista', [])
  function agregarProducto(producto){
 	 producto.cantidad = 1;
 	 for(var i = 0; $scope.productos.length> i;i++){
-		 if($scope.productos[i]._id = producto._id){
+		 if($scope.productos[i]._id == producto._id){
 			 $scope.productos[i].cantidad++;
 			 return;
 		 }
@@ -66,12 +70,25 @@ angular.module('app.controllers.nuevaLista', [])
  
  $scope.guardar = function(){
 	 if($scope.lista.nombre){
-		 ListaService.guardarLista($scope.lista.nombre, $scope.productos, $scope.editando).then(function(){
-			 alert("Lista guardada");
+		
+		 ListaService.guardarLista($scope.lista.nombre,$scope.lista.descripcion, $scope.productos, $scope.editando).then(function(){
+			 if($scope.lista.nombre != $scope.nombreViejo){
+				 $scope.lista.nombre = $scope.nombreViejo;
+				 ListaService.borrarLista($scope.lista).then(function(){
+					 alert("Lista guardada");
 			 $ionicHistory.nextViewOptions({
 			      disableBack: false
 			    });
-			 $state.go('menu.misListas');
+			 $state.go('menEChango.misListas');
+				 });
+			 }else{
+				 alert("Lista guardada");
+				 $ionicHistory.nextViewOptions({
+				      disableBack: false
+				    });
+				 $state.go('menEChango.misListas');
+			 }
+			 
 			 
 		 }).catch(function(err){
 			 if(err.status = 409){
@@ -86,6 +103,16 @@ angular.module('app.controllers.nuevaLista', [])
         return;		 
 	 }
  }
+ 
+ $scope.eliminarLista =  function (){
+	    
+	    ListaService.borrarLista($scope.lista).then(function(){
+	    	 $ionicHistory.nextViewOptions({
+			      disableBack: true
+			    });
+			 $state.go('menEChango.misListas');
+	    });
+}
  
  /*MODAL*/
  $ionicModal.fromTemplateUrl('productos-modal.html', {

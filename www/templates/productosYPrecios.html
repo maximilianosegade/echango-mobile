@@ -2,29 +2,36 @@
     <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
         <div class="spacer" style="width: 320px; height: 13px;"></div>
         <div id="productosYPrecios-markdown31" style="color:#000000;font-size:16px;text-align:center;">
-            <p>Productos y Precios lista todos los productos, correspondientes a las compras realizadas (y que figuran en Compras Realizadas), ordenados alfabéticamente (desde la “A” hasta la “Z”).</p>
+            <p>Productos y Precios lista los 5 productos más comprados, correspondientes a las compras realizadas (y que figuran en Compras Realizadas), ordenados por cantidad de veces comprados (el más comprado es el primero).</p>
 
             <p>Selecciona un producto para visualizar su detalle:</p>
-        </div>
-        <form id="productosYPrecios-form27" class="list">
-            <label class="item item-input">
-                <i class="icon ion-search placeholder-icon"></i>
-                <input type="search" placeholder="Búsqueda por nombre de producto">
-            </label>
-        </form>
+        </div>        
         <ion-list id="productosYPrecios-list22">
-            <ion-item class="item-avatar dark" id="productosYPrecios-list-item60">
-                <img src="img/rckpgoOTVaxcf21VtAiu_CocaCola.jpeg">
-                <h2dark>Coca Cola 2.25 lt - $22,85
-                    <p style="white-space:normal;">Coto - Sucursal 1 - Avellaneda - 27/09/2016</p>
-                </h2dark>
+            <ion-item class=" energized" ng-repeat="item in productos" ng-click="abrirModal(item)">
+                <h2energized>{{item._id}}-{{item.nombre}}	
+                    <p style="white-space:normal;"> comprado {{item.valores.length}}    veces</p>
+                </h2energized>
             </ion-item>
-            <ion-item class="item-avatar dark" id="productosYPrecios-list-item61">
-                <img src="img/eYqh1Dp2TRCYvSQ2SKOz_Yerba.png">
-                <h2dark>Yerba Cruz de Malta - $43,07
-                    <p style="white-space:normal;">Carrefour - Sucursal 3 - Almagro - 22/09/2016</p>
-                </h2dark>
-            </ion-item>
+           
         </ion-list>
     </ion-content>
+    <script id="precios-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">{{producto.nombre}}</h1>
+          </ion-header-bar>
+          <ion-content>
+
+            
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="item in producto.valores" >
+                  {{item.fecha| date: 'dd/MM/yyyy'}}---${{item.valor}}
+                </ion-item>
+              </ion-list>
+            </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
 </ion-view>

@@ -21,6 +21,7 @@ angular.module('app.controllers.lista', [])
  
  $scope.simularConLista = function(){
 	 ComprarService.simular = true;
+	 ComprarService.simulacion = true;
 	 ListaService.simular = true;
 	 $state.go('menEChango.misListas');
  }

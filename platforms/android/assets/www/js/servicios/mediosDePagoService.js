@@ -3,50 +3,7 @@ angular.module('app.services.mediosDePago', [])
    var database = BaseLocal;
 
     //Busca el documento 'medioDePagoTarjetasNombres'
-    BaseLocal.get('tarjetas').then(function(doc){
-      //si lo encuentra lo borra
-      BaseLocal.remove(doc._id, doc._rev).then(function(){
-        //si lo borra bien lo vuelve a crear
-        BaseLocal.put({
-        	 _id: 'tarjetas',
-             tarjetas: [{
-             _id: 1,
-             nombre: 'Visa Crédito',
-             bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:3, nombre: 'Banco Ciudad'},{_id:4, nombre: 'HSBC'}]
-           }, {
-             _id: 2,
-             nombre: 'MasterCard',
-             bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:5, nombre: 'Banco Provincia'},{_id:6, nombre: 'ICBC'}]
-           
-           },
-           {
-             _id: 3,
-             nombre: 'American Express',
-             bancos : [{_id7, nombre: 'AMEX'},{_id:2, nombre: 'Banco Nación'},{_id:8, nombre: 'Banco Patagonia'},{_id:4, nombre: 'HSBC'}]            
-           }
-           ]});
-      });
-    }).catch(function (error) {
-           //Si no lo encuentra, lo crea
-           BaseLocal.put({
-                _id: 'tarjetas',
-              tarjetas: [
-             {
-              _id: 1,
-              nombre: 'Visa Crédito',
-              bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:3, nombre: 'Banco Ciudad'},{_id:4, nombre: 'HSBC'}]
-            }, {
-              _id: 2,
-              nombre: 'MasterCard',
-              bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:5, nombre: 'Banco Provincia'},{_id:6, nombre: 'ICBC'}]            
-            },
-            {
-              _id: 3,
-              nombre: 'American Express',
-              bancos : [{_id:7, nombre: 'AMEX'},{_id:2, nombre: 'Banco Nación'},{_id:8, nombre: 'Banco Patagonia'},{_id:4, nombre: 'HSBC'}]            
-            }
-            ]});
-         });
+    
 
     
    // Obtener tarjetas

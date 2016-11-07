@@ -3,19 +3,24 @@
         <div class="spacer" style="width: 320px; height: 13px;"></div>
         <div id="agregarLugar-markdown25" style="color:#000000;font-size:16px;text-align:center;">
             <p>Ingresa la dirección para que podamos ubicar tu lugar:</p>
-        </div>
+        </div>        
+        <div class="spacer" style="width: 283px; height: 46px;"></div>        
         <form id="agregarLugar-form22" class="list">
             <div class="spacer" style="width: 320px; height: 8px;"></div>
+            <label class="item item-input " id="agregarUbicaciN-input8">
+            	<span class="input-label">Nombre:</span>
+                <input type="text" placeholder="Un nombre para identificar este lugar" ng-model="ubicacionAEditar.nombre" autofocus>
+            </label> 
             <label class="item item-input" id="agregarLugar-input16" name="address">
                 <span class="input-label">Dirección:</span>
-                <input type="text" placeholder="Av. Adolfo Alsina 285, Avellaneda">
+                <input type="text" placeholder="Ingrese dirección" ng-model="ubicacionAEditar.direccion" googleplace="" class="ng-pristine ng-valid" autocomplete="off">
             </label>
             <div class="spacer" style="width: 320px; height: 27px;"></div>
-            <div>
-                <img src="img/aKNYlOo8TPu71AeHOs6o_Mapa.PNG" width="40%" height="" style="display: block; margin-left: auto; margin-right: auto;">
-            </div>
+            <div class="mapa">            
+           		 <map on-create="mapCreated(map)"></map>
+        	</div>
             <div class="spacer" style="width: 320px; height: 12px;"></div>
         </form>
-        <a ui-sref="misLugares" id="agregarLugar-button84" style="color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Agregar</a>
+        <a ng-click="guardarDireccion()" id="agregarLugar-button84" style="color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-add-circle">Agregar</a>
     </ion-content>
 </ion-view>

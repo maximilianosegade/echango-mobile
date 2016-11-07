@@ -12,11 +12,28 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   });
 })
 
-.controller('escanearTicketCtrl', function($scope, $ionicActionSheet, $ionicLoading, $ionicPlatform, $cordovaCamera) {
+.controller('escanearTicketCtrl', function($scope, $ionicActionSheet, $ionicLoading, $ionicPlatform, $cordovaCamera, $ionicModal, ProductoService, ListaService, $state) {
 
   $ionicPlatform.ready(function() {
 
-    $scope.showAnalyzeButton = false;
+    $scope.datosParseados = {
+      'cadenaSupermercado': '',
+      'fechaDeCompra': '',
+      'productosLeidos': []
+    }
+
+    $scope.currentItem = {
+      'ean': '',
+      'nombre': '',
+      'cantidad': '',
+      'index': 0
+    }
+
+    $scope.currentList = {
+      'nombre': '',
+      'desc': ''
+    }
+
 
     var self = this;
 
@@ -47,20 +64,21 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
       $cordovaCamera.getPicture(options).then(function(imageData) {
         var image = document.getElementById('pic');
         image.src = "data:image/jpeg;base64," + imageData;
-        $scope.showAnalyzeButton = true;
+        $scope.testOcrad();
+        
       }, function(err) {
           console.log(err);
       });
 
+      
     };
     
   });
 
   $scope.showActionSheet = function(){
-    $scope.textos = [];
-    $scope.cadenaSupermercado = '';
-    $scope.fechaDeCompra = '';
-    $scope.productosLeidos = [];
+    //$scope.textos = [];
+
+    $scope.datosParseados.productosLeidos = [];
     var hideSheet = $ionicActionSheet.show({
       buttons: [
        { text: 'Elegir Foto' },
@@ -72,12 +90,13 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
       },
       buttonClicked: function(index) {
         getPicture(index);
+        
        return true;
       }
     });
   };
 
-  $scope.showActionSheet();
+  //$scope.showActionSheet();
   //$scope.textos = [];
 
   
@@ -88,8 +107,8 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
       //console.log(text);
       $scope.textos = text.split("\n");
       alert($scope.textos);
-      $scope.$apply();
       $scope.parsearTexto();
+      $scope.$apply();
     });
 
   } ; 
@@ -100,49 +119,76 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
 $scope.parsearTexto = function() {
   var modo = 0;
   var eanLeido = false;
-  var precioLeido = false;
+  var cantLeida = false;
   for (var i = 0; i < $scope.textos.length; i++) {
     var lineaActual = $scope.textos[i];
     if (lineaActual != '') {
     switch (modo) {
       case 0:
-        $scope.cadenaSupermercado = lineaActual;
+        $scope.datosParseados.cadenaSupermercado = lineaActual;
         modo++;
         break;
       case 1:
         if (lineaActual.search('Fecha') > -1) {
           var splittedText = lineaActual.split(' ');
-          $scope.fechaDeCompra = splittedText[1];
+          $scope.datosParseados.fechaDeCompra = splittedText[1];
         };
         break;
       case 2:
-      // Leyendo Precio
-        if (!precioLeido) {
+      // Leyendo Cantidad
+        if (!cantLeida) {
           var splittedText = lineaActual.split(' ');
-        var precio = splittedText[2];
-//          var precio = lineaActual;
-          precioLeido = true;
+          
+          var cantidad = Number(splittedText[0].replace(",","."));
+          cantLeida = true;
         } else {
           if (!eanLeido) {
             // Leyendo EAN
-           var ean = lineaActual.substr(0,12);
+           var ean = lineaActual.substr(0,13);
+           var lastSpace = 0;
+
+           for (k = lineaActual.length - 1; k > 0; k--  ) {
+              if (lineaActual[k] == ' '){
+                lastSpace = k;
+                break;
+              } 
+           }
+
+           var nombre = lineaActual.substr(13,lastSpace - 13);
 //            var ean = lineaActual;
             eanLeido = true;
           }
         } 
 
-        if (precioLeido && eanLeido) {
+        if (cantLeida && eanLeido) {
           // Agregar productosLeidos
-          var obj = {
-            "codigo": ean,
-            "precio": precio,
-          };
-          //alert(obj.codigo + '\nPrecio:' + obj.precio);
-          $scope.productosLeidos.push(obj);
-          $scope.$apply();
-          precioLeido = false;
-          eanLeido = false;
-          //alert($scope.productosLeidos.length);
+          /*var obj = {
+            
+            "ean": ean,
+            "desc": desc,
+            "cantidad": cantidad,
+          };*/
+           var currentProd = {
+                      	  _id: ean,
+	                        nombre: nombre,
+	                        ean: ean
+
+                    };
+
+          ProductoService.getProductoPorEAN(ean).then(function(doc) {
+                  alert('Producto encontrado');
+                  currentProd = doc;
+
+
+                });
+
+            currentProd.cantidad = cantidad;
+            
+            $scope.datosParseados.productosLeidos.push(currentProd);
+            $scope.$apply();
+            eanLeido = false;
+            cantLeida = false;
+            //alert($scope.productosLeidos.length);
         }
 
         break;
@@ -155,11 +201,122 @@ $scope.parsearTexto = function() {
   }
   //alert($scope.productosLeidos);
 
-  for (var i = 0; i < $scope.productosLeidos.length; i++) {
-    alert('Codigo: ' + $scope.productosLeidos[i].codigo + '\nPrecio: ' + $scope.productosLeidos[i].precio);
+  for (var i = 0; i < $scope.datosParseados.productosLeidos.length; i++) {
+    alert('Codigo: ' + $scope.datosParseados.productosLeidos[i].ean + '\nDesc: ' + $scope.datosParseados.productosLeidos[i].nombre + '\nCant: ' + $scope.datosParseados.productosLeidos[i].cantidad);
   }
 //$scope.$apply();
   return;
 }
 
+ $scope.deleteItem = function (item) {
+    $scope.datosParseados.productosLeidos.splice($scope.datosParseados.productosLeidos.indexOf(item), 1);
+    $scope.$apply();
+ 
+
+};
+
+$scope.editItem = function(item) {
+  //alert('Codigo: ' + item.ean + '\nCant: ' + item.cantidad);
+  $scope.currentItem.index = $scope.datosParseados.productosLeidos.indexOf(item);
+  $scope.currentItem.ean = item.ean;
+  $scope.currentItem.cantidad = item.cantidad;
+  $scope.currentItem.nombre = item.nombre;
+  $scope.openModal(1);
+}
+
+    /* Funciones modal INICIO*/
+    $ionicModal.fromTemplateUrl('editItem-modal.html', {
+        id: '1',
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal1 = modal;
+        
+    });
+
+    $ionicModal.fromTemplateUrl('editList-modal.html', {
+        id: '2',
+        scope: $scope,
+        animation: 'slide-in-up'
+    }).then(function(modal) {
+        $scope.modal2 = modal;
+        
+    });
+
+$scope.openModal = function(index) {
+  switch(index) {
+        case 1:
+            $scope.modal1.show();
+            break;
+        case 2:
+            $scope.modal2.show();
+            break;
+        default:
+            break;
+
+  }
+    
+};
+
+$scope.closeAndConfirmModal = function(index) {
+
+    switch(index) {
+      case 1:
+          $scope.datosParseados.productosLeidos[$scope.currentItem.index].ean = $scope.currentItem.ean;
+          $scope.datosParseados.productosLeidos[$scope.currentItem.index].nombre = $scope.currentItem.nombre;
+          $scope.datosParseados.productosLeidos[$scope.currentItem.index].cantidad = $scope.currentItem.cantidad;
+          $scope.$apply();
+          $scope.closeModal(1);
+          break;
+      case 2:
+          //Guardar lista
+          if($scope.currentList.nombre){
+		
+            ListaService.guardarLista($scope.currentList.nombre,$scope.currentList.desc, $scope.datosParseados.productosLeidos, false).then(function(){
+
+                alert('¡Lista guardada!')
+                $scope.closeModal(2);
+                //$state.go('menEChango.misListas');
+                $state.go('menEChango.listasDeCompra');
+                          
+              
+            }).catch(function(err){
+              if(err.status = 409){
+                alert("Ya existe una lista con este nombre ->" + err);
+              }else{
+                alert("Ocurrió un error");				 
+              }
+              return;
+            });
+          }else{
+            alert('Ingrese un nombre para la lista');
+                		 
+          }
+          break;
+      default:
+          break;
+    }
+    $scope.$apply();
+    
+};
+
+$scope.closeModal = function (index) {
+  switch(index) {
+    case 1:
+      $scope.modal1.hide();
+      break;
+    case 2:
+      $scope.modal2.hide();
+      break;
+    default:
+      break;
+  }
+}
+
+$scope.$on('$destroy', function() {
+        $scope.modal.remove();
+})
+
 });
+
+
