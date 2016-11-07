@@ -255,10 +255,12 @@ angular.module('app.services.compras', [])
 			return BaseSimulaciones.allDocs({
 			  include_docs: true
 			}).then(function (result) {
-			 return result.rows;
+				//viene con doc
+				return result.rows;
 			});
 		}
 		return BaseCompras.allDocs({
+			//viene con doc
 			  include_docs: true
 			}).then(function (result) {
 			 return result.rows;
