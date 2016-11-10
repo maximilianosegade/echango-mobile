@@ -2,12 +2,13 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
 		'informarProductoCtrl', function($scope, EscannerService, $state, ProductoService) {
 
             var currentEAN;
-            var idComercio = 1; // TODO: debería inicializarse con la ID correcta
+            var idComercio = EscannerService.getCurrentComercio()._id; // TODO: debería inicializarse con la ID correcta
             var sucursalEncontrada;
             var currentProd;
 
 
             $scope.$on('$ionicView.afterEnter', function() {
+                //alert('idComercio: ' + idComercio);
                 currentEAN = EscannerService.getCurrentEAN();
                 $scope.data = {
                     currentPrice: 0,
@@ -20,7 +21,7 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
 	                ean: currentEAN,
 	                etiquetas: [],
 	                precios: [{
-                        id: idComercio.toString(),
+                        id: idComercio,
 	                	lista: 0,
 	                	promociones:[]	   
 	     	        	}]
@@ -32,7 +33,7 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
                     $scope.data.currentDesc = doc.nombre;
                     sucursalEncontrada = false;
                     for (i=0;i<doc.precios.length;i++) {
-                        if (currentProd.precios[i].id == idComercio.toString()){
+                        if (currentProd.precios[i].id == idComercio   ){
                             $scope.data.currentPrice = doc.precios[i].lista ;
                             sucursalEncontrada = true;
                             $scope.$apply();
@@ -42,7 +43,7 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
                     currentProd = doc;
                     
                     if (!sucursalEncontrada) {
-                        var nuevoPrecio = {id: idComercio.toString(),
+                        var nuevoPrecio = {id: idComercio,
 		                lista: 0,
 						promociones:[]};
                         currentProd.precios.push(nuevoPrecio);
@@ -64,7 +65,7 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
                 currentProd.nombre = $scope.data.currentDesc;
                 currentProd.ean = $scope.data.currentEAN.toString();
                 for (i=0;i<currentProd.precios.length;i++) {
-                    if (currentProd.precios[i].id == idComercio.toString()){
+                    if (currentProd.precios[i].id == idComercio){
                         
                         currentProd.precios[i].lista = $scope.data.currentPrice;
                         ProductoService.updateProducto(currentProd);
