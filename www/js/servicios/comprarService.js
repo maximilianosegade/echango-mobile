@@ -117,8 +117,6 @@ angular.module('app.services.compras', [])
 		if(productos.length > 0){
 			return ProductoService.getProductoPorEAN(productos[0]._id).then(function (producto){	
 				 producto.cantidad = productos[0].cantidad;
-                 producto.precio = productos[0].precio;
-                 producto.precios = productos[0].precios;
 				 productosNuevos.push(producto);
 				 productos.splice(0,1);
 				 if(productos.length < 1){
@@ -129,6 +127,30 @@ angular.module('app.services.compras', [])
 			 });
 		}
 		
+	}
+	
+	function determinarPrecioProducto(precio, cantidad, promocion, fecha){
+		//medio de pago 0
+		//promocion 2
+		var descuentoActual = 0;
+		var precioASumar = 0;
+		if(promocion.valor > 0){
+			//promocion estilo precios cuidados
+			descuentoActual = (precio -  promocion.valor) * cantidad ;
+			precioASumar = promocion.valor * cantidad;
+		}else if (promocion.cantidad > 0 && cantidad>=promocion.cantidad){
+			//promocion tipo 2x1
+			descuentoActual = precio * cantidad * promocion.porcentaje;
+			precioASumar = precio * cantidad -descuentoActual;
+		}else if(promocion.porcentaje > 0){
+			//promociones tipo 20% de descuento con credito
+			descuentoActual = precio * cantidad * promocion.porcentaje;
+			precioASumar = precio * cantidad -descuentoActual;
+		}
+		var resultado = [];
+		resultado.push(descuentoActual);
+		resultado.push(precioASumar);
+		return  resultado;
 	}
 	
 	this.simularCompra = function(lista, comercio, medioDePago,descuento,fecha ){
@@ -169,7 +191,7 @@ angular.module('app.services.compras', [])
 					for(var k = 0; productosNuevos[j].precios.length > k;k++){
 						if(productosNuevos[j].precios[k].comercioId == comercio._id){
 							//estamos en el comercio seleccionado
-							
+							descuentoActual = 0;
 							precioASumar = productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
 							costo.valorLista += precioASumar;
 							seguirPromocion = true;
@@ -181,19 +203,10 @@ angular.module('app.services.compras', [])
 											if(productosNuevos[j].precios[k].promociones[l].tarjeta < 1 || productosNuevos[j].precios[k].promociones[l].tarjeta == descuento._id){
 												//La promoción no implica tarjeta de descuento o tiene la tarjeta de descuento
 												//falta aplicar la FECHA!!!!!!
-												if(productosNuevos[j].precios[k].promociones[l].valor > 0){
-													//promocion estilo precios cuidados
-													descuentoActual = precioASumar-  productosNuevos[j].precios[k].promociones[l].valor * productosNuevos[j].cantidad ;
-													precioASumar = precioASumar - descuentoActual;
-												}else if (productosNuevos[j].precios[k].promociones[l].cantidad > 0){
-													//promocion tipo 2x1
-													descuentoActual = productosNuevos[j].precios[k] * productosNuevos[j].cantidad * productosNuevos[j].precios[k].promociones[l].porcentaje;
-													precioASumar = precioASumar - descuentoActual;
-												}else if(productosNuevos[j].precios[k].promociones[l].porcentaje > 0){
-													//promociones tipo 20% de descuento con credito
-													descuentoActual = productosNuevos[j].precios[k] * productosNuevos[j].cantidad * productosNuevos[j].precios[k].promociones[l].porcentaje;
-													precioASumar = precioASumar - descuentoActual;
-												}
+												var result = determinarPrecioProducto(productosNuevos[j].precios[k].lista, productosNuevos[j].cantidad,
+														productosNuevos[j].precios[k].promociones[l], fecha);
+												descuentoActual = result[0];
+												precioASumar = result[1];												
 												//se aplicó alguno de los tipos de promoción, salimso del for de promociones
 												l = 64000; //para salir de promociones											
 											}
