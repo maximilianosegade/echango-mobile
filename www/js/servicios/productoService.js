@@ -33,11 +33,11 @@ angular.module('app.services.producto', [])
 		producto.descuento = 0;
 					
 			for(var k = 0; producto.precios.length > k;k++){
-				if(producto.precios[k].id == comercio._id){
+				if(producto.precios[k].comercioId == comercio._id){
 					// estamos en el comercio seleccionado
 					
 					producto.lista = producto.precios[k].lista;					
-					for(var l = 0; producto.precios[k].promociones.length > l ;l++){
+					for(var l = 0; producto.precios[k].promociones && producto.precios[k].promociones.length > l ;l++){
 						if(producto.precios[k].promociones[l].plastico < 1 || producto.precios[k].promociones[l].plastico == medioDePago.tarjeta._id){
 							// La promoción no implica plástico o tiene el
 							// plástico de la promoción

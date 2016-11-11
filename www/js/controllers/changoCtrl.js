@@ -130,6 +130,16 @@ angular.module('app.controllers.chango', [])
 		 }	
 	 }
 	 
+	 $scope.verificarChango = function () {
+		 
+			/*var compra = ComprarService.verificarChango($scope.chango,$scope.comercio,
+										$scope.medioDePago, $scope.descuento,new Date() );
+							
+			ComprarService.simulacion = compra;
+			ComprarService.simulada = false;*/
+			$state.go('menEChango.verificarChango');								
+		 }	
+	 
 	 $scope.cerrarChango = function () {
 		 
 			var compra = ComprarService.cerrarChango($scope.chango,$scope.comercio,
@@ -166,10 +176,41 @@ angular.module('app.controllers.chango', [])
 		//Saraza
 		$scope.compra.correcta = false;
 		ComprarService.guardarCompra($scope.compra).then(function(){			
-			alert('Gracias por tu aporte. Juntos hacemos un eChango mejor!');
+			alert('Gracias por tu aporte. ¡Juntos hacemos un eChango mejor!');
 			$state.go('menuPrincipal');				
 		})
 	}
+	
+	
+})
+.controller('verificarChangoCtrl', function($scope,$state,$ionicModal,ComprarService ) {
+	
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		$scope.alertas = ComprarService.alertas;		
+	 });
+	
+
+	 $ionicModal.fromTemplateUrl('alertas-modal.html', {
+	        id: '1',
+	        scope: $scope,
+	        animation: 'slide-in-up'
+	    }).then(function(modal) {
+	        $scope.modal1 = modal;
+	    });
+
+	$scope.closeModal = function() {
+	    $scope.modal1.hide();
+	};
+
+	$scope.$on('$destroy', function() {
+	        $scope.modal.remove();
+	})
+	
+	$scope.abrirModal = function(producto){
+		$scope.alerta = alerta
+		$scope.modal1.show();
+	}
+	
 	
 	
 })

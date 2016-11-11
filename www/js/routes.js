@@ -96,6 +96,15 @@ angular.module('app.routes', [])
     templateUrl: 'templates/parMetrosDeSimulaciN.html',
     controller: 'parametrizacionCtrl'
  }}})
+ 
+ .state('menEChango.listaSimulaciones', {
+    url: '/list-simu',
+    views: {
+        'side-menu21': {
+    templateUrl: 'templates/listaSimulacion.html',
+    controller: 'listaSimulacionCtrl'
+ }}})
+ 
 
  .state('menEChango.eChango', {
     url: '/cart',

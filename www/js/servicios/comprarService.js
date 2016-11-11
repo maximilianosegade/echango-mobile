@@ -144,9 +144,15 @@ angular.module('app.services.compras', [])
                 lista.productos[i].precios = [];
                 lista.productos[i].precios.push(precio);
             }
-            return actualizarProductos(lista.productos, []);    
-        }).then(function( productosNuevos){
+            return lista.productos;    
+        }).catch(function(error){
+        	return actualizarProductos(lista.productos, []);  
+        })
+        .then(function( productosNuevos){
 			lista.productos = productosNuevos;
+			var simulaciones = [];
+			var dias = 7;
+			//fecha = new Date();
 			var simulacion = {};
 			var costos = [];
 			var costo = {
@@ -157,23 +163,24 @@ angular.module('app.services.compras', [])
 								};
 			var precioASumar = null;
 			var descuentoActual = 0;
-			
+			for(; dias > 0; dias--){
 				for(var j=0;productosNuevos.length > j; j++){
 					
 					for(var k = 0; productosNuevos[j].precios.length > k;k++){
-						if(productosNuevos[j].precios[k].id == comercio._id){
+						if(productosNuevos[j].precios[k].comercioId == comercio._id){
 							//estamos en el comercio seleccionado
 							
 							precioASumar = productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
 							costo.valorLista += precioASumar;
 							seguirPromocion = true;
-							for(var l = 0; productosNuevos[j].precios[k].promociones.length > l ;l++){
+							for(var l = 0; productosNuevos[j].precios[k].promociones && productosNuevos[j].precios[k].promociones.length > l ;l++){
 								if(productosNuevos[j].precios[k].promociones[l].plastico < 1 || productosNuevos[j].precios[k].promociones[l].plastico == medioDePago.tarjeta._id){
 									//La promoción no implica plástico o tiene el plástico de la promoción
 									if(productosNuevos[j].precios[k].promociones[l].banco < 1 || productosNuevos[j].precios[k].promociones[l].banco == medioDePago.banco._id){
 										//La promoción no implica ningún banco o el plastico es del banco de la promoción										
 											if(productosNuevos[j].precios[k].promociones[l].tarjeta < 1 || productosNuevos[j].precios[k].promociones[l].tarjeta == descuento._id){
 												//La promoción no implica tarjeta de descuento o tiene la tarjeta de descuento
+												//falta aplicar la FECHA!!!!!!
 												if(productosNuevos[j].precios[k].promociones[l].valor > 0){
 													//promocion estilo precios cuidados
 													descuentoActual = precioASumar-  productosNuevos[j].precios[k].promociones[l].valor * productosNuevos[j].cantidad ;
@@ -215,7 +222,19 @@ angular.module('app.services.compras', [])
 			simulacion.medioDePago = medioDePago;
 			simulacion.descuento = descuento;
 			simulacion.simulada = true;
-			return simulacion;
+			simulaciones.push(simulacion);
+			simulacion = {};
+			costos = [];
+			costo = {
+									valorTotal: 0,
+									descuentoTotal: 0,
+									valorLista:0,
+									productos: []
+								};
+			fecha = new Date(fecha.setTime(fecha.getTime() + 86400000))
+			}//cierre FOR Dias
+			
+			return simulaciones;
 		});
 		
 		
@@ -301,7 +320,7 @@ this.verificarChango = function(lista, comercio, mediosDePagoRegistrados,tarjeta
 				for(var j=0;productosNuevos.length > j; j++){
 					
 					for(var k = 0; productosNuevos[j].precios.length > k;k++){
-						if(productosNuevos[j].precios[k].id == comercio._id){
+						if(productosNuevos[j].precios[k].comercioId == comercio._id){
 							//estamos en el comercio seleccionado
 							
 							precioASumar = productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;

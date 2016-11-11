@@ -1,0 +1,21 @@
+<ion-view title="Mis Listas" id="page10">
+    <ion-content padding="false" style="background: url(img/K3lay278TGW5Wk4WCXgT_Fondo20mobile20final.jpg) no-repeat center;background-size:cover;" class="has-header">
+        <div class="spacer" style="width: 320px; height: 13px;"></div>
+        <div id="misListas-markdown36" style="color:#000000;font-size:16px;text-align:center;">
+                <p>7 días desde hoy</p>
+        </div>
+        <div class="spacer" style="width: 320px; height: 9px;"></div>
+        <ion-list id="misListas-list26" can-swipe="true" >
+        <ion-item class="enable-pointer-events  energized"
+               ng-repeat="item in simulaciones  "  i ng-click="seleccionar(item)" >
+              <!-- <img src="img/1spZKGlfTnLpthErjxRJ_casa.png"> -->
+                <h2energized>El día {{item.fecha | date: 'dd/MM/yyyy'}}
+                    <p style="white-space:normal;">Vas a pagar ${{item.costo.valorTotal }}</p>
+                </h2energized>
+	            <ion-delete-button class="ion-minus-circled" ng-click="borrar(item)"></ion-delete-button>
+	            
+          </ion-item>            
+        </ion-list>
+        
+    </ion-content>
+</ion-view>
