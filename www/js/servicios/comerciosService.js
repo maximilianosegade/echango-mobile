@@ -88,7 +88,7 @@ angular.module('app.services.comercios', [])
                 });
                 
             }, function (err) {
-                console.error('[ID Comercios - Ubicacion actual]: ', err);    
+                console.error('[ID Comercios - Ubicacion actual] - Error Sincro: ', err);    
                 resolve([]);
             });
             
@@ -118,7 +118,7 @@ angular.module('app.services.comercios', [])
             }).then(function(idComercios){
                 resolve(idComercios);
             }).catch(function(err){
-                console.error('[ID Comercios - Ubicaciones seleccionadas]: ', err)
+                console.error('[ID Comercios - Ubicaciones seleccionadas- Error Sincro]: ', err)
                 resolve([]);
             });
             
@@ -145,7 +145,7 @@ angular.module('app.services.comercios', [])
                 resolve(idComercios);
 
             }).catch(function(err){
-                console.error('[ID Comercios - Preferidos]: ', err);
+                console.error('[ID Comercios - Preferidos- Error Sincro]: ', err);
                 resolve([]);
             });
             
@@ -166,18 +166,18 @@ angular.module('app.services.comercios', [])
         return BaseComercios.query(function(doc,emit){
             var cumpleCriterio = true;
 
-            cumpleCriterio = !(doc._id === 'provincias')
+            cumpleCriterio = !(doc._id == 'provincias')
 
             if (cumpleCriterio && filtroProvincia){
-                cumpleCriterio = ( filtroProvincia.toLowerCase() === doc.zona.toLowerCase() );
+                cumpleCriterio = ( filtroProvincia.toLowerCase() == doc.zona.toLowerCase() );
             }
 
             if (cumpleCriterio && filtroLocalidad){
-                cumpleCriterio = ( filtroLocalidad.toLowerCase() === doc.nombre.toLowerCase() );
+                cumpleCriterio = ( filtroLocalidad.toLowerCase() == doc.nombre.toLowerCase() );
             }
 
             if (cumpleCriterio && filtroCadena){
-                cumpleCriterio = ( filtroCadena.toString().toLowerCase() === doc.id_cadena.toLowerCase() );
+                cumpleCriterio = ( filtroCadena.toString().toLowerCase() == doc.id_cadena.toLowerCase() );
             }
 
             if (cumpleCriterio)

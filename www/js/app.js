@@ -11,7 +11,8 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
 
 .run(function($ionicPlatform, BaseLocal, BaseComercios, BasePreciosPorComercio, BaseProductos, BaseListas, DBSync,$rootScope, $ionicHistory,$ionicNavBarDelegate) {
   $ionicPlatform.ready(function() {
-    // Hide the accessory bar by default (remove this to show the accessory bar above the keyboard
+    // Hide the accessory bar by default (remove this to show the accessory bar
+	// above the keyboard
     // for form inputs)
     if (window.cordova && window.cordova.plugins && window.cordova.plugins.Keyboard) {
       cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -27,7 +28,7 @@ angular.module('app', ['ionic', 'ngCordova', 'app.controllers', 'app.routes', 'a
     DBSync.init();      
     DBSync.syncPreciosPorComercio();
     
-    //borrarBase(BaseLocal);
+    // borrarBase(BaseLocal);
 
   });
 
@@ -59,8 +60,8 @@ function mockBaseDatos(BaseLocal, BaseComercios, BaseListas, BaseProductos){
          agregarProvincias(BaseComercios);
          agregarRadioCompra(BaseLocal);
          agregarCadenas(BaseLocal);
-        //agregarComercios(BaseComercios);
-         //agregarQuery(BaseComercios);
+        // agregarComercios(BaseComercios);
+         // agregarQuery(BaseComercios);
         // agregarListas(BaseListas);
        // agregarProductos(BaseProductos);
 
@@ -154,7 +155,7 @@ function agregarProvincias(db){
 
 function parametriaSimulacion(BaseLocal){
 	 BaseLocal.get('parametrosSimulacion').then(function(doc){
-			//si está no hay que hacer nada
+			// si está no hay que hacer nada
 		}).catch(function(){
 			BaseLocal.put({
 				_id : "parametrosSimulacion",
@@ -167,7 +168,7 @@ function parametriaSimulacion(BaseLocal){
 }
 function   agregarRadioCompra(BaseLocal){
 	BaseLocal.get('radio').then(function(doc){
-		//si está no hay que hacer nada
+		// si está no hay que hacer nada
 	}).catch(function(){
 		BaseLocal.put({
 			_id : "radio",
@@ -180,10 +181,11 @@ function   agregarRadioCompra(BaseLocal){
  * El id del objeto precio se corresponde con el _id de comercios
  * 
  * 
- * La promoción es una clave triple entre tarjeta, banco y tarjetaPromocion, si es 0 quiere decir que es para cualqueira
+ * La promoción es una clave triple entre tarjeta, banco y tarjetaPromocion, si
+ * es 0 quiere decir que es para cualqueira
  * 
  * 
- * */
+ */
 function agregarProductos(BaseProductos){
 	BaseProductos.bulkDocs([
 	     	        	{
@@ -366,13 +368,13 @@ function agregarComercios(BaseLocal){
 }
 
 function agregarUbicaciones(BaseLocal){
-	//mock de base de datos
-    //Busca el documento 'ubicaciones'
+	// mock de base de datos
+    // Busca el documento 'ubicaciones'
     BaseLocal.get('ubicaciones').then(function(doc){
-      //si lo encuentra lo borra
+      // si lo encuentra lo borra
     	if(!(doc.ubicaciones && doc.comercios))
       BaseLocal.remove(doc._id, doc._rev).then(function(){
-        //si lo borra bien lo vuelve a crear
+        // si lo borra bien lo vuelve a crear
         BaseLocal.put({
                 _id: 'ubicaciones',
               "ubicaciones": [ {
@@ -402,7 +404,7 @@ function agregarUbicaciones(BaseLocal){
         });
       });
     }).catch(function (error) {
-           //Si no lo encuentra, lo crea
+           // Si no lo encuentra, lo crea
            BaseLocal.put({
         	   _id: 'ubicaciones',
                "ubicaciones": [ {
@@ -450,62 +452,1036 @@ function agregarCadenas(BaseLocal){
         ]
     }
     
-	//Busca el documento 'medioDePagoTarjetasNombres'
+	// Busca el documento 'medioDePagoTarjetasNombres'
     BaseLocal.get('cadenasDisponibles').then(function(doc){
-      //si lo encuentra lo borra
+      // si lo encuentra lo borra
       BaseLocal.remove(doc._id, doc._rev).then(function(){
-        //si lo borra bien lo vuelve a crear
+        // si lo borra bien lo vuelve a crear
         BaseLocal.put(cadenasDisponibles);
       });
     }).catch(function (error) {
-        //Si no lo encuentra, lo crea
+        // Si no lo encuentra, lo crea
         BaseLocal.put(cadenasDisponibles);
     });
 }
 
 function agregarTarjetas(BaseLocal){
+	
 	BaseLocal.get('tarjetas').then(function(doc){
-	      //si lo encuentra lo borra
+	      // si lo encuentra lo borra
 	      BaseLocal.remove(doc._id, doc._rev).then(function(){
-	        //si lo borra bien lo vuelve a crear
+	        // si lo borra bien lo vuelve a crear
 	        BaseLocal.put({
 	        	 _id: 'tarjetas',
-	             tarjetas: [{
-	             _id: 1,
-	             nombre: 'Visa Crédito',
-	             bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:3, nombre: 'Banco Ciudad'},{_id:4, nombre: 'HSBC'}]
-	           }, {
-	             _id: 2,
-	             nombre: 'MasterCard',
-	             bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:5, nombre: 'Banco Provincia'},{_id:6, nombre: 'ICBC'}]
-	           
-	           },
-	           {
-	             _id: 3,
-	             nombre: 'American Express',
-	             bancos : [{_id:7, nombre: 'AMEX'},{_id:2, nombre: 'Banco Nación'},{_id:8, nombre: 'Banco Patagonia'},{_id:4, nombre: 'HSBC'}]            
-	           }
-	           ]});
+	        	 "tarjetas":[
+{
+"_id":1,
+"nombre":"Mastercard - Débito",
+"bancos":[
+{
+"_id":2,
+"nombre":"HIPOTECARIO"
+},
+{
+"_id":3,
+"nombre":"ITAU"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":5,
+"nombre":"BNA"
+},
+{
+"_id":6,
+"nombre":"BAPRO"
+},
+{
+"_id":7,
+"nombre":"BPN"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":9,
+"nombre":"SUPERVIELLE"
+},
+{
+"_id":10,
+"nombre":"CITIBANK"
+},
+{
+"_id":11,
+"nombre":"DB"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":13,
+"nombre":"ICBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":15,
+"nombre":"Banco Ciudad"
+},
+{
+"_id":16,
+"nombre":"Banco Columbia"
+},
+{
+"_id":17,
+"nombre":"Banco Comafi"
+},
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+},
+{
+"_id":19,
+"nombre":"Banco de Valores"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":21,
+"nombre":"Banco Meridian"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+},
+{
+"_id":23,
+"nombre":"BBVA"
+}
+]
+},
+{
+"_id":2,
+"nombre":"Mastercard - Crédito",
+"bancos":[
+{
+"_id":2,
+"nombre":"HIPOTECARIO"
+},
+{
+"_id":3,
+"nombre":"ITAU"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":5,
+"nombre":"BNA"
+},
+{
+"_id":6,
+"nombre":"BAPRO"
+},
+{
+"_id":7,
+"nombre":"BPN"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":9,
+"nombre":"SUPERVIELLE"
+},
+{
+"_id":10,
+"nombre":"CITIBANK"
+},
+{
+"_id":11,
+"nombre":"DB"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":13,
+"nombre":"ICBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":15,
+"nombre":"Banco Ciudad"
+},
+{
+"_id":16,
+"nombre":"Banco Columbia"
+},
+{
+"_id":17,
+"nombre":"Banco Comafi"
+},
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+},
+{
+"_id":19,
+"nombre":"Banco de Valores"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":21,
+"nombre":"Banco Meridian"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+},
+{
+"_id":23,
+"nombre":"BBVA"
+}
+]
+},
+{
+"_id":3,
+"nombre":"Tarjeta Naranja - Débito",
+"bancos":[
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+}
+]
+},
+{
+"_id":4,
+"nombre":"Tarjeta Naranja - Crédito",
+"bancos":[
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+}
+]
+},
+{
+"_id":5,
+"nombre":"Visa - Débito",
+"bancos":[
+{
+"_id":1,
+"nombre":"AMERICAN EXPRESS"
+},
+{
+"_id":2,
+"nombre":"HIPOTECARIO"
+},
+{
+"_id":3,
+"nombre":"ITAU"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":5,
+"nombre":"BNA"
+},
+{
+"_id":6,
+"nombre":"BAPRO"
+},
+{
+"_id":7,
+"nombre":"BPN"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":9,
+"nombre":"SUPERVIELLE"
+},
+{
+"_id":10,
+"nombre":"CITIBANK"
+},
+{
+"_id":11,
+"nombre":"DB"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":13,
+"nombre":"ICBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":15,
+"nombre":"Banco Ciudad"
+},
+{
+"_id":16,
+"nombre":"Banco Columbia"
+},
+{
+"_id":17,
+"nombre":"Banco Comafi"
+},
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+},
+{
+"_id":19,
+"nombre":"Banco de Valores"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":21,
+"nombre":"Banco Meridian"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+},
+{
+"_id":23,
+"nombre":"BBVA"
+}
+]
+},
+{
+"_id":6,
+"nombre":"Visa - Crédito",
+"bancos":[
+{
+"_id":1,
+"nombre":"AMERICAN EXPRESS"
+},
+{
+"_id":2,
+"nombre":"HIPOTECARIO"
+},
+{
+"_id":3,
+"nombre":"ITAU"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":5,
+"nombre":"BNA"
+},
+{
+"_id":6,
+"nombre":"BAPRO"
+},
+{
+"_id":7,
+"nombre":"BPN"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":9,
+"nombre":"SUPERVIELLE"
+},
+{
+"_id":10,
+"nombre":"CITIBANK"
+},
+{
+"_id":11,
+"nombre":"DB"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":13,
+"nombre":"ICBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":15,
+"nombre":"Banco Ciudad"
+},
+{
+"_id":16,
+"nombre":"Banco Columbia"
+},
+{
+"_id":17,
+"nombre":"Banco Comafi"
+},
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+},
+{
+"_id":19,
+"nombre":"Banco de Valores"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":21,
+"nombre":"Banco Meridian"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+},
+{
+"_id":23,
+"nombre":"BBVA"
+}
+]
+},
+{
+"_id":7,
+"nombre":"Amex - Débito",
+"bancos":[
+{
+"_id":1,
+"nombre":"AMERICAN EXPRESS"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+}
+]
+},
+{
+"_id":8,
+"nombre":"Amex - Crédito",
+"bancos":[
+{
+"_id":1,
+"nombre":"AMERICAN EXPRESS"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+}
+]
+},
+{
+"_id":9,
+"nombre":"Cabal - Débito",
+"bancos":[
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+}
+]
+},
+{
+"_id":10,
+"nombre":"Cabal - Crédito",
+"bancos":[
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+}
+]
+}
+]
+	        });
 	      });
 	    }).catch(function (error) {
-	           //Si no lo encuentra, lo crea
+	           // Si no lo encuentra, lo crea
 	           BaseLocal.put({
 	                _id: 'tarjetas',
-	              tarjetas: [
-	             {
-	              _id: 1,
-	              nombre: 'Visa Crédito',
-	              bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:3, nombre: 'Banco Ciudad'},{_id:4, nombre: 'HSBC'}]
-	            }, {
-	              _id: 2,
-	              nombre: 'MasterCard',
-	              bancos : [{_id:1, nombre: 'BBVA Francés'},{_id:2, nombre: 'Banco Nación'},{_id:5, nombre: 'Banco Provincia'},{_id:6, nombre: 'ICBC'}]            
-	            },
-	            {
-	              _id: 3,
-	              nombre: 'American Express',
-	              bancos : [{_id:7, nombre: 'AMEX'},{_id:2, nombre: 'Banco Nación'},{_id:8, nombre: 'Banco Patagonia'},{_id:4, nombre: 'HSBC'}]            
-	            }
-	            ]});
+	                "tarjetas":[
+{
+"_id":1,
+"nombre":"Mastercard - Débito",
+"bancos":[
+{
+"_id":2,
+"nombre":"HIPOTECARIO"
+},
+{
+"_id":3,
+"nombre":"ITAU"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":5,
+"nombre":"BNA"
+},
+{
+"_id":6,
+"nombre":"BAPRO"
+},
+{
+"_id":7,
+"nombre":"BPN"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":9,
+"nombre":"SUPERVIELLE"
+},
+{
+"_id":10,
+"nombre":"CITIBANK"
+},
+{
+"_id":11,
+"nombre":"DB"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":13,
+"nombre":"ICBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":15,
+"nombre":"Banco Ciudad"
+},
+{
+"_id":16,
+"nombre":"Banco Columbia"
+},
+{
+"_id":17,
+"nombre":"Banco Comafi"
+},
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+},
+{
+"_id":19,
+"nombre":"Banco de Valores"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":21,
+"nombre":"Banco Meridian"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+},
+{
+"_id":23,
+"nombre":"BBVA"
+}
+]
+},
+{
+"_id":2,
+"nombre":"Mastercard - Crédito",
+"bancos":[
+{
+"_id":2,
+"nombre":"HIPOTECARIO"
+},
+{
+"_id":3,
+"nombre":"ITAU"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":5,
+"nombre":"BNA"
+},
+{
+"_id":6,
+"nombre":"BAPRO"
+},
+{
+"_id":7,
+"nombre":"BPN"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":9,
+"nombre":"SUPERVIELLE"
+},
+{
+"_id":10,
+"nombre":"CITIBANK"
+},
+{
+"_id":11,
+"nombre":"DB"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":13,
+"nombre":"ICBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":15,
+"nombre":"Banco Ciudad"
+},
+{
+"_id":16,
+"nombre":"Banco Columbia"
+},
+{
+"_id":17,
+"nombre":"Banco Comafi"
+},
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+},
+{
+"_id":19,
+"nombre":"Banco de Valores"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":21,
+"nombre":"Banco Meridian"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+},
+{
+"_id":23,
+"nombre":"BBVA"
+}
+]
+},
+{
+"_id":3,
+"nombre":"Tarjeta Naranja - Débito",
+"bancos":[
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+}
+]
+},
+{
+"_id":4,
+"nombre":"Tarjeta Naranja - Crédito",
+"bancos":[
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+}
+]
+},
+{
+"_id":5,
+"nombre":"Visa - Débito",
+"bancos":[
+{
+"_id":1,
+"nombre":"AMERICAN EXPRESS"
+},
+{
+"_id":2,
+"nombre":"HIPOTECARIO"
+},
+{
+"_id":3,
+"nombre":"ITAU"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":5,
+"nombre":"BNA"
+},
+{
+"_id":6,
+"nombre":"BAPRO"
+},
+{
+"_id":7,
+"nombre":"BPN"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":9,
+"nombre":"SUPERVIELLE"
+},
+{
+"_id":10,
+"nombre":"CITIBANK"
+},
+{
+"_id":11,
+"nombre":"DB"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":13,
+"nombre":"ICBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":15,
+"nombre":"Banco Ciudad"
+},
+{
+"_id":16,
+"nombre":"Banco Columbia"
+},
+{
+"_id":17,
+"nombre":"Banco Comafi"
+},
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+},
+{
+"_id":19,
+"nombre":"Banco de Valores"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":21,
+"nombre":"Banco Meridian"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+},
+{
+"_id":23,
+"nombre":"BBVA"
+}
+]
+},
+{
+"_id":6,
+"nombre":"Visa - Crédito",
+"bancos":[
+{
+"_id":1,
+"nombre":"AMERICAN EXPRESS"
+},
+{
+"_id":2,
+"nombre":"HIPOTECARIO"
+},
+{
+"_id":3,
+"nombre":"ITAU"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":5,
+"nombre":"BNA"
+},
+{
+"_id":6,
+"nombre":"BAPRO"
+},
+{
+"_id":7,
+"nombre":"BPN"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":9,
+"nombre":"SUPERVIELLE"
+},
+{
+"_id":10,
+"nombre":"CITIBANK"
+},
+{
+"_id":11,
+"nombre":"DB"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":13,
+"nombre":"ICBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":15,
+"nombre":"Banco Ciudad"
+},
+{
+"_id":16,
+"nombre":"Banco Columbia"
+},
+{
+"_id":17,
+"nombre":"Banco Comafi"
+},
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+},
+{
+"_id":19,
+"nombre":"Banco de Valores"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":21,
+"nombre":"Banco Meridian"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+},
+{
+"_id":23,
+"nombre":"BBVA"
+}
+]
+},
+{
+"_id":7,
+"nombre":"Amex - Débito",
+"bancos":[
+{
+"_id":1,
+"nombre":"AMERICAN EXPRESS"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+}
+]
+},
+{
+"_id":8,
+"nombre":"Amex - Crédito",
+"bancos":[
+{
+"_id":1,
+"nombre":"AMERICAN EXPRESS"
+},
+{
+"_id":4,
+"nombre":"MACRO"
+},
+{
+"_id":8,
+"nombre":"SANTANDER RIO"
+},
+{
+"_id":12,
+"nombre":"HSBC"
+},
+{
+"_id":14,
+"nombre":"Tarjeta Naranja"
+},
+{
+"_id":20,
+"nombre":"Banco Galicia"
+},
+{
+"_id":22,
+"nombre":"Banco Patagonia"
+}
+]
+},
+{
+"_id":9,
+"nombre":"Cabal - Débito",
+"bancos":[
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+}
+]
+},
+{
+"_id":10,
+"nombre":"Cabal - Crédito",
+"bancos":[
+{
+"_id":18,
+"nombre":"Banco Credicoop"
+}
+]
+}
+]});
 	         });
 }

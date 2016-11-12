@@ -3,7 +3,7 @@ angular.module('app.controllers.chango', [])
 
 	$scope.chango =  {productos:[],
 			total:0,
-			totalProductos: 0,
+			totalProductosComprados: 0,
 			totalLista: 0,
 			descuentoTotal: 0};
 	
@@ -69,18 +69,19 @@ angular.module('app.controllers.chango', [])
 	/*MODAL selección productos*/
 
 	
-	
+	$scope.imagenProducto = function(){
+		return 'https://imagenes.preciosclaros.gob.ar/productos/'+$scope.producto.ean +'.jpg' ; 
+	}
 	
 	 $scope.escannear = function(){
 		 EscannerService.scanBarcode().then(function(codigo){
 			 ProductoService.getProductoPorEAN(codigo).then(function (producto){	
-				 producto = ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
-							$scope.medioDePago, $scope.descuento,new Date());
-				 producto.cantidad = 1;
-				 
-				 $scope.producto = producto;
-				 abrirModal();    
-							
+				  ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
+							$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
+								producto =prod;
+								 $scope.producto = producto;
+								 abrirModal();    
+							})
 			 });
 			 
 		 });
@@ -104,8 +105,17 @@ angular.module('app.controllers.chango', [])
 	 }
  
 	 function agregarAlChango(producto){
-		 $scope.chango.totalProductos += producto.cantidad ;
-		 $scope.chango.total += $scope.producto.aPagar * $scope.producto.cantidad ;
+		 
+		 producto.ean = producto._id;
+		 producto.precio_lista = producto.lista;
+		 producto.desc_valor = producto.descuento;
+		 producto.precio_final = producto.precio_final;
+		 $scope.chango.totalProductosComprados += producto.cantidad ;
+		 if($scope.producto.precio_final == 0){
+			 //No había precio y lo modifico a mano el usuario
+			 $scope.producto.precio_final = $scope.producto.lista;
+		 }
+		 $scope.chango.total += $scope.producto.precio_final * $scope.producto.cantidad ;
 		 $scope.chango.totalLista += $scope.producto.lista * $scope.producto.cantidad ;
 		 $scope.chango.descuentoTotal += $scope.producto.descuento * $scope.producto.cantidad ;
 		 for(var i = 0; $scope.chango.productos.length> i;i++){
@@ -118,7 +128,7 @@ angular.module('app.controllers.chango', [])
 	 }
 	 
 	 function sacarDelChango(producto){
-		 $scope.chango.totalProductos -= producto.cantidad ;
+		 $scope.chango.totalProductosComprados -= producto.cantidad ;
 		 $scope.chango.total -= $scope.producto.aPagar * $scope.producto.cantidad ;
 		 $scope.chango.totalLista -= $scope.producto.lista * $scope.producto.cantidad ;
 		 $scope.chango.descuentoTotal -= $scope.producto.descuento * $scope.producto.cantidad ;
@@ -129,6 +139,16 @@ angular.module('app.controllers.chango', [])
 			 }
 		 }	
 	 }
+	 
+	 $scope.verificarChango = function () {
+		 
+			/*var compra = ComprarService.verificarChango($scope.chango,$scope.comercio,
+										$scope.medioDePago, $scope.descuento,new Date() );
+							
+			ComprarService.simulacion = compra;
+			ComprarService.simulada = false;*/
+			$state.go('menEChango.verificarChango');								
+		 }	
 	 
 	 $scope.cerrarChango = function () {
 		 
@@ -141,7 +161,7 @@ angular.module('app.controllers.chango', [])
 		 }	
  
 })
-.controller('cerrarChangoCtrl', function($scope,$state,ComprarService ) {
+.controller('cerrarChangoCtrl', function($scope,$state,$ionicHistory,ComprarService ) {
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		$scope.compra = ComprarService.simulacion;
@@ -153,6 +173,9 @@ angular.module('app.controllers.chango', [])
 	$scope.guardarCompra = function(){
 		$scope.compra.correcta = true;
 		ComprarService.guardarCompra($scope.compra).then(function(){
+			$ionicHistory.nextViewOptions({
+			      disableBack: true
+			    });
 			if($scope.compra.simulada){
 				$state.go('menEChango.parMetrosDeSimulaciN');	
 			}else{
@@ -166,10 +189,41 @@ angular.module('app.controllers.chango', [])
 		//Saraza
 		$scope.compra.correcta = false;
 		ComprarService.guardarCompra($scope.compra).then(function(){			
-			alert('Gracias por tu aporte. Juntos hacemos un eChango mejor!');
+			alert('Gracias por tu aporte. ¡Juntos hacemos un eChango mejor!');
 			$state.go('menuPrincipal');				
 		})
 	}
+	
+	
+})
+.controller('verificarChangoCtrl', function($scope,$state,$ionicModal,ComprarService ) {
+	
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		$scope.alertas = ComprarService.alertas;		
+	 });
+	
+
+	 $ionicModal.fromTemplateUrl('alertas-modal.html', {
+	        id: '1',
+	        scope: $scope,
+	        animation: 'slide-in-up'
+	    }).then(function(modal) {
+	        $scope.modal1 = modal;
+	    });
+
+	$scope.closeModal = function() {
+	    $scope.modal1.hide();
+	};
+
+	$scope.$on('$destroy', function() {
+	        $scope.modal.remove();
+	})
+	
+	$scope.abrirModal = function(producto){
+		$scope.alerta = alerta
+		$scope.modal1.show();
+	}
+	
 	
 	
 })

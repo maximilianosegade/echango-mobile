@@ -6,16 +6,26 @@
         <div class="spacer" style="width: 320px; height: 12px;"></div>
         <div class="item item-body" id="verificarChango-list-item-container11">
             <ion-list id="verificarChango-list37">
-                <ion-item class="item-icon-right dark" id="verificarChango-list-item116">Coca Cola 2.25 lt
-                    <i class="icon ion-alert-circled"></i>
-                </ion-item>
-                <ion-item class="item-icon-right dark" id="verificarChango-list-item117">Yerba Mate 0.5 kg
-                    <i class="icon ion-alert-circled"></i>
-                </ion-item>
-                <ion-item class="item-icon-right dark" id="verificarChango-list-item118">Yogurt Frutilla 1lt
-                    <i class="icon ion-alert-circled"></i>
-                </ion-item>
+            <ion-item class="item-icon-right dark" ng-repeat="item in alertas" ng-click="abrirModal(item)">
+                {{item.producto.nombre}}	
+                   <i class="icon ion-alert-circled"></i>
+            </ion-item>                
             </ion-list>
         </div>
     </ion-content>
+    <script id="alertas-modal.html" type="text/ng-template">
+
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">{{alerta.producto.nombre}}</h1>
+          </ion-header-bar>
+          <ion-content>            
+            <p>{{alerta.comercio.nombre}}</p>
+            <p>{{alerta.comercio.direccion}}</p>
+            <p>${{alerta.precio}}</p>
+            <p>${{alerta.diferenciaPrecio}}</p>
+            <p>{{alerta.porcentaje}}%</p>
+          </ion-content>
+        </ion-modal-view>
+      </script>
 </ion-view>

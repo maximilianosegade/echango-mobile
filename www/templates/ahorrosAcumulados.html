@@ -8,8 +8,8 @@
         <div class="spacer" style="width: 320px; height: 6px;"></div>
         <ion-list id="ahorrosAcumulados-list23">
             <ion-item class="energized" ng-repeat="item in compras">
-                <h2energized>{{item.doc.comercio.nombreCadena}}-{{item.doc.comercio.direccion}}
-                    <p style="white-space:normal;">{{item.doc.fecha | date: 'dd/MM/yyyy'}} - {{item.doc.costo.porcentajeDescuento}}%   -  Valor del ahorro: ${{item.doc.costo.descuentoTotal}}</p>
+                <h2energized>{{item.doc.comercio.nombre}}-{{item.doc.comercio.direccion}}
+                    <p style="white-space:normal;">{{item.doc.fecha }} - {{item.doc.porcentajeDescuento}}%   -  Valor del ahorro: ${{item.doc.descuentoTotal}}</p>
                 </h2energized>
             </ion-item>
         </ion-list>

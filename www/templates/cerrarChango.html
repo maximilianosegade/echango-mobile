@@ -10,28 +10,28 @@
                 <h2dark>{{compra.comercio.nombre}}-{{compra.comercio.direccion}}
                     <p style="white-space:normal;">
                     	
-                    	{{compra.fecha  | date: 'dd/MM/yyyy'}}</p>
+                    	{{compra.fecha }}</p>
                 </h2dark>
             </ion-item>
             <div class="item item-body" id="cerrarChango-list-item-container15">
                 <ion-list id="cerrarChango-list40">
                     <ion-item id="cerrarChango-list-item126">Medio de Pago:
-                        <span class="item-note">{{compra.medioDePago.tarjeta.nombre }} {{compra.medioDePago.banco.nombre }}</span>
+                        <span class="item-note">{{compra.tarjeta.nombre }} {{compra.banco.nombre }}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item127">Tarjeta de Descuento:
                         <span class="item-note">{{compra.descuento.nombre}}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item128">Valor de Compra:
-                        <span class="item-note">{{compra.costo.valorLista}}</span>
+                        <span class="item-note">{{compra.valorLista}}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item129">Cantidad de Productos:
-                        <span class="item-note">{{compra.lista.totalProductos}}</span>
+                        <span class="item-note">{{compra.cantidad_total_articulos}}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item130">Valor de Descuento:
-                        <span class="item-note">{{compra.costo.descuentoTotal}}</span>
+                        <span class="item-note">{{compra.descuentoTotal}}</span>
                     </ion-item>
                     <ion-item id="cerrarChango-list-item131">Precio Final:
-                        <span class="item-note">{{compra.costo.valorTotal}}</span>
+                        <span class="item-note">{{compra.valorTotal}}</span>
                     </ion-item>
                 </ion-list>
             </div>

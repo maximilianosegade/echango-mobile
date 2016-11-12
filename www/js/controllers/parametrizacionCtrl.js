@@ -47,23 +47,35 @@ angular.module('app.controllers.parametrizar', [])
 			try {
 				 $cordovaDatePicker.show(options).then(function(fecha){
 					 ComprarService.simularCompra($scope.lista,$scope.comercio,
-								$scope.medioDePago, $scope.descuento,fecha ).then(function(simulacion){
-									ComprarService.simulacion = simulacion;
+								$scope.medioDePago, $scope.descuento,fecha ).then(function(simulaciones){
+									ComprarService.simulaciones = simulaciones;
 									ComprarService.simulada = true;
-		
-									$state.go('menEChango.cerrarChango');
+									$state.go('menEChango.listaSimulaciones');
+									//$state.go('menEChango.cerrarChango');
 								})
 				 	});
 				 }catch(e){
 			 //Para cuando estamos simulando y no tenemos cordova
 					 ComprarService.simularCompra($scope.lista,$scope.comercio,
-								$scope.medioDePago, $scope.descuento,new Date() ).then(function(simulacion){
-									ComprarService.simulacion = simulacion;
+								$scope.medioDePago, $scope.descuento,new Date() ).then(function(simulaciones){
+									ComprarService.simulaciones = simulaciones;
 									ComprarService.simulada = true;
-									$state.go('menEChango.cerrarChango');
+									$state.go('menEChango.listaSimulaciones');
 								});
 				 	};
 		 }		
 	 
 	 
+})
+.controller('listaSimulacionCtrl', function($scope,$state, ComprarService) {
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		$scope.simulaciones = ComprarService.simulaciones;
+				 
+	 });	 
+	
+	$scope.seleccionar = function(simulacion){
+		ComprarService.simulacion= simulacion;
+		ComprarService.simulada = true;
+		$state.go('menEChango.cerrarChango');
+	}
 })

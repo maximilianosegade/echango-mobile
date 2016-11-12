@@ -3,7 +3,7 @@
         <ion-list id="eChango-list35">
             <ion-item class="item-thumbnail-left dark" id="eChango-list-item102">
                 <h2dark>{{comercio.nombre}},{{comercio.direccion}}
-                    <p style="white-space:normal;">Cant. Prod.: {{chango.totalProductos}}/{{lista.totalProductos}} --------------------Valorizado: ${{chango.total}}</p>
+                    <p style="white-space:normal;">Cant. Prod.: {{chango.totalProductosComprados}}/{{lista.totalProductos}} --------------------Valorizado: ${{chango.total}}</p>
                 </h2dark>
             </ion-item>
         </ion-list>
@@ -39,7 +39,8 @@
             <h1 class="title">Detalle del producto</h1>
           </ion-header-bar>
           <ion-content>
-<form id="agregarProducto-form40" class="list">
+<form id="agregarProducto-form40" class="list"> 
+	<img ng-src="{{imagenProducto()}}" style="max-width: 250px; max-height: 250px;"/>
             <label class="item item-input" id="agregarProducto-input37">
                 <span class="input-label">EAN:</span>
                 <input type="text" ng-model="producto.ean" disabled="true">

@@ -22,13 +22,13 @@ angular.module('app.services.reporte', [])
 			resultado = [];
 			for(var i=0; compras.length>i;i++){
 				//recorro los productos de la compra
-				for(var j = 0; compras[i].doc.costo.productos.length > j; j++){
-					if(compras[i].doc.costo.productos[j]._id in productoCompra){
-						productoCompra[compras[i].doc.costo.productos[j]._id ].push({fecha: compras[i].doc.fecha, valor: compras[i].doc.costo.productos[j].precio});
+				for(var j = 0; compras[i].doc.productos.length > j; j++){
+					if(compras[i].doc.productos[j]._id in productoCompra){
+						productoCompra[compras[i].doc.productos[j]._id ].push({fecha: compras[i].doc.fecha, valor: compras[i].doc.productos[j].precio_lista});
 					}else{
-						eans.push({_id: compras[i].doc.costo.productos[j]._id, nombre: compras[i].doc.costo.productos[j].nombre});
-						productoCompra[compras[i].doc.costo.productos[j]._id ] = [];
-						productoCompra[compras[i].doc.costo.productos[j]._id ].push({fecha: compras[i].doc.fecha, valor: compras[i].doc.costo.productos[j].precio });
+						eans.push({_id: compras[i].doc.productos[j]._id, nombre: compras[i].doc.productos[j].nombre});
+						productoCompra[compras[i].doc.productos[j]._id ] = [];
+						productoCompra[compras[i].doc.productos[j]._id ].push({fecha: compras[i].doc.fecha, valor: compras[i].doc.productos[j].precio_lista });
 					}
 				}
 			}
