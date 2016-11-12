@@ -13,12 +13,18 @@ angular.module('app.controllers.relevarProducto', [ 'ngCordova' ]).controller(
 					console.log("An error happened -> " + error);
 				});
                 */
-                EscannerService.scanBarcode().then(function(barcode) {
+				if($scope.datos.currentComercio) {
+					EscannerService.scanBarcode().then(function(barcode) {
                     //alert(barcode);
                     var ean = EscannerService.getCurrentEAN();
                     //alert(ean);
                     $state.go('menEChango.informarProducto');
                 });
+
+				} else {
+					alert('Debe especificar un comercio antes de continuar');
+				}
+
 
 			};
 

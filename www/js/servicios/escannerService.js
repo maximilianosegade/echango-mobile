@@ -6,17 +6,14 @@ angular.module('app.services.escanner', [])
 
 		this.scanBarcode = function() {
 
-			if (currentComercio) {
-					return $cordovaBarcodeScanner.scan().then(function(imageData) {
+			return $cordovaBarcodeScanner.scan().then(function(imageData) {
 				currentEAN = imageData.text;
 				}, function(error) {
 			console.log("An error happened -> " + error);
 			alert(error);
 			return "ERROR";
 		});
-			} else {
-				alert('Debe especificar el comercio para el cual está relevando antes de continuar.')
-			}
+
 
 	};
 

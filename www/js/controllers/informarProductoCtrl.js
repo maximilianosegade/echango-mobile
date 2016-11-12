@@ -5,11 +5,14 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
             var idComercio = EscannerService.getCurrentComercio()._id; // TODO: debería inicializarse con la ID correcta
             var sucursalEncontrada;
             var currentProd;
+            
+	        
 
 
             $scope.$on('$ionicView.afterEnter', function() {
                 //alert('idComercio: ' + idComercio);
                 currentEAN = EscannerService.getCurrentEAN();
+                $scope.imagenProducto = 'https://imagenes.preciosclaros.gob.ar/productos/'+ currentEAN +'.jpg' ; 
                 $scope.data = {
                     currentPrice: 0,
                     currentDesc: '',
@@ -29,25 +32,13 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
 
 
                 ProductoService.getProductoPorEAN(currentEAN).then(function(doc) {
-                
-                    $scope.data.currentDesc = doc.nombre;
-                    sucursalEncontrada = false;
-                    for (i=0;i<doc.precios.length;i++) {
-                        if (currentProd.precios[i].id == idComercio   ){
-                            $scope.data.currentPrice = doc.precios[i].lista ;
-                            sucursalEncontrada = true;
-                            $scope.$apply();
-                            break;
-                        };
-                    } 
-                    currentProd = doc;
                     
-                    if (!sucursalEncontrada) {
-                        var nuevoPrecio = {id: idComercio,
-		                lista: 0,
-						promociones:[]};
-                        currentProd.precios.push(nuevoPrecio);
-                  }
+                    $scope.data.currentDesc = doc.nombre;
+                    // Obtener Precio para la sucursal
+
+                    currentProd = doc;
+                    $scope.$apply();
+
 
 
                 }).catch(function (err){
@@ -64,15 +55,8 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
             if ($scope.data.currentDesc && ($scope.data.currentPrice > 0) && $scope.data.currentEAN) {
                 currentProd.nombre = $scope.data.currentDesc;
                 currentProd.ean = $scope.data.currentEAN.toString();
-                for (i=0;i<currentProd.precios.length;i++) {
-                    if (currentProd.precios[i].id == idComercio){
-                        
-                        currentProd.precios[i].lista = $scope.data.currentPrice;
-                        ProductoService.updateProducto(currentProd);
-                        
-                        break;
-                    };
-                }                
+                //TODO: Actualizar precio
+
                 
                 $state.go('menEChango.relevarProducto');
             } else {
