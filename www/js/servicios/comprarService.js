@@ -1,6 +1,6 @@
 angular.module('app.services.compras', [])
 
-.service("ComprarService", function(BaseLocal,ProductoService, BaseCompras, BaseSimulaciones,BasePreciosPorComercio) {
+.service("ComprarService", function(BaseLocal,BaseProductos, BaseCompras, BaseSimulaciones,BasePreciosPorComercio, LoginService) {
 
 	
 	var comercio = null;
@@ -115,7 +115,8 @@ angular.module('app.services.compras', [])
 	function actualizarProductos(productos, productosNuevos){
 		
 		if(productos.length > 0){
-			return ProductoService.getProductoPorEAN(productos[0]._id).then(function (producto){	
+			
+			return BaseProductos.get(productos[0]._id).then(function (producto){	
 				 producto.cantidad = productos[0].cantidad;
 				 productosNuevos.push(producto);
 				 productos.splice(0,1);
@@ -127,6 +128,49 @@ angular.module('app.services.compras', [])
 			 });
 		}
 		
+	}
+	
+	function aplicarPromociones (precio, cantidad, promociones, medioDePago,descuento,fecha){
+
+		var descuentoActual  = 0;
+		var precioASumar = precio * cantidad ;
+		for(var l = 0; promociones && promociones.length > l ;l++){
+			var promocion = promociones[l];
+			if(promocion.plastico < 1 || promocion.plastico == medioDePago.tarjeta._id){
+				//La promoción no implica plástico o tiene el plástico de la promoción
+				if(promocion.banco < 1 || promocion.banco == medioDePago.banco._id){
+					//La promoción no implica ningún banco o el plastico es del banco de la promoción										
+						if(promocion.tarjeta < 1 || promocion.tarjeta == descuento._id){
+							//La promoción no implica tarjeta de descuento o tiene la tarjeta de descuento
+							//falta aplicar la FECHA!!!!!!
+							
+							if(promocion.valor > 0){
+								//promocion estilo precios cuidados
+								descuentoActual = (precio -  promocion.valor) * cantidad ;
+								precioASumar = promocion.valor * cantidad;
+							}else if (promocion.cantidad > 0 && cantidad>=promocion.cantidad){
+								//promocion tipo 2x1
+								descuentoActual = precio * cantidad * promocion.porcentaje;
+								precioASumar = precio * cantidad -descuentoActual;
+							}else if(promocion.porcentaje > 0){
+								//promociones tipo 20% de descuento con credito
+								descuentoActual = precio * cantidad * promocion.porcentaje;
+								precioASumar = precio * cantidad -descuentoActual;
+							}											
+							//se aplicó alguno de los tipos de promoción, salimso del for de promociones
+							l = 64000; //para salir de promociones											
+						}
+				}
+			}
+		}
+		var resultado = [];
+		resultado.push(descuentoActual);
+		resultado.push(precioASumar);
+		return  resultado;
+	}
+	
+	this.aplicarPromociones = function (precio, cantidad, promociones, medioDePago,descuento,fecha){
+		return aplicarPromociones(precio, cantidad, promociones, medioDePago,descuento,fecha);
 	}
 	
 	function determinarPrecioProducto(precio, cantidad, promocion, fecha){
@@ -192,27 +236,16 @@ angular.module('app.services.compras', [])
 						if(productosNuevos[j].precios[k].comercioId == comercio._id){
 							//estamos en el comercio seleccionado
 							descuentoActual = 0;
-							precioASumar = productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
-							costo.valorLista += precioASumar;
+							precioASumar = 0;
+							costo.valorLista += productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
 							seguirPromocion = true;
-							for(var l = 0; productosNuevos[j].precios[k].promociones && productosNuevos[j].precios[k].promociones.length > l ;l++){
-								if(productosNuevos[j].precios[k].promociones[l].plastico < 1 || productosNuevos[j].precios[k].promociones[l].plastico == medioDePago.tarjeta._id){
-									//La promoción no implica plástico o tiene el plástico de la promoción
-									if(productosNuevos[j].precios[k].promociones[l].banco < 1 || productosNuevos[j].precios[k].promociones[l].banco == medioDePago.banco._id){
-										//La promoción no implica ningún banco o el plastico es del banco de la promoción										
-											if(productosNuevos[j].precios[k].promociones[l].tarjeta < 1 || productosNuevos[j].precios[k].promociones[l].tarjeta == descuento._id){
-												//La promoción no implica tarjeta de descuento o tiene la tarjeta de descuento
-												//falta aplicar la FECHA!!!!!!
-												var result = determinarPrecioProducto(productosNuevos[j].precios[k].lista, productosNuevos[j].cantidad,
-														productosNuevos[j].precios[k].promociones[l], fecha);
-												descuentoActual = result[0];
-												precioASumar = result[1];												
-												//se aplicó alguno de los tipos de promoción, salimso del for de promociones
-												l = 64000; //para salir de promociones											
-											}
-									}
-								}
-							}//cierre FOR promociones
+							
+							var result =aplicarPromociones(productosNuevos[j].precios[k].lista,productosNuevos[j].cantidad,
+									productosNuevos[j].precios[k].promociones,medioDePago,descuento,fecha);
+							 
+							descuentoActual = result[0];
+							precioASumar = result[1];	
+							
 							//recorrida las promociones o encontró una o dejó el precio de lista
 							costo.productos.push({_id: productosNuevos[j]._id,
 								nombre: productosNuevos[j].nombre,
@@ -255,44 +288,62 @@ angular.module('app.services.compras', [])
 	
 	this.cerrarChango = function(chango, comercio, medioDePago,descuento,fecha){
 		//es diferente de la simulación porque cada producto ya sabe cuánto costó
-		var costo = {
-				valorTotal: chango.total,
-				descuentoTotal: chango.descuentoTotal,
-				valorLista: chango.totalLista,
-				productos: chango.productos
-			};
-		var porcentajeDescuento = (costo.descuentoTotal / costo.valorTotal * 100).toFixed(2);
-		costo.porcentajeDescuento = porcentajeDescuento;
 		var compra = {};
-		compra.costo = costo;
-		compra.lista = {};
-		compra.lista.productos = chango.productos;	
-		compra.lista.totalProductos = chango.totalProductos;
+		var nombreUsuario = LoginService.getNombreUsuario();
+		compra._id = nombreUsuario +  fecha.getTime() + comercio._id;
+		compra.usuario = nombreUsuario;
+		
+		compra.valorTotal = chango.total;
+		compra.descuentoTotal = chango.descuentoTotal;
+		compra.valorLista = chango.totalLista;		
+		var porcentajeDescuento = (chango.descuentoTotal / chango.total * 100).toFixed(2);
+		compra.porcentajeDescuento = porcentajeDescuento;
+		
+		compra.cantidad_total_articulos = chango.totalProductosComprados;		
+		compra.productos = chango.productos;
+		
 		compra.comercio = comercio;
-		compra.fecha = fecha;
-		compra.medioDePago = medioDePago;
-		compra.descuento = descuento;
+		compra.fecha = fecha.toISOString()
+		  .replace(/T/, ' ')
+		  .replace(/\..+/, '');
+		
+		if(medioDePago){
+			compra.banco = {_id: medioDePago.banco._id,
+					nombre: medioDePago.banco.nombre} ;
+			
+			compra.tarjeta = {_id: medioDePago.tarjeta._id,
+					nombre: medioDePago.tarjeta.nombre} ;
+		}
+		
+		if(descuento){
+		compra.descuento ={_id: descuento._id,
+											nombre: descuento.nombre} ;
+		}
+		
+		compra.simulada = false;
 		
 		return compra
 	}
 	
 	
 	this.guardarCompra = function(compra){
-		compra._id = "" +  compra.fecha.getTime() + compra.comercio._id;
-		
-		if(compra.medioDePago){
-			compra._id +=compra.medioDePago.tarjeta._id;
-			compra._id += compra.medioDePago.banco._id;
-		}
-		if(compra.descuento){
-			compra._id +=compra.descuento._id;
-		}		
-		
+				
 		if(compra.simulada){
 			return BaseSimulaciones.put(compra);	
 		}else{
-			return BaseCompras.put(compra);			
+			return BaseCompras.put(compra).then(function(){
+				console.log('[Guardada la compra en local - Sync START].')
+				BaseCompras.replicate.to('https://webi.certant.com/echango/novedades_subida', {
+					      live: false,
+					      retry: true
+				    	}).then(function(){
+				    		console.log('[Guardada la compra Remoto - Sync FINISH].')
+				    	}).catch(function(){
+				    		console.log('[Error al Guardar Compra Remoto - Sync FINISH].')
+				    	});
+					});			
 		}
+		
 	}
 	
 	
@@ -338,32 +389,12 @@ this.verificarChango = function(lista, comercio, mediosDePagoRegistrados,tarjeta
 							
 							precioASumar = productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
 							seguirPromocion = true;
-							for(var l = 0; productosNuevos[j].precios[k].promociones.length > l ;l++){
-								if(productosNuevos[j].precios[k].promociones[l].plastico < 1 || productosNuevos[j].precios[k].promociones[l].plastico == mediosDePagoRegistrados[i].tarjeta._id){
-									//La promoción no implica plástico o tiene el plástico de la promoción
-									if(productosNuevos[j].precios[k].promociones[l].banco < 1 || productosNuevos[j].precios[k].promociones[l].banco == mediosDePagoRegistrados[i].banco._id){
-										//La promoción no implica ningún banco o el plastico es del banco de la promoción
-										for (var m = 0; tarjetasPromocionalesRegistradas.length >m; m++){
-											if(productosNuevos[j].precios[k].promociones[l].tarjeta < 1 || productosNuevos[j].precios[k].promociones[l].tarjeta == tarjetasPromocionalesRegistradas[m]._id){
-												//La promoción no implica tarjeta de descuento o tiene la tarjeta de descuento
-												if(productosNuevos[j].precios[k].promociones[l].valor > 0){
-													//promocion estilo precios cuidados
-													precioASumar = productosNuevos[j].precios[k].promociones[l].valor * productosNuevos[j].cantidad;
-												}else if (productosNuevos[j].precios[k].promociones[l].cantidad > 0){
-													//promocion tipo 2x1
-													precioASumar = productosNuevos[j].precios[k] * productosNuevos[j].cantidad * productosNuevos[j].precios[k].promociones[l].porcentaje;
-												}else if(productosNuevos[j].precios[k].promociones[l].porcentaje > 0){
-													//promociones tipo 20% de descuento con credito
-													precioASumar = productosNuevos[j].precios[k] * productosNuevos[j].cantidad * productosNuevos[j].precios[k].promociones[l].porcentaje;
-												}
-												l = 64000; //para salir de promociones
-												break;
-											}
-										}
-										
-									}
-								}
-							}//cierre FOR promociones
+
+							var result =aplicarPromociones(productosNuevos[j].precios[k].lista,productosNuevos[j].cantidad,
+									productosNuevos[j].precios[k].promociones,medioDePago,descuento,fecha);
+							 
+							descuentoActual = result[0];
+							precioASumar = result[1];	
 							//recorrida las promociones o encontró una o dejó el precio de lista
 							costo.productos.push({_id: productosNuevos[j]._id,
 								nombre: productosNuevos[j].nombre,

@@ -261,8 +261,8 @@ $scope.agregar = function(){
 	    $scope.comercio = comercio;
 	    //agregar punto al mapa
 	    var ubicacion = {};
-	    ubicacion.latitud = comercio.latitud;
-	    ubicacion.longitud = comercio.longitud;
+	    ubicacion.latitud = comercio.ubicacion.coordinates[0];
+	    ubicacion.longitud = comercio.ubicacion.coordinates[1];
 	    agregarMarcador(ubicacion);
 	    $scope.$apply();
 	    $scope.modal4.hide();

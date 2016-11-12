@@ -2,7 +2,10 @@ angular.module('app.services.login', [])
 .service("LoginService", function($rootScope, $q, BaseLocal) {
    var database = BaseLocal;
    var currentUser = {};
-
+   
+   var getNombreUsuario = function(){
+		  return 'fedegc87@gmail.com';
+	  };
    // eChangoUser
 
    var getCurrentUser = function() {
@@ -59,7 +62,10 @@ angular.module('app.services.login', [])
     userIsLoggedIn: userIsLoggedIn,
     isGoogleUser: isGoogleUser,
     isFacebookUser: isFacebookUser,
-    isChangoUser: isChangoUser
+    isChangoUser: isChangoUser,
+    getNombreUsuario: getNombreUsuario
   };
+  
+  
     
 })
