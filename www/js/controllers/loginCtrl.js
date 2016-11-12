@@ -5,6 +5,7 @@ angular.module('app.controllers.login', [])
     var dbLocal = BaseLocal;
     $scope.facebookUser = {};
     $scope.googleUser = {};
+    $scope.user = {};
 
                 $scope.$on('$ionicView.enter', function() {
                   $scope.showGooglePlus = LoginService.isGoogleUser();
@@ -165,15 +166,17 @@ angular.module('app.controllers.login', [])
         // Facebook logout
         facebookConnectPlugin.logout(function(){
           alert('Éxito logout FB');
-          LoginService.setFacebookUser({});
-          $scope.showFacebook = LoginService.isFacebookUser();
-          $scope.$apply();
+
           //$state.go('menu.login');
         },
         function(fail){
-            alert('Falló logout FB');
+            //alert('Falló logout FB');
             
         });
+
+          LoginService.setFacebookUser({});
+          $scope.showFacebook = LoginService.isFacebookUser();
+          $scope.$apply();
         $ionicLoading.hide();
         return true;
 			}
@@ -243,24 +246,36 @@ angular.module('app.controllers.login', [])
             
 						$ionicLoading.hide();
             alert('Logout success!')
-            LoginService.setGooglePlusUser({});
-            $scope.showGooglePlus = LoginService.isGoogleUser();
-            $scope.$apply();
+
             //$scope.showGooglePlus = LoginService.isGoogleUser();
             
             //$scope.showGooglePlus = true;
 						//$state.go('welcome');
 					},
 					function(fail){
-            alert('Google+ logout fail -> ' + fail);
+            //alert('Google+ logout fail -> ' + fail);
 
 						console.log(fail);
 					}
 				);
+            LoginService.setGooglePlusUser({});
+            $scope.showGooglePlus = LoginService.isGoogleUser();
+            $scope.$apply();
         $ionicLoading.hide();
         return true;
 			}
 		});
 	};
+
+  $scope.eChangoLogin = function() {
+    // TODO: debería validarse contra el server 
+    
+    if($scope.user.name && $scope.user.password) {
+      $state.go('menuPrincipal');
+    } else {
+      alert('Debe ingresar e-mail y contraseña');
+    }
+
+  }
 
 })
