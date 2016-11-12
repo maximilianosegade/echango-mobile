@@ -293,7 +293,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/cuentaEChango.html',
-    controller: 'cuentaEChangoCtrl'
+    controller: 'loginCtrl'
  }}})
 
  .state('menEChango.redesSociales', {

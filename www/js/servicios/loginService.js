@@ -13,7 +13,7 @@ angular.module('app.services.login', [])
    };
 
    var setCurrentUser = function(aUser) {
-     this.currentUser = aUser;
+     currentUser = aUser;
    };
    
   // Facebook Services

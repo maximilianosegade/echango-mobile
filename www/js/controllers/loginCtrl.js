@@ -8,6 +8,7 @@ angular.module('app.controllers.login', [])
     $scope.user = {};
 
                 $scope.$on('$ionicView.enter', function() {
+                  $scope.user = LoginService.getCurrentUser(); 
                   $scope.showGooglePlus = LoginService.isGoogleUser();
                   $scope.showFacebook = LoginService.isFacebookUser();
                   $scope.facebookUser = LoginService.getFacebookUser();
@@ -18,6 +19,7 @@ angular.module('app.controllers.login', [])
                       $state.go('menuPrincipal');
                     } 
                   }
+                  $scope.$apply();
 
                   
 
@@ -270,12 +272,20 @@ angular.module('app.controllers.login', [])
   $scope.eChangoLogin = function() {
     // TODO: debería validarse contra el server 
     
-    if($scope.user.name && $scope.user.password) {
+    if($scope.user.email && $scope.user.password) {
+      LoginService.setCurrentUser($scope.user);
       $state.go('menuPrincipal');
     } else {
       alert('Debe ingresar e-mail y contraseña');
     }
 
+  }
+
+  $scope.eChangoLogout = function () {
+    alert('Logout success!');
+    LoginService.setCurrentUser({});
+    $state.go('login');
+    
   }
 
 })
