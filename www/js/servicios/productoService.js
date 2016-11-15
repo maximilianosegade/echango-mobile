@@ -3,6 +3,13 @@ angular.module('app.services.producto', [])
 	var database = BaseProductos;
     var buscador = buscadorProductos(BaseProductos);
     
+    // Tiro una busqueda al inicializar para que se indexen los productos.
+    buscador.buscar('').then(function(){
+        console.log('Indexar nombres de productos => OK.');
+    }).catch(function(err){
+        console.log('Indexar nombres de productos => ERR. ', err);
+    });
+    
 	function mapNombreProducto(doc) {
 	   emit(doc.nombre);
 	};
