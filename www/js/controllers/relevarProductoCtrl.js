@@ -143,7 +143,8 @@ angular.module('app.controllers.relevarProducto', [ 'ngCordova' ]).controller(
 					'direccion': $scope.comercio.direccion
 				};
 				
-				EscannerService.setCurrentComercio($scope.datos.currentComercio);
+				//EscannerService.setCurrentComercio($scope.datos.currentComercio);
+				EscannerService.setCurrentComercioById($scope.datos.currentComercio._id);
 				$scope.$apply();
 				//alert(JSON.stringify($scope.comercio));
 				$scope.modal5.hide();

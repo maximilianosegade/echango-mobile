@@ -1,5 +1,5 @@
 angular.module('app.services.escanner', [])
-.service("EscannerService", function($cordovaBarcodeScanner) {
+.service("EscannerService", function($cordovaBarcodeScanner, BaseComercios) {
 
 		var currentEAN = '';
 		var currentComercio;
@@ -28,6 +28,19 @@ angular.module('app.services.escanner', [])
 
 	this.setCurrentComercio = function(comercio) {
 		currentComercio = comercio;
+	}
+
+	this.setCurrentComercioById = function(id) {
+		var obj = {};
+		BaseComercios.get(id).then(function(doc){
+				obj._id = doc._id;
+				obj.nombre = doc.cadena;
+				obj.direccion = doc.direccion	
+			}).catch(function(err){
+				alert('No se encontro comercio. Error ->' + err);
+			})
+
+		currentComercio = obj;
 	}
 
 });
