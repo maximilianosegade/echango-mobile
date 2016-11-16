@@ -88,17 +88,26 @@ angular.module('app.controllers.chango', [])
 	 $scope.escannear = function(){
 		 EscannerService.scanBarcode().then(function(codigo){
 			 ProductoService.getProductoPorEAN(codigo).then(function (producto){	
-				  ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
-							$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
-								producto =prod;
-								 $scope.producto = producto;
-								 abrirModal();    
-							})
+				  detalleProducto(producto);
 			 });
 			 
 		 });
+	 };
+	 
+	 function detalleProducto(producto){
+		 ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
+					$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
+						producto =prod;
+						 $scope.producto = producto;
+						 abrirModal();    
+					})
 	 }
- 
+	 
+	 $scope.agregarDesdePendientes = function(producto){
+		 var nuevoProducto = (JSON.parse(JSON.stringify(producto)));
+		 detalleProducto(nuevoProducto);
+	 }
+	 
 	 function sacarDePendientes(producto){
 		 if($scope.lista == null){
 			 return;

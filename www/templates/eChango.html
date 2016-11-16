@@ -25,7 +25,7 @@
                 	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
                 <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
-                                <ion-item ng-repeat="producto in lista.productos" >
+                                <ion-item ng-repeat="producto in lista.productos" ng-click="agregarDesdePendientes(producto)">
                 	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
             </form>
