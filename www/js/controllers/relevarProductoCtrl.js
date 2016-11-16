@@ -1,5 +1,5 @@
 angular.module('app.controllers.relevarProducto', [ 'ngCordova' ]).controller(
-		'relevarProductoCtrl', function($scope, /*$cordovaBarcodeScanner,*/ EscannerService, $state, $ionicModal, ComerciosService, UbicacionesService, BaseLocal) {
+		'relevarProductoCtrl', function($scope, /*$cordovaBarcodeScanner,*/ EscannerService, $state, $ionicModal, ComerciosService, BaseLocal, ComprarService, UbicacionesService) {
 
 			$scope.datos = {};
 
@@ -13,7 +13,7 @@ angular.module('app.controllers.relevarProducto', [ 'ngCordova' ]).controller(
 					console.log("An error happened -> " + error);
 				});
                 */
-				if($scope.datos.currentComercio) {
+				if($scope.datos.currentComercio && $scope.datos.currentComercio.nombre != 'Sin selección') {
 					EscannerService.scanBarcode().then(function(barcode) {
                     //alert(barcode);
                     var ean = EscannerService.getCurrentEAN();
@@ -28,7 +28,31 @@ angular.module('app.controllers.relevarProducto', [ 'ngCordova' ]).controller(
 
 			};
 
-			$scope.datos.currentComercio = EscannerService.getCurrentComercio();
+			/*ComprarService.obtenerParametrosSimulacion().then(function(doc){
+				EscannerService.setCurrentComercio(doc.comercio);
+				$scope.datos.currentComercio = doc.comercio;
+				//alert(JSON.stringify(doc.comercio));
+	
+			 });	*/
+
+			UbicacionesService.getComerciosFavoritos().then(function(doc){
+				//alert(JSON.stringify(doc[0]));
+				if(doc[0].direccion != 'Sin selección') {
+					$scope.datos.currentComercio = {
+					'_id': doc[0]._id,
+					'nombre': doc[0].cadena,
+					'direccion': doc[0].direccion
+				};
+				
+				EscannerService.setCurrentComercio($scope.datos.currentComercio);
+				$scope.$apply();
+
+				}
+      			//$scope.comercios = doc;
+      			//$scope.$apply();
+    			});
+ 			  
+			//$scope.datos.currentComercio = EscannerService.getCurrentComercio();
 
 
 
@@ -112,11 +136,13 @@ angular.module('app.controllers.relevarProducto', [ 'ngCordova' ]).controller(
 	    if ($scope.comercio){	                
 	    	
 	     		 //$state.go('menEChango.DNdeCompro');	
+				
 				$scope.datos.currentComercio = {
 					'_id': $scope.comercio._id,
-					'cadenaNombre': $scope.cadena.nombre,
+					'nombre': $scope.cadena.nombre,
 					'direccion': $scope.comercio.direccion
 				};
+				
 				EscannerService.setCurrentComercio($scope.datos.currentComercio);
 				$scope.$apply();
 				//alert(JSON.stringify($scope.comercio));

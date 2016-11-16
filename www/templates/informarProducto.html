@@ -13,22 +13,23 @@
         <form id="informarProducto-form33" class="list">
             <label class="item item-input" id="informarProducto-input34">
                 <span class="input-label">EAN:</span>
-                <input type="number" placeholder="" ng-model="data.currentEAN">
+                <input type="number" placeholder="" ng-model="data.currentEAN" readonly>
             </label>
             <label class="item item-input" id="informarProducto-input35">
                 <span class="input-label">Descripción:</span>
-                <input type="text" placeholder="" ng-model="data.currentDesc">
+                <input type="text" placeholder="" ng-model="data.currentDesc" readonly>
             </label>
             <label class="item item-input" id="informarProducto-input36">
                 <span class="input-label">Precio de Lista Un.: $</span>
-                <input type="number" placeholder="" ng-model="data.currentPrice">
+                <input type="number" placeholder="" ng-model="data.currentPrice" autofocus>
             </label>
         </form>
         <!--
         <a ui-sref="menEChango.relevarProducto" id="informarProducto-button101" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-balanced  button-block icon-left ion-checkmark-circled">Informar</a>
         -->
         <a ng-click="updateProducto()" id="informarProducto-button101" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-balanced  button-block icon-left ion-checkmark-circled">Informar</a>
+        <!--
         <a ui-sref="menEChango.relevarProducto" id="informarProducto-button102" style="font-weight:600;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-alert-circled">Denunciar a Precios Claros</a>
-
+        -->
     </ion-content>
 </ion-view>
