@@ -53,6 +53,7 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
                         //alert(JSON.stringify(currentProd));
                         $scope.data.currentPrice = obj.precios[currentEAN].precio;
                         $scope.$apply();
+                        document.getElementById("priceInput").focus();
                       
                    }).catch(function(err) {
                         alert('No se encontró el precio. Error -> ' + err);
@@ -72,11 +73,11 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
                 //TODO: Actualizar precio
                 
                 preciosComercio.precios[currentEAN].precio = $scope.data.currentPrice;
-                alert(JSON.stringify(preciosComercio.precios[currentEAN]));
-               /* BasePreciosPorComercio.put(
+                //alert(JSON.stringify(preciosComercio.precios[currentEAN]));
+                BasePreciosPorComercio.put(
                             {
-                                _id: doc._id,
-                                _rev: doc._rev,
+                                _id: preciosComercio._id,
+                                _rev: preciosComercio._rev,
                                 precios: preciosComercio.precios
                             }
                         ).then(function(){
@@ -89,7 +90,7 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
 				    		console.log('[Error al Guardar novedades en precios - Sync FINISH].')
 				    	});
                             });
-                      */
+                      
 
                 alert('Precio informado. ¡Gracias!');
                 $state.go('menEChango.relevarProducto');
