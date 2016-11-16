@@ -28,10 +28,10 @@ angular.module('app.services.producto', [])
            
                 var precio = {
                     id: comercio._id, 
-                    lista: precios.precios[lista.productos[i].ean],
+                    lista: precios.precios[producto.ean],
                     promociones: []
                 }
-                producto.lista = precios.precios[lista.productos[i].ean];
+                producto.lista = precio.lista.precio;
                 producto.precio = precio;
                 producto.precios = [];
                 producto.precios.push(precio);
@@ -63,12 +63,10 @@ angular.module('app.services.producto', [])
 		producto.cantidad = 1;
 					
 			for(var k = 0; producto.precios.length > k;k++){
-				if(producto.precios[k].comercioId == comercio._id){
+				if(producto.precios[k].id == comercio._id){
 					// estamos en el comercio seleccionado
-					
-					producto.lista = producto.precios[k].lista;					
 
-					var result =ComprarService.aplicarPromociones(producto.precios[k].lista,producto.cantidad,
+					var result =ComprarService.aplicarPromociones(producto.lista	,producto.cantidad,
 							producto.precios[k].promociones,medioDePago,descuento,fecha);
 					 
 					descuentoActual = result[0];

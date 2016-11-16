@@ -70,6 +70,10 @@ angular.module('app.services.comercios', [])
 
     }    
     
+    this.comerciosCercanosPorUbicacion = function(posiciones, radio){
+    	return comerciosCercanosPuntosGeograficos(posiciones,radio);
+    }
+    
     this.comerciosCercanosPosicionActual = function(){                
         return new Promise(function(resolve, reject){
             
@@ -188,6 +192,29 @@ angular.module('app.services.comercios', [])
             return null;
         });
 
+	}
+	
+	this.detalleComercio = function(comerciosaActualizar){
+return BaseComercios.query(function(doc,emit){
+            
+			var enLaLista = false;
+			
+			for(var i = 0; comerciosaActualizar.length > i; i++){
+				if (comerciosaActualizar[i].comercioId == doc._id ){
+					enLaLista = true;
+					i = 9999;
+				}
+			}
+			
+			if(enLaLista){
+				emit(doc);
+			}
+				
+                
+        }).then(function(res){
+        	
+            return res.rows;
+        })
 	}
 	
 });
