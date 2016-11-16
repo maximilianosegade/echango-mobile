@@ -25,7 +25,7 @@
                 	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
                 <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
-                                <ion-item ng-repeat="producto in lista.productos" >
+                                <ion-item ng-repeat="producto in lista.productos" ng-click="agregarDesdePendientes(producto)">
                 	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
             </form>
@@ -40,7 +40,7 @@
           </ion-header-bar>
           <ion-content>
 <form id="agregarProducto-form40" class="list"> 
-	<img ng-src="{{imagenProducto()}}" style="max-width: 250px; max-height: 250px;"/>
+	<img ng-src="{{imagenProducto()}}" err-src="img/imagen-no-disponible.png" style="max-width: 250px; max-height: 250px;"/>
             <label class="item item-input" id="agregarProducto-input37">
                 <span class="input-label">EAN:</span>
                 <input type="text" ng-model="producto.ean" disabled="true">
@@ -63,7 +63,7 @@
             </label>
             <label class="item item-input" id="agregarProducto-input42">
                 <span class="input-label">Precio: $</span>
-                <input type="number" ng-model="producto.aPagar" disabled="true">
+                <input type="number" ng-model="producto.precio_final" disabled="true">
             </label>
         </form>
         <div id="agregarProducto-button-bar17" class="button-bar">

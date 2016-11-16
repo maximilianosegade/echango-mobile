@@ -1,11 +1,13 @@
 angular.module('app.controllers.chango', [])
-.controller('miChangoCtrl', function($scope, $state,$ionicModal,EscannerService, ProductoService,ComprarService) {
+.controller('miChangoCtrl', function($scope, $state,$ionicModal,EscannerService, ProductoService,ComprarService, ComerciosService) {
 
 	$scope.chango =  {productos:[],
 			total:0,
 			totalProductosComprados: 0,
 			totalLista: 0,
 			descuentoTotal: 0};
+	$scope.alertas = [];
+	$scope.comerciosCercanos = [];
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
@@ -13,7 +15,17 @@ angular.module('app.controllers.chango', [])
 			 $scope.medioDePago = doc.medioDePago;
 			 $scope.descuento = doc.descuento;
 			 $scope.lista = doc.lista;
+			 ComerciosService.comerciosCercanosPorUbicacion([{
+                 lat: comercio.ubicacion.coordinates[0],
+                 long: comercio.ubicacion.coordinates[1]
+             }] ).then(function(resp){
+            	 if(resp.length > 0){
+                	 $scope.comerciosCercanos = resp[0].comerciosCercanos;
+            	 }
+            	 $scope.$apply();
+			 });
 		 });			 
+		
 	 });
 	
 	
@@ -76,17 +88,26 @@ angular.module('app.controllers.chango', [])
 	 $scope.escannear = function(){
 		 EscannerService.scanBarcode().then(function(codigo){
 			 ProductoService.getProductoPorEAN(codigo).then(function (producto){	
-				  ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
-							$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
-								producto =prod;
-								 $scope.producto = producto;
-								 abrirModal();    
-							})
+				  detalleProducto(producto);
 			 });
 			 
 		 });
+	 };
+	 
+	 function detalleProducto(producto){
+		 ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
+					$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
+						producto =prod;
+						 $scope.producto = producto;
+						 abrirModal();    
+					})
 	 }
- 
+	 
+	 $scope.agregarDesdePendientes = function(producto){
+		 var nuevoProducto = (JSON.parse(JSON.stringify(producto)));
+		 detalleProducto(nuevoProducto);
+	 }
+	 
 	 function sacarDePendientes(producto){
 		 if($scope.lista == null){
 			 return;
@@ -125,11 +146,12 @@ angular.module('app.controllers.chango', [])
 			 }
 		 }	
 		 $scope.chango.productos.push(producto)	 
+		ComprarService.verificarMejorPrecio(producto,$scope.comercio,$scope.comerciosCercanos,new Date() , $scope.alertas);
 	 }
 	 
 	 function sacarDelChango(producto){
 		 $scope.chango.totalProductosComprados -= producto.cantidad ;
-		 $scope.chango.total -= $scope.producto.aPagar * $scope.producto.cantidad ;
+		 $scope.chango.total -= $scope.producto.precio_final * $scope.producto.cantidad ;
 		 $scope.chango.totalLista -= $scope.producto.lista * $scope.producto.cantidad ;
 		 $scope.chango.descuentoTotal -= $scope.producto.descuento * $scope.producto.cantidad ;
 		 for(var i = 0; $scope.chango.productos.length> i;i++){
@@ -142,11 +164,12 @@ angular.module('app.controllers.chango', [])
 	 
 	 $scope.verificarChango = function () {
 		 
-			/*var compra = ComprarService.verificarChango($scope.chango,$scope.comercio,
+			/*var compra = ComprarService.verificarChango($scope.chango.productos,$scope.comercio,
 										$scope.medioDePago, $scope.descuento,new Date() );
 							
 			ComprarService.simulacion = compra;
 			ComprarService.simulada = false;*/
+		 ComprarService.alertas = $scope.alertas;
 			$state.go('menEChango.verificarChango');								
 		 }	
 	 
@@ -196,10 +219,15 @@ angular.module('app.controllers.chango', [])
 	
 	
 })
-.controller('verificarChangoCtrl', function($scope,$state,$ionicModal,ComprarService ) {
+.controller('verificarChangoCtrl', function($scope,$state,$ionicModal,ComprarService, ComercioService ) {
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
-		$scope.alertas = ComprarService.alertas;		
+		//las alertas solo tienen los ids de comercios
+		$scope.alertas = ComprarService.alertas;
+		ComercioService.detalleComercio(ComprarService.alertas).then(function(res){
+			$scope.comercios = res;
+			$scope.$apply();
+		})	
 	 });
 	
 

@@ -10,6 +10,8 @@ angular.module('app.services.compras', [])
 	var simular = false;
 	var simulacion = null;
 	var parametrosSim = null;
+	var mediosDePagoRegistrados = [];
+	var tarjetasPromocionalesRegistradas = [];
 	
 	this.obtenerParametrosSimulacion = function(){
 		return BaseLocal.get('parametrosSimulacion').then(function(doc){
@@ -365,9 +367,121 @@ angular.module('app.services.compras', [])
 			});
 	}
 	
-	
-this.verificarChango = function(lista, comercio, mediosDePagoRegistrados,tarjetasPromocionalesRegistradas,fecha ){
+	function crearAlerta(producto, precioAComparar, descuentoAcomparar, comercioId, alertas){
+		var deltaPrecioPorcentual = 0.9;
+		var deltaPrecioAbsoluto = 50;
 		
+		if(precioAComparar / producto.precio_final < deltaPrecioPorcentual ||
+				producto.precio_final - precioAComparar > deltaPrecioAbsoluto){
+			//agrego la alerta
+			var alerta = {};
+			if(alertas[comercioId]){
+				//ya tengo alertas para este comercio
+				if(alertas[comercioId].productos[producto.ean]){
+					//si lo tiene que onda? asumo que es repetido y lo ignoro, creo
+				}else{
+					alertas[comercioId].descuento += descuentoAcomparar;
+					alertas[comercioId].productos[producto.ean] = {ean: producto.ean, precio_final: precioAComparar, descuento: descuentoAcomparar};
+				}
+			}else{
+				//no tengo alertas para este comercio
+				alerta = {
+						comercioId: comercioId,
+						descuento : descuentoAcomparar,
+						productos: []						
+				}
+				alerta.productos[producto.ean] = {ean: producto.ean, precio_final: precioAComparar, descuento: descuentoAcomparar};
+				alertas[comercioId] = alerta;
+			}
+			
+		}
+		
+		
+	}
+	
+	this.verificarMejorPrecio = function(producto, comercio,comerciosCercanos,fecha, alertas){
+
+		return BasePreciosPorComercio.query(function(doc,emit){
+            
+			var enLaLista = false;
+			
+			for(var i = 0; comerciosCercanos.length > i; i++){
+				if (comerciosCercanos[i] == doc._id && comercio._id != doc._id && "15-1-528" != doc._id){
+					enLaLista = true;
+					i = 9999;
+				}
+			}
+			
+			if(enLaLista && doc.precios[producto.ean]){
+				var productoPrecio = {};
+				productoPrecio = doc.precios[producto.ean];
+				productoPrecio.comercioId = doc._id ;
+				//productoPrecio.ean =
+				emit(productoPrecio);
+			}
+				
+                
+        }).then(function(res){
+        	//tratar alertas
+        	//lo que recibo es
+        	// {precio: 11,
+        	// promociones: []}
+        for(var j = 0;	res.rows.length > j;j++){
+        	var result =aplicarPromociones(res.rows[j].precio,producto.cantidad,
+        			res.rows[j].promociones,medioDePago,descuento,fecha);
+			 
+			descuentoActual = result[0];
+			precioASumar = result[1];	
+			
+			crearAlerta(producto, precioASumar, descuentoActual, res.rows[j].id, alertas);
+        }
+        	
+            return alertas;
+        }).catch(function(err){
+            return [];
+        });
+		
+		/*
+		 * 
+		 * alerta = {comercioId:"",
+							 * 					comercioNombre: "",
+							 * 					comercioDireccion: "",
+							 * productos: [ {
+							 * productoEAN: "",
+		 * 					productoNombre:"",
+							 * 					precio:""
+							 * 					ahorro:""
+							 * 						} ],
+							 * ahorroTotal:""
+		 * 					
+		 * 					
+		 * 					
+		 * 					
+		 * }
+		 * */
+				
+	}
+	
+	
+this.verificarChango = function(productos, comercio, mediosDePagoRegistrados,tarjetasPromocionalesRegistradas,fecha ){
+		
+	//Primero averiguo cuales son los comercios contra los que tengo que comparar
+	var alertas = []; 
+	
+	
+	BasePreciosPorComercio.get(comercio._id).then(function(precios){
+        for (var i=0; i<lista.productos.length; i++){
+            var precio = {
+                id: comercio._id, 
+                lista: precios.precios[lista.productos[i].ean],
+                promociones: []
+            }
+            lista.productos[i].precio = precio;
+            lista.productos[i].precios = [];
+            lista.productos[i].precios.push(precio);
+        }
+        return lista.productos;    
+    })
 		
 		return actualizarProductos(lista.productos, []).then(function( productosNuevos){
 			lista.productos = productosNuevos;
