@@ -13,7 +13,18 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
             $scope.$on('$ionicView.afterEnter', function() {
                 //alert('idComercio: ' + idComercio);
                 currentEAN = EscannerService.getCurrentEAN();
-                $scope.imagenProducto = 'https://imagenes.preciosclaros.gob.ar/productos/'+ currentEAN +'.jpg' ; 
+                $scope.imagenProducto = new Image();
+                $scope.imagenProducto.onload = function() {
+                    console.log('Image loading success ->' + $scope.imagenProducto.src);
+                };
+                $scope.imagenProducto.onerror = function(err) {
+                    $scope.imagenProducto.src = 'img/imagen-no-disponible.png';
+                    $scope.$apply();
+                    document.getElementById("priceInput").focus();
+                }
+
+                $scope.imagenProducto.src = 'https://imagenes.preciosclaros.gob.ar/productos/'+ currentEAN +'.jpg';
+
                 $scope.data = {
                     currentPrice: 0,
                     currentDesc: '',
