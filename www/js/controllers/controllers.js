@@ -105,17 +105,24 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('listasDeCompraCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
-
-
-}])
+.controller('listasDeCompraCtrl', function ($scope, $stateParams,ComprarService) {
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		ComprarService.simular = false;		
+	})
+})
    
-.controller('misListasCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
-function ($scope, $stateParams) {
+.controller('misListasCtrl', function ($scope,$state, $stateParams,ComprarService,ListaService) {
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		ComprarService.simular = false;		
+	})
 
-
-}])
+	 $scope.simularConLista = function(){
+		 ComprarService.simular = true;
+		 ComprarService.simulacion = true;
+		 ListaService.simular = true;
+		 $state.go('menEChango.misListas');
+	 }
+})
    
 .controller('simularCompraConListaCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {

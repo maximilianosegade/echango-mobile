@@ -136,6 +136,7 @@ angular.module('app.services.compras', [])
 
 		var descuentoActual  = 0;
 		var precioASumar = precio * cantidad ;
+		var dia = fecha.getDay();
 		for(var l = 0; promociones && promociones.length > l ;l++){
 			var promocion = promociones[l];
 			if(promocion.plastico < 1 || promocion.plastico == medioDePago.tarjeta._id){
@@ -144,23 +145,25 @@ angular.module('app.services.compras', [])
 					//La promoción no implica ningún banco o el plastico es del banco de la promoción										
 						if(promocion.tarjeta < 1 || promocion.tarjeta == descuento._id){
 							//La promoción no implica tarjeta de descuento o tiene la tarjeta de descuento
-							//falta aplicar la FECHA!!!!!!
-							
-							if(promocion.valor > 0){
-								//promocion estilo precios cuidados
-								descuentoActual = (precio -  promocion.valor) * cantidad ;
-								precioASumar = promocion.valor * cantidad;
-							}else if (promocion.cantidad > 0 && cantidad>=promocion.cantidad){
-								//promocion tipo 2x1
-								descuentoActual = precio * cantidad * promocion.porcentaje;
-								precioASumar = precio * cantidad -descuentoActual;
-							}else if(promocion.porcentaje > 0){
-								//promociones tipo 20% de descuento con credito
-								descuentoActual = precio * cantidad * promocion.porcentaje;
-								precioASumar = precio * cantidad -descuentoActual;
-							}											
-							//se aplicó alguno de los tipos de promoción, salimso del for de promociones
-							l = 64000; //para salir de promociones											
+														
+							if (promocion.dias.indexOf(dia)>-1){
+								if(promocion.valor > 0){
+									//promocion estilo precios cuidados
+									descuentoActual = (precio -  promocion.valor) * cantidad ;
+									precioASumar = promocion.valor * cantidad;
+								}else if (promocion.cantidad > 0 && cantidad>=promocion.cantidad){
+									//promocion tipo 2x1
+									descuentoActual = precio * cantidad * promocion.porcentaje;
+									precioASumar = precio * cantidad -descuentoActual;
+								}else if(promocion.porcentaje > 0){
+									//promociones tipo 20% de descuento con credito
+									descuentoActual = precio * cantidad * promocion.porcentaje;
+									precioASumar = precio * cantidad -descuentoActual;
+								}		
+								//se aplicó alguno de los tipos de promoción, salimso del for de promociones
+								l = 64000; //para salir de promociones	
+							}
+																	
 						}
 				}
 			}
@@ -203,12 +206,9 @@ angular.module('app.services.compras', [])
 		
         return BasePreciosPorComercio.get(comercio._id).then(function(precios){
             for (var i=0; i<lista.productos.length; i++){
-                var precio = {
-                    id: comercio._id, 
-                    lista: precios.precios[lista.productos[i].ean],
-                    promociones: []
-                }
-                lista.productos[i].precio = precio;
+                
+                var precio = precios.precios[lista.productos[i].ean];
+                precio.id = comercio._id;
                 lista.productos[i].precios = [];
                 lista.productos[i].precios.push(precio);
             }
@@ -230,19 +230,20 @@ angular.module('app.services.compras', [])
 									productos: []
 								};
 			var precioASumar = null;
+			var cantidad_total_articulos = 0;
 			var descuentoActual = 0;
 			for(; dias > 0; dias--){
 				for(var j=0;productosNuevos.length > j; j++){
 					
 					for(var k = 0; productosNuevos[j].precios.length > k;k++){
-						if(productosNuevos[j].precios[k].comercioId == comercio._id){
+						if(productosNuevos[j].precios[k].id == comercio._id){
 							//estamos en el comercio seleccionado
 							descuentoActual = 0;
 							precioASumar = 0;
-							costo.valorLista += productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
+							costo.valorLista += productosNuevos[j].precios[k].precio * productosNuevos[j].cantidad;
 							seguirPromocion = true;
-							
-							var result =aplicarPromociones(productosNuevos[j].precios[k].lista,productosNuevos[j].cantidad,
+							cantidad_total_articulos += productosNuevos[j].cantidad;
+							var result =aplicarPromociones(productosNuevos[j].precios[k].precio,productosNuevos[j].cantidad,
 									productosNuevos[j].precios[k].promociones,medioDePago,descuento,fecha);
 							 
 							descuentoActual = result[0];
@@ -260,15 +261,36 @@ angular.module('app.services.compras', [])
 				
 				
 			}//ciere FOR de PRODUCTOS
-				//costos.push(costo);
-				var porcentajeDescuento = (costo.descuentoTotal / costo.valorTotal * 100).toFixed(2);
+				
+			var porcentajeDescuento = (costo.descuentoTotal / costo.valorTotal * 100).toFixed(2);
 			costo.porcentajeDescuento = porcentajeDescuento;
+			costo.valorTotal = costo.valorTotal.toFixed(2);
+			costo.descuentoTotal  = costo.descuentoTotal.toFixed(2);
+			simulacion.valorLista = costo.valorLista;
 			simulacion.costo = costo;
+			simulacion.porcentajeDescuento =costo.porcentajeDescuento ;
+			simulacion.valorTotal =costo.valorTotal;
+			simulacion.descuentoTotal =costo.descuentoTotal ;
+			simulacion.cantidad_total_articulos = cantidad_total_articulos;
 			simulacion.lista = lista;
 			simulacion.comercio = comercio;
-			simulacion.fecha = fecha;
-			simulacion.medioDePago = medioDePago;
-			simulacion.descuento = descuento;
+			simulacion.fecha = fecha.toISOString()
+			  .replace(/T/, ' ')
+			  .replace(/\..+/, '');
+			
+			if(medioDePago){
+				simulacion.banco = {_id: medioDePago.banco._id,
+						nombre: medioDePago.banco.nombre} ;
+				
+				simulacion.tarjeta = {_id: medioDePago.tarjeta._id,
+						nombre: medioDePago.tarjeta.nombre} ;
+			}
+			
+			if(descuento){
+				simulacion.descuento ={_id: descuento._id,
+												nombre: descuento.nombre} ;
+			}
+			
 			simulacion.simulada = true;
 			simulaciones.push(simulacion);
 			simulacion = {};
@@ -279,6 +301,7 @@ angular.module('app.services.compras', [])
 									valorLista:0,
 									productos: []
 								};
+			cantidad_total_articulos = 0;
 			fecha = new Date(fecha.setTime(fecha.getTime() + 86400000))
 			}//cierre FOR Dias
 			
@@ -331,6 +354,7 @@ angular.module('app.services.compras', [])
 	this.guardarCompra = function(compra){
 				
 		if(compra.simulada){
+			compra._id = compra.fecha+ compra.comercio._id + (new Date()).getTime();
 			return BaseSimulaciones.put(compra);	
 		}else{
 			return BaseCompras.put(compra).then(function(){
