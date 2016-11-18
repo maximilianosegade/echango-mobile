@@ -143,7 +143,7 @@ angular.module('app.routes', [])
     views: {
         'side-menu21': {
     templateUrl: 'templates/listasDeCompra.html',
-    controller: 'listaCtrl'
+    controller: 'misListasCtrl'
  }}})
 
  .state('menEChango.misListas', {
