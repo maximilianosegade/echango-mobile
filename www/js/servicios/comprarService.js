@@ -203,12 +203,9 @@ angular.module('app.services.compras', [])
 		
         return BasePreciosPorComercio.get(comercio._id).then(function(precios){
             for (var i=0; i<lista.productos.length; i++){
-                var precio = {
-                    id: comercio._id, 
-                    lista: precios.precios[lista.productos[i].ean],
-                    promociones: []
-                }
-                lista.productos[i].precio = precio;
+                
+                var precio = precios.precios[lista.productos[i].ean];
+                precio.id = comercio._id;
                 lista.productos[i].precios = [];
                 lista.productos[i].precios.push(precio);
             }
@@ -235,14 +232,14 @@ angular.module('app.services.compras', [])
 				for(var j=0;productosNuevos.length > j; j++){
 					
 					for(var k = 0; productosNuevos[j].precios.length > k;k++){
-						if(productosNuevos[j].precios[k].comercioId == comercio._id){
+						if(productosNuevos[j].precios[k].id == comercio._id){
 							//estamos en el comercio seleccionado
 							descuentoActual = 0;
 							precioASumar = 0;
 							costo.valorLista += productosNuevos[j].precios[k].lista * productosNuevos[j].cantidad;
 							seguirPromocion = true;
 							
-							var result =aplicarPromociones(productosNuevos[j].precios[k].lista,productosNuevos[j].cantidad,
+							var result =aplicarPromociones(productosNuevos[j].precios[k].precio,productosNuevos[j].cantidad,
 									productosNuevos[j].precios[k].promociones,medioDePago,descuento,fecha);
 							 
 							descuentoActual = result[0];
@@ -263,6 +260,8 @@ angular.module('app.services.compras', [])
 				//costos.push(costo);
 				var porcentajeDescuento = (costo.descuentoTotal / costo.valorTotal * 100).toFixed(2);
 			costo.porcentajeDescuento = porcentajeDescuento;
+			costo.valorTotal = costo.valorTotal.toFixed(2);
+			costo.descuentoTotal  = costo.descuentoTotal.toFixed(2);
 			simulacion.costo = costo;
 			simulacion.lista = lista;
 			simulacion.comercio = comercio;

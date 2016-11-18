@@ -40,7 +40,7 @@ angular.module('app.controllers.prepararCompra', [])
 		  }); 
 	 
 	 $scope.simularCompra = function () {
-		 var options = {
+		/* var options = {
 				    date: new Date(),
 				    mode: 'date', // or 'time'
 				    minDate: new Date(),
@@ -69,7 +69,13 @@ angular.module('app.controllers.prepararCompra', [])
 									$state.go('menu.simulacion');
 								});
 				 	};
-		 }		 
-			
+		 }		*/ 
+		 ComprarService.simularCompra($scope.listaSeleccionada,$scope.comercioSeleccionado,
+					$scope.mediosDePagoRegistrados, $scope.tarjetasPromocionalesRegistradas,new Date() ).then(function(simulacion){
+						ComprarService.simulacion = simulacion;
+
+						$state.go('menu.simulacion');
+					});
+	 	};
 		
 })

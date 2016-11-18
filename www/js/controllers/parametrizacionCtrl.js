@@ -33,7 +33,7 @@ angular.module('app.controllers.parametrizar', [])
 	 
 	 
 	 $scope.simularCompra = function () {
-		 var options = {
+		 /*var options = {
 				    date: new Date(),
 				    mode: 'date', // or 'time'
 				    minDate: new Date(),
@@ -63,8 +63,14 @@ angular.module('app.controllers.parametrizar', [])
 									$state.go('menEChango.listaSimulaciones');
 								});
 				 	};
-		 }		
-	 
+		 }		*/
+		 ComprarService.simularCompra($scope.lista,$scope.comercio,
+					$scope.medioDePago, $scope.descuento,new Date() ).then(function(simulaciones){
+						ComprarService.simulaciones = simulaciones;
+						ComprarService.simulada = true;
+						$state.go('menEChango.listaSimulaciones');
+					});
+	 	};
 	 
 })
 .controller('listaSimulacionCtrl', function($scope,$state, ComprarService) {
