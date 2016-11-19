@@ -25,14 +25,9 @@ angular.module('app.services.producto', [])
 		
 		
 		return BasePreciosPorComercio.get(comercio._id).then(function(precios){
-           
-                var precio = {
-                    id: comercio._id, 
-                    lista: precios.precios[producto.ean],
-                    promociones: []
-                }
-                producto.lista = precio.lista.precio;
-                producto.precio = precio;
+                           
+                var precio = precios.precios[producto.ean];
+                precio.id = comercio._id;
                 producto.precios = [];
                 producto.precios.push(precio);
            
@@ -52,21 +47,17 @@ angular.module('app.services.producto', [])
         	return producto;  
         }).then(function(producto){
 
-    		var costo = {
-    				valorTotal: 0,
-    				descuentoTotal: 0,
-    				valorLista:0,
-    				productos: []
-    			};
+    	
 		var precioASumar = null;
+		var descuentoActual = 0;
 		producto.descuento = 0;
 		producto.cantidad = 1;
 					
 			for(var k = 0; producto.precios.length > k;k++){
 				if(producto.precios[k].id == comercio._id){
 					// estamos en el comercio seleccionado
-
-					var result =ComprarService.aplicarPromociones(producto.lista	,producto.cantidad,
+					producto.lista = producto.precios[k].precio;
+					var result =ComprarService.aplicarPromociones(producto.precios[k].precio	,producto.cantidad,
 							producto.precios[k].promociones,medioDePago,descuento,fecha);
 					 
 					descuentoActual = result[0];
@@ -75,7 +66,10 @@ angular.module('app.services.producto', [])
 				}
 			}// ciere For de PRECIOS
 		
-		producto.precio_final = Number(producto.lista) - Number(producto.descuento) ;
+		producto.descuento = Number(descuentoActual.toFixed(2));
+		producto.precio_final = Number((Number(producto.lista) - Number(producto.descuento)).toFixed(2));
+		
+		
 		
 		return producto;
         });

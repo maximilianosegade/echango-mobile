@@ -64,9 +64,13 @@ function ($scope, $stateParams) {
 
 }])
    
-.controller('gestiNDeCompraCtrl', function ($scope, $stateParams, ListaService) {
-ListaService.simulacion = false;
-
+.controller('gestiNDeCompraCtrl', function ($scope, $stateParams, ListaService,ComprarService) {
+	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		ListaService.simulacion = false;
+		ListaService.simular = false;
+		ComprarService.simular = false;
+		ComprarService.simulacion = false;
+	});
 })
    
 .controller('parametrizaciNDeCompraCtrl', ['$scope', '$stateParams', // TIP: Access Route Parameters for your page via $stateParams.parameterName
