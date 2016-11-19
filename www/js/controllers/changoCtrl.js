@@ -16,6 +16,7 @@ angular.module('app.controllers.chango', [])
 			 $scope.medioDePago = doc.medioDePago;
 			 $scope.descuento = doc.descuento;
 			 $scope.lista = doc.lista;
+			 EscannerService.setCurrentComercioById(doc.comercio._id);
 			 ComerciosService.comerciosCercanosPorUbicacion([{
                  lat: comercio.ubicacion.coordinates[0],
                  long: comercio.ubicacion.coordinates[1]

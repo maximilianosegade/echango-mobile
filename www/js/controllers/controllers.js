@@ -269,7 +269,9 @@ function ($scope, $stateParams) {
 // TIP: Access Route Parameters for your page via $stateParams.parameterName
 function ($scope, $stateParams) {
 
-
+	$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+		viewData.enableBack = true;
+	}); 
 }])
    
 .controller('comprasRealizadasCtrl', ['$scope', '$stateParams', // The following is the constructor function for this page's controller. See https://docs.angularjs.org/guide/controller

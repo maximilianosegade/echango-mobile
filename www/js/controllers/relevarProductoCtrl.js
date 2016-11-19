@@ -1,6 +1,10 @@
 angular.module('app.controllers.relevarProducto', [ 'ngCordova' ]).controller(
 		'relevarProductoCtrl', function($scope, /*$cordovaBarcodeScanner,*/ EscannerService, $state, $ionicModal, ComerciosService, BaseLocal, ComprarService, UbicacionesService) {
-
+			
+			$scope.$on('$ionicView.beforeEnter', function (event, viewData) {
+  				viewData.enableBack = true;
+			}); 
+			
 			$scope.datos = {};
 
 			$scope.scanBarcode = function() {
