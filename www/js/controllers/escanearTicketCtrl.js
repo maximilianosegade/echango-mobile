@@ -12,8 +12,10 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
   });
 })
 
-.controller('escanearTicketCtrl', function($scope, $ionicActionSheet, $ionicLoading, $ionicPlatform, $cordovaCamera, $ionicModal, ProductoService, ListaService, $state) {
+.controller('escanearTicketCtrl', function($scope, $ionicActionSheet, $ionicLoading, $ionicPlatform, $cordovaCamera, $ionicModal, BaseProductos, ProductoService, ListaService, $state) {
 
+  var idProductos = [];
+  $scope.showUpdateDesc = false;
   $ionicPlatform.ready(function() {
 
     $scope.datosParseados = {
@@ -77,8 +79,14 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
 
   $scope.showActionSheet = function(){
     //$scope.textos = [];
-
-    $scope.datosParseados.productosLeidos = [];
+    $scope.datosParseados = {
+      'cadenaSupermercado': '',
+      'fechaDeCompra': '',
+      'productosLeidos': []
+    };
+    idProductos = [];
+    $scope.showUpdateDesc = false;
+    $scope.$apply();
     var hideSheet = $ionicActionSheet.show({
       buttons: [
        { text: 'Elegir Foto' },
@@ -89,6 +97,7 @@ angular.module('app.controllers.escanearTicket', ['ionic','ngCordova'])
         console.log('cancel');
       },
       buttonClicked: function(index) {
+
         getPicture(index);
         
        return true;
@@ -175,15 +184,8 @@ $scope.parsearTexto = function() {
 
                     };
 
-          ProductoService.getProductoPorEAN(ean).then(function(doc) {
-                  alert('Producto encontrado');
-                  currentProd = doc;
-
-
-                });
-
             currentProd.cantidad = cantidad;
-            
+            idProductos.push({ id: currentProd.ean});            
             $scope.datosParseados.productosLeidos.push(currentProd);
             $scope.$apply();
             eanLeido = false;
@@ -201,10 +203,14 @@ $scope.parsearTexto = function() {
   }
   //alert($scope.productosLeidos);
 
-  for (var i = 0; i < $scope.datosParseados.productosLeidos.length; i++) {
+  /*for (var i = 0; i < $scope.datosParseados.productosLeidos.length; i++) {
     alert('Codigo: ' + $scope.datosParseados.productosLeidos[i].ean + '\nDesc: ' + $scope.datosParseados.productosLeidos[i].nombre + '\nCant: ' + $scope.datosParseados.productosLeidos[i].cantidad);
-  }
+  }*/
 //$scope.$apply();
+
+  //$scope.actualizarDescripciones();
+  $scope.showUpdateDesc = true;
+  $scope.$apply();
   return;
 }
 
@@ -214,6 +220,54 @@ $scope.parsearTexto = function() {
  
 
 };
+
+$scope.actualizarDescripciones = function() {
+  //alert('Cantidad de productos a Buscar en DB:\n' + idProductos.length);
+  BaseProductos.bulkGet({docs: idProductos}).then(function(response){
+    
+      var prods = response.results;
+
+      /*
+      for (var i = 0; i < $scope.datosParseados.productosLeidos.length; i++) {
+        for (k = 0; k < prods.length; i++) {
+            if(prods[k].id = $scope.datosParseados.productosLeidos[i].ean && prods[k].docs[0].ok ) {
+              $scope.datosParseados.productosLeidos[i].nombre = prods[k].docs[0].ok.nombre;
+              $scope.$apply();
+              alert(JSON.stringify($scope.datosParseados.productosLeidos[i]));
+            }
+          
+        }
+      }*/
+
+      for (var i = 0; i < prods.length; i++) {
+        try {
+            if(prods[i].docs[0].ok) {
+              //alert(JSON.stringify(prods[i].docs[0].ok))
+              $scope.datosParseados.productosLeidos[i].nombre = prods[i].docs[0].ok.nombre  ;
+              $scope.$apply();
+            }
+            ;
+        } catch(err) {
+            alert('Error alert -> ' + err);
+        }
+        //alert(JSON.stringify(prods[i].docs[0]));
+      }
+
+
+  }).catch(function(err){
+      alert('Error bulk -> ' + err);
+  });
+    
+
+  
+  /*
+  for (var i = 0; i < $scope.datosParseados.productosLeidos.length; i++) {
+      
+    
+  }*/
+
+};
+
 
 $scope.editItem = function(item) {
   //alert('Codigo: ' + item.ean + '\nCant: ' + item.cantidad);
@@ -265,6 +319,7 @@ $scope.closeAndConfirmModal = function(index) {
           $scope.datosParseados.productosLeidos[$scope.currentItem.index].ean = $scope.currentItem.ean;
           $scope.datosParseados.productosLeidos[$scope.currentItem.index].nombre = $scope.currentItem.nombre;
           $scope.datosParseados.productosLeidos[$scope.currentItem.index].cantidad = $scope.currentItem.cantidad;
+          idProductos[$scope.currentItem.index] = { id:$scope.currentItem.ean };
           $scope.$apply();
           $scope.closeModal(1);
           break;
