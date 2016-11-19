@@ -169,6 +169,8 @@ angular.module('app.services.compras', [])
 			}
 		}
 		var resultado = [];
+		descuentoActual = Number(descuentoActual.toFixed(2));
+		precioASumar = Number(precioASumar.toFixed(2));
 		resultado.push(descuentoActual);
 		resultado.push(precioASumar);
 		return  resultado;
@@ -264,8 +266,8 @@ angular.module('app.services.compras', [])
 				
 			var porcentajeDescuento = (costo.descuentoTotal / costo.valorTotal * 100).toFixed(2);
 			costo.porcentajeDescuento = porcentajeDescuento;
-			costo.valorTotal = costo.valorTotal.toFixed(2);
-			costo.descuentoTotal  = costo.descuentoTotal.toFixed(2);
+			costo.valorTotal = Number(costo.valorTotal.toFixed(2));
+			costo.descuentoTotal  = Number(costo.descuentoTotal.toFixed(2));
 			simulacion.valorLista = costo.valorLista;
 			simulacion.costo = costo;
 			simulacion.porcentajeDescuento =costo.porcentajeDescuento ;
@@ -395,18 +397,23 @@ angular.module('app.services.compras', [])
 		var deltaPrecioPorcentual = 0.9;
 		var deltaPrecioAbsoluto = 50;
 		
-		if(precioAComparar / producto.precio_final < deltaPrecioPorcentual ||
+		if(precioAComparar / producto.precio_final < deltaPrecioPorcentual &&
 				producto.precio_final - precioAComparar > deltaPrecioAbsoluto){
 			//agrego la alerta
 			var alerta = {};
+			for(var i = 0; alertas.length > i; i++){
+				if (alertas[i].comercioId == comercioId){
+					if(alertas[i].productos[producto.ean]){
+						//si lo tiene que onda? asumo que es repetido y lo ignoro, creo
+					}else{
+						alertas[i].descuento += descuentoAcomparar;
+						alertas[i].productos.push({ean: producto.ean, nombre: producto.nombre, precio_final: precioAComparar, descuento: descuentoAcomparar});
+					}
+				}
+			}
 			if(alertas[comercioId]){
 				//ya tengo alertas para este comercio
-				if(alertas[comercioId].productos[producto.ean]){
-					//si lo tiene que onda? asumo que es repetido y lo ignoro, creo
-				}else{
-					alertas[comercioId].descuento += descuentoAcomparar;
-					alertas[comercioId].productos[producto.ean] = {ean: producto.ean, precio_final: precioAComparar, descuento: descuentoAcomparar};
-				}
+				
 			}else{
 				//no tengo alertas para este comercio
 				alerta = {
@@ -414,23 +421,24 @@ angular.module('app.services.compras', [])
 						descuento : descuentoAcomparar,
 						productos: []						
 				}
-				alerta.productos[producto.ean] = {ean: producto.ean, precio_final: precioAComparar, descuento: descuentoAcomparar};
-				alertas[comercioId] = alerta;
+				alertas = [];
+				alerta.productos.push({ean: producto.ean, nombre: producto.nombre, precio_final: precioAComparar, descuento: descuentoAcomparar});
+				alertas.push(alerta);
 			}
 			
 		}
-		
+		return alertas;
 		
 	}
 	
-	this.verificarMejorPrecio = function(producto, comercio,comerciosCercanos,fecha, alertas){
+	this.verificarMejorPrecio = function(producto, comercio,comerciosCercanos,medioDePago,descuento,fecha, alertas){
 
 		return BasePreciosPorComercio.query(function(doc,emit){
             
 			var enLaLista = false;
 			
 			for(var i = 0; comerciosCercanos.length > i; i++){
-				if (comerciosCercanos[i] == doc._id && comercio._id != doc._id && "15-1-528" != doc._id){
+				if (comerciosCercanos[i] == doc._id && comercio._id != doc._id ){
 					enLaLista = true;
 					i = 9999;
 				}
@@ -450,14 +458,15 @@ angular.module('app.services.compras', [])
         	//lo que recibo es
         	// {precio: 11,
         	// promociones: []}
+        	//12-1-74
         for(var j = 0;	res.rows.length > j;j++){
-        	var result =aplicarPromociones(res.rows[j].precio,producto.cantidad,
-        			res.rows[j].promociones,medioDePago,descuento,fecha);
+        	var result =aplicarPromociones(res.rows[j].key.precio,producto.cantidad,
+        			res.rows[j].key.promociones,medioDePago,descuento,fecha);
 			 
 			descuentoActual = result[0];
 			precioASumar = result[1];	
 			
-			crearAlerta(producto, precioASumar, descuentoActual, res.rows[j].id, alertas);
+			alertas = crearAlerta(producto, precioASumar, descuentoActual, res.rows[j].id, alertas);
         }
         	
             return alertas;

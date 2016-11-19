@@ -7,7 +7,7 @@
         <div class="item item-body" id="verificarChango-list-item-container11">
             <ion-list id="verificarChango-list37">
             <ion-item class="item-icon-right dark" ng-repeat="item in alertas" ng-click="abrirModal(item)">
-                {{alertas.comercioId}}	
+               Quiero ahorrar: {{item.descuento}}
                    <i class="icon ion-alert-circled"></i>
             </ion-item>                
             </ion-list>
@@ -17,14 +17,16 @@
 
         <ion-modal-view>
           <ion-header-bar>
-            <h1 class="title">{{alerta.producto.nombre}}</h1>
+            <h1 class="title">{{alerta.comercio.nombre}}-
+            {{alerta.comercio.direccion}}</h1>
           </ion-header-bar>
           <ion-content>            
-            <p>{{alerta.comercio.nombre}}</p>
-            <p>{{alerta.comercio.direccion}}</p>
-            <p>${{alerta.precio}}</p>
-            <p>${{alerta.diferenciaPrecio}}</p>
-            <p>{{alerta.porcentaje}}%</p>
+          <ion-item class="item-icon-right dark" ng-repeat="item in alerta.productos" ng-click="abrirModal(item)">
+              <p> {{item.nombre}}</p> 
+              <p>Pagas: {{item.precio_final}}</p> 
+              <p>Te ahorras: {{item.descuento}}</p> 
+                   <i class="icon ion-alert-circled"></i>
+            </ion-item> 
           </ion-content>
         </ion-modal-view>
       </script>

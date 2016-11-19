@@ -194,8 +194,14 @@ angular.module('app.services.comercios', [])
 
 	}
 	
+	
+	
+	
 	this.detalleComercio = function(comerciosaActualizar){
-return BaseComercios.query(function(doc,emit){
+		return BaseComercios.get(comerciosaActualizar).then(function(doc){
+			return doc;
+		});
+/*return BaseComercios.query(function(doc,emit){
             
 			var enLaLista = false;
 			
@@ -214,7 +220,7 @@ return BaseComercios.query(function(doc,emit){
         }).then(function(res){
         	
             return res.rows;
-        })
+        })*/
 	}
 	
 });

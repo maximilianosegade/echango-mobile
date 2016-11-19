@@ -1,5 +1,5 @@
 angular.module('app.controllers.chango', [])
-.controller('miChangoCtrl', function($scope, $state,$ionicModal,EscannerService, ProductoService,ComprarService, ComerciosService) {
+.controller('miChangoCtrl', function($scope, $state,$ionicModal,$ionicHistory,EscannerService, ProductoService,ComprarService, ComerciosService) {
 
 	$scope.chango =  {productos:[],
 			total:0,
@@ -10,6 +10,7 @@ angular.module('app.controllers.chango', [])
 	$scope.comerciosCercanos = [];
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
+		
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
 			 $scope.comercio = doc.comercio;
 			 $scope.medioDePago = doc.medioDePago;
@@ -139,6 +140,10 @@ angular.module('app.controllers.chango', [])
 		 $scope.chango.total += $scope.producto.precio_final * $scope.producto.cantidad ;
 		 $scope.chango.totalLista += $scope.producto.lista * $scope.producto.cantidad ;
 		 $scope.chango.descuentoTotal += $scope.producto.descuento * $scope.producto.cantidad ;
+		 $scope.chango.total =Number($scope.chango.total.toFixed(2)) ;
+		 $scope.chango.totalLista = Number($scope.chango.totalLista.toFixed(2));
+		 $scope.chango.descuentoTotal =  Number($scope.chango.descuentoTotal.toFixed(2));
+		 
 		 for(var i = 0; $scope.chango.productos.length> i;i++){
 			 if($scope.chango.productos[i]._id == producto._id){
 				 $scope.chango.productos[i].cantidad+= producto.cantidad;
@@ -146,7 +151,10 @@ angular.module('app.controllers.chango', [])
 			 }
 		 }	
 		 $scope.chango.productos.push(producto)	 
-		ComprarService.verificarMejorPrecio(producto,$scope.comercio,$scope.comerciosCercanos,new Date() , $scope.alertas);
+		ComprarService.verificarMejorPrecio(producto,$scope.comercio,$scope.comerciosCercanos,
+				$scope.medioDePago,$scope.descuento,new Date() , $scope.alertas).then(function(alertas){
+					$scope.alertas = alertas;
+				});
 	 }
 	 
 	 function sacarDelChango(producto){
@@ -154,6 +162,9 @@ angular.module('app.controllers.chango', [])
 		 $scope.chango.total -= $scope.producto.precio_final * $scope.producto.cantidad ;
 		 $scope.chango.totalLista -= $scope.producto.lista * $scope.producto.cantidad ;
 		 $scope.chango.descuentoTotal -= $scope.producto.descuento * $scope.producto.cantidad ;
+		 $scope.chango.total =Number($scope.chango.total.toFixed(2)) ;
+		 $scope.chango.totalLista = Number($scope.chango.totalLista.toFixed(2));
+		 $scope.chango.descuentoTotal =  Number($scope.chango.descuentoTotal.toFixed(2));
 		 for(var i = 0; $scope.chango.productos.length> i;i++){
 			 if($scope.chango.productos[i]._id == producto._id){
 				 $scope.chango.productos.splice(i, 1);
@@ -177,9 +188,18 @@ angular.module('app.controllers.chango', [])
 		 
 			var compra = ComprarService.cerrarChango($scope.chango,$scope.comercio,
 										$scope.medioDePago, $scope.descuento,new Date() );
-							
+			$scope.chango =  {productos:[],
+					total:0,
+					totalProductosComprados: 0,
+					totalLista: 0,
+					descuentoTotal: 0};
+			$scope.alertas = [];
+			$scope.comerciosCercanos = [];
 			ComprarService.simulacion = compra;
 			ComprarService.simulada = false;
+			$ionicHistory.nextViewOptions({
+			      disableBack: true
+			    });
 			$state.go('menEChango.cerrarChango');								
 		 }	
  
@@ -195,6 +215,7 @@ angular.module('app.controllers.chango', [])
 	
 	$scope.guardarCompra = function(){
 		$scope.compra.correcta = true;
+		
 		ComprarService.guardarCompra($scope.compra).then(function(){
 			$ionicHistory.nextViewOptions({
 			      disableBack: true
@@ -219,15 +240,12 @@ angular.module('app.controllers.chango', [])
 	
 	
 })
-.controller('verificarChangoCtrl', function($scope,$state,$ionicModal,ComprarService, ComercioService ) {
+.controller('verificarChangoCtrl', function($scope,$state,$ionicModal,ComprarService,ComerciosService ) {
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		//las alertas solo tienen los ids de comercios
 		$scope.alertas = ComprarService.alertas;
-		ComercioService.detalleComercio(ComprarService.alertas).then(function(res){
-			$scope.comercios = res;
-			$scope.$apply();
-		})	
+		$scope.$apply();		
 	 });
 	
 
@@ -247,9 +265,13 @@ angular.module('app.controllers.chango', [])
 	        $scope.modal.remove();
 	})
 	
-	$scope.abrirModal = function(producto){
-		$scope.alerta = alerta
-		$scope.modal1.show();
+	$scope.abrirModal = function(alerta){
+		ComerciosService.detalleComercio(alerta.comercioId).then(function(comercio){
+			$scope.alerta = alerta;
+			$scope.alerta.comercio = comercio;
+			$scope.modal1.show();
+		});
+		
 	}
 	
 	
