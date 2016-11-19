@@ -245,8 +245,16 @@ $scope.actualizarDescripciones = function() {
         try {
             if(prods[i].docs[0].ok) {
               //alert(JSON.stringify(prods[i].docs[0].ok))
-              $scope.datosParseados.productosLeidos[i].nombre = prods[i].docs[0].ok.nombre  ;
-              $scope.$apply();
+              for (k=0; k < $scope.datosParseados.productosLeidos.length; k++ ){
+                if ($scope.datosParseados.productosLeidos[k].ean == prods[i].id){
+                  $scope.datosParseados.productosLeidos[k].nombre = prods[i].docs[0].ok.nombre  ;
+                  $scope.$apply();
+                  //Nota: Comento el break para el caso en que se permita que existan varias ocurrencias del mismo item en la lista
+                  //break;
+                }
+                
+              }
+
             }
             ;
         } catch(err) {
