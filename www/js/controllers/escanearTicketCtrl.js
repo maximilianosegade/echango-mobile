@@ -215,6 +215,8 @@ $scope.parsearTexto = function() {
 }
 
  $scope.deleteItem = function (item) {
+   
+    idProductos.splice($scope.datosParseados.productosLeidos.indexOf(item), 1);
     $scope.datosParseados.productosLeidos.splice($scope.datosParseados.productosLeidos.indexOf(item), 1);
     $scope.$apply();
  
