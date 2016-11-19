@@ -319,7 +319,7 @@ $scope.closeAndConfirmModal = function(index) {
           $scope.datosParseados.productosLeidos[$scope.currentItem.index].ean = $scope.currentItem.ean;
           $scope.datosParseados.productosLeidos[$scope.currentItem.index].nombre = $scope.currentItem.nombre;
           $scope.datosParseados.productosLeidos[$scope.currentItem.index].cantidad = $scope.currentItem.cantidad;
-          idProductos[$scope.currentItem.index] = { id:$scope.currentItem.ean };
+          idProductos[$scope.currentItem.index].id = $scope.currentItem.ean;
           $scope.$apply();
           $scope.closeModal(1);
           break;
