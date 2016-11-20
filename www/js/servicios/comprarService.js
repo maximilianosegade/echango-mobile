@@ -503,21 +503,21 @@ this.verificarChango = function(productos, comercio, mediosDePagoRegistrados,tar
 	
 	
 	BasePreciosPorComercio.get(comercio._id).then(function(precios){
-        for (var i=0; i<productos.length; i++){
+        for (var i=0; i<lista.productos.length; i++){
             var precio = {
                 id: comercio._id, 
-                lista: precios.precios[productos[i].ean],
+                lista: precios.precios[lista.productos[i].ean],
                 promociones: []
             }
-            productos[i].precio = precio;
-            productos[i].precios = [];
-            productos[i].precios.push(precio);
+            lista.productos[i].precio = precio;
+            lista.productos[i].precios = [];
+            lista.productos[i].precios.push(precio);
         }
-        return productos;    
+        return lista.productos;    
     })
 		
-		return actualizarProductos(productos, []).then(function( productosNuevos){
-			productos = productosNuevos;
+		return actualizarProductos(lista.productos, []).then(function( productosNuevos){
+			lista.productos = productosNuevos;
 			var simulacion = {};
 			var costos = [];
 			var costo = {
