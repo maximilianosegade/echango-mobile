@@ -92,7 +92,7 @@ angular.module('app.controllers.chango', [])
 	  };
 
 	  function agregarAlChangoYCerrarModal(){
-			 sacarDePendientes($scope.producto);
+		  	sacarDePendientes($scope.producto);
 			 agregarAlChango($scope.producto);
 		    $scope.$apply();
 		    $scope.modal1.hide();
@@ -171,9 +171,9 @@ angular.module('app.controllers.chango', [])
 		 producto.ean = producto._id;
 		 producto.precio_lista = producto.lista;
 		 producto.desc_valor = producto.descuento;
-		 producto.precio_final = producto.precio_final;
+		 //producto.precio_final = producto.precio_final;
 		 $scope.chango.totalProductosComprados += producto.cantidad ;
-		 if($scope.producto.precio_final == 0){
+		 if($scope.producto.precio_final == 0 || ($scope.producto.precio_final != ($scope.producto.lista - $scope.producto.descuento))){
 			 //No había precio y lo modifico a mano el usuario
 			 $scope.producto.precio_final = $scope.producto.lista;
 		 }
