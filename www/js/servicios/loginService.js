@@ -4,6 +4,12 @@ angular.module('app.services.login', [])
    var currentUser = {};
    
    var getNombreUsuario = function(){
+      if (isFacebookUser()){
+        return getFacebookUser().email;
+      }
+      if(isGoogleUser()) {
+        return getGooglePlusUser().email;
+      }
 		  return 'fedegc87@gmail.com';
 	  };
    // eChangoUser
