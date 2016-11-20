@@ -9,7 +9,8 @@ angular.module('app.controllers.chango', [])
 	$scope.alertas = [];
 	$scope.comerciosCercanos = [];
 	$scope.busqueda = {};
-	
+	$scope.isEditing = false;
+
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
@@ -109,9 +110,14 @@ angular.module('app.controllers.chango', [])
 		 $scope.modal1.hide();
 	}
 	
+	$scope.salirModal = function(){
+		$scope.modal1.hide();
+	}
+
 	$scope.editar = function(producto){
 		$scope.producto = producto;		
 		$scope.producto.editar = true;
+		$scope.isEditing = true;
 		 sacarDelChango($scope.producto);
 		abrirModal(1);
 	}
@@ -120,7 +126,7 @@ angular.module('app.controllers.chango', [])
 		if($scope.producto){
 			if($scope.producto.precio_final == 0 || ($scope.producto.precio_final != ($scope.producto.lista - $scope.producto.descuento))){
 				//No había precio y lo modifico a mano el usuario
-				$scope.producto.precio_final = $scope.producto.lista;
+				$scope.producto.precio_final = $scope.producto.lista - $scope.producto.descuento;
 				$scope.$apply();
 				}
 			}
@@ -149,6 +155,7 @@ angular.module('app.controllers.chango', [])
 					$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
 						producto =prod;
 						 $scope.producto = producto;
+						 $scope.isEditing = false;
 						 abrirModal(1);    
 					})
 	 }
@@ -182,7 +189,7 @@ angular.module('app.controllers.chango', [])
 		 producto.desc_valor = producto.descuento;
 		 //producto.precio_final = producto.precio_final;
 		 $scope.chango.totalProductosComprados += producto.cantidad ;
-		 if($scope.producto.precio_final == 0 || ($scope.producto.precio_final != ($scope.producto.lista - $scope.producto.descuento))){
+		 if($scope.producto.precio_final == 0){
 			 //No había precio y lo modifico a mano el usuario
 			 $scope.producto.precio_final = $scope.producto.lista;
 		 }
@@ -311,7 +318,7 @@ angular.module('app.controllers.chango', [])
 	};
 
 	$scope.$on('$destroy', function() {
-	        $scope.modal.remove();
+	        $scope.modal1.remove();
 	})
 	
 	$scope.abrirModal = function(alerta){
