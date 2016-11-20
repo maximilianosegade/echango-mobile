@@ -2,7 +2,8 @@ angular.module('app.controllers.ubicaciones', [])
 
 .controller('ubicacionesCtrl', function($scope,$state,UbicacionesService,$ionicModal) {
   
-    $scope.$on("$ionicView.beforeEnter", function(event, data){
+    $scope.$on("$ionicView.beforeEnter", function(event, data, viewData){
+      viewData.enableBack = true;
     
     UbicacionesService.getUbicaciones().then(function(doc){
       $scope.ubicaciones = doc;
