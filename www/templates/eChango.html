@@ -53,7 +53,7 @@
             </label>
             <label class="item item-input" id="agregarProducto-input39">
                 <span class="input-label">Precio de Lista Un.: $</span>
-                <input type="number" ng-model="producto.lista">
+                <input type="number" ng-model="producto.lista" ng-change="actualizarPrecioFinal()">
             </label>
             <label class="item item-input" id="agregarProducto-input40">
                 <span class="input-label">Cantidad:</span>
@@ -65,7 +65,7 @@
             </label>
             <label class="item item-input" id="agregarProducto-input42">
                 <span class="input-label">Precio: $</span>
-                <input type="number" ng-model="producto.precio_final" disabled="true">
+                <input type="number" ng-model="producto.precio_final" disabled="true" >
             </label>
         </form>
         <div id="agregarProducto-button-bar17" class="button-bar">

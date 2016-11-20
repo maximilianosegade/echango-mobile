@@ -28,7 +28,6 @@ angular.module('app.controllers.chango', [])
             	 $scope.$apply();
 			 });
 		 });			 
-		
 	 });
 	
 	
@@ -117,6 +116,16 @@ angular.module('app.controllers.chango', [])
 		abrirModal(1);
 	}
 	
+	$scope.actualizarPrecioFinal = function() {
+		if($scope.producto){
+			if($scope.producto.precio_final == 0 || ($scope.producto.precio_final != ($scope.producto.lista - $scope.producto.descuento))){
+				//No había precio y lo modifico a mano el usuario
+				$scope.producto.precio_final = $scope.producto.lista;
+				$scope.$apply();
+				}
+			}
+
+	}
 	
 	
 	/*MODAL selección productos*/
