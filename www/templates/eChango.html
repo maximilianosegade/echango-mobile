@@ -20,14 +20,15 @@
                     <input type="search" placeholder="">
                 </label>
          -->      
-                <ion-item class="item-divider" id="eChango-list-item-divider4">Productos en Chango</ion-item>
-                                <ion-item ng-repeat="producto in chango.productos" ng-click="editar(producto)">
-                	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
-                </ion-item>
                 <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
                                 <ion-item ng-repeat="producto in lista.productos" ng-click="agregarDesdePendientes(producto)">
                 	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
+                <ion-item class="item-divider" id="eChango-list-item-divider4">Productos en Chango</ion-item>
+                                <ion-item ng-repeat="producto in chango.productos" ng-click="editar(producto)">
+                	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
+                </ion-item>
+
             </form>
         </div>
     </ion-content>
