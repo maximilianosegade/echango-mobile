@@ -8,6 +8,7 @@ angular.module('app.controllers.chango', [])
 			descuentoTotal: 0};
 	$scope.alertas = [];
 	$scope.comerciosCercanos = [];
+	$scope.busqueda = {};
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		
@@ -45,18 +46,56 @@ angular.module('app.controllers.chango', [])
 	    scope: $scope,
 	    animation: 'slide-in-up'
 	}).then(function(modal) {
-	    $scope.modal = modal;
+	    $scope.modal1 = modal;
 	});
 
-	 function abrirModal() {
-	   $scope.modal.show();	    
+	$ionicModal.fromTemplateUrl('nombre-productos-modal.html', {
+	    id: '2',
+	    scope: $scope,
+	    animation: 'slide-in-up'
+	}).then(function(modal) {
+	    $scope.modal2 = modal;
+	});
+
+	$scope.abrirBusquedaProducto = function() {
+		$scope.modal2.show();
+	}
+	
+ $scope.buscarPorNombre = function(){
+	 
+	 ProductoService.getProductoPorNombre($scope.busqueda.nombreBuscado).then(function(productos){
+		 
+		 $scope.productosCandidatos = productos;
+		 $scope.$apply();
+	 });
+ }
+
+ $scope.seleccionarProductoDeBusqueda = function(producto) {
+	 $scope.modal2.hide();
+	 detalleProducto(producto);
+ }
+	
+
+	 function abrirModal(index) {
+		 switch(index) {
+			 case 1:
+			 	$scope.modal1.show();
+				break;
+			case 2:
+				$scope.modal2.show();
+				break;
+			default:
+				break;
+
+		 }
+	       
 	  };
 
 	  function agregarAlChangoYCerrarModal(){
 			 sacarDePendientes($scope.producto);
 			 agregarAlChango($scope.producto);
 		    $scope.$apply();
-		    $scope.modal.hide();
+		    $scope.modal1.hide();
 	  }
 	  
 	$scope.cerrarYagregar = function() {
@@ -68,14 +107,14 @@ angular.module('app.controllers.chango', [])
 			//vuelvo a agregar el producto que saqué al entrar en la pantalla de edición
 			agregarAlChango($scope.producto);			
 		}
-		 $scope.modal.hide();
+		 $scope.modal1.hide();
 	}
 	
 	$scope.editar = function(producto){
 		$scope.producto = producto;		
 		$scope.producto.editar = true;
 		 sacarDelChango($scope.producto);
-		abrirModal();
+		abrirModal(1);
 	}
 	
 	
@@ -101,7 +140,7 @@ angular.module('app.controllers.chango', [])
 					$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
 						producto =prod;
 						 $scope.producto = producto;
-						 abrirModal();    
+						 abrirModal(1);    
 					})
 	 }
 	 
