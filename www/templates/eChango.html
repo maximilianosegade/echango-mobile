@@ -14,20 +14,22 @@
         <div class="spacer" style="width: 320px; height: 12px;"></div>
         <div class="item item-body" id="eChango-list-item-container9">
             <a ng-click="escannear()" id="eChango-button139" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-qr-scanner">Escanear Producto</a>
+            <button ng-click="abrirBusquedaProducto()" id="nuevaLista-button32" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-android-checkbox-outline">Buscar Producto por Nombre</button>
             <form id="eChango-form37" class="list">
          <!--       <label class="item item-input">
                     <i class="icon ion-search placeholder-icon"></i>
                     <input type="search" placeholder="">
                 </label>
          -->      
-                <ion-item class="item-divider" id="eChango-list-item-divider4">Productos en Chango</ion-item>
-                                <ion-item ng-repeat="producto in chango.productos" ng-click="editar(producto)">
-                	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
-                </ion-item>
                 <ion-item class="item-divider" id="eChango-list-item-divider3">Productos Pendientes</ion-item>
                                 <ion-item ng-repeat="producto in lista.productos" ng-click="agregarDesdePendientes(producto)">
                 	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
                 </ion-item>
+                <ion-item class="item-divider" id="eChango-list-item-divider4">Productos en Chango</ion-item>
+                                <ion-item ng-repeat="producto in chango.productos" ng-click="editar(producto)">
+                	<span class="item-note">{{producto.nombre}} (x{{producto.cantidad}})</span>
+                </ion-item>
+
             </form>
         </div>
     </ion-content>
@@ -70,6 +72,24 @@
             <a ng-click="cerrarYagregar()" id="agregarProducto-button140" style="font-weight:600;color:#000000;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-energized  button-block icon-left ion-checkmark-circled">Agregar</a>
             <a ng-click="cerrar()" id="agregarProducto-button141" style="font-weight:600;color:#FFFFFF;font-size:16px;border-radius:40px 40px 40px 40px;" class="button button-assertive  button-block icon-left ion-android-cancel">Cancelar</a>
         </div>
+          </ion-content>
+        </ion-modal-view>
+      </script>
+ <script id="nombre-productos-modal.html" type="text/ng-template">
+        <ion-modal-view>
+          <ion-header-bar>
+            <h1 class="title">Ingrese el nombre del producto</h1>
+          </ion-header-bar>
+          <ion-content>
+ 			<input type="text" placeholder="Nombre del producto" ng-model="busqueda.nombreBuscado">
+            <button class="button button-energized  button-block " id="miChango-button26" ng-click="buscarPorNombre()">Buscar </button>
+            <div class="list">
+              <ion-list>
+                <ion-item ng-repeat="producto in productosCandidatos" ng-click="seleccionarProductoDeBusqueda(producto)">
+                  {{producto.nombre}}--{{producto.ean}}
+                </ion-item>
+              </ion-list>
+            </div>
           </ion-content>
         </ion-modal-view>
       </script>
