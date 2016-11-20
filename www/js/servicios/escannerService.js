@@ -8,6 +8,7 @@ angular.module('app.services.escanner', [])
 
 			return $cordovaBarcodeScanner.scan().then(function(imageData) {
 				currentEAN = imageData.text;
+				return imageData.text;
 				}, function(error) {
 			console.log("An error happened -> " + error);
 			alert(error);
