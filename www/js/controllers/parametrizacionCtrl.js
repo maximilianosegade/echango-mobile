@@ -28,7 +28,16 @@ angular.module('app.controllers.parametrizar', [])
 	 
 	 $scope.elegirDescuento = function(){
 		 ComprarService.simular = true;
-	     $state.go('menEChango.descuentos');
+		 var parametros = {
+			 comercio: $scope.comercio,
+			 medioDePago: $scope.medioDePago,
+			 descuento: null,
+			 lista: $scope.lista
+		 }
+		 ComprarService.actualizarParametrosSimulacion(parametros);
+		 $scope.descuento = null;
+		 $scope.$apply();
+		 $state.go('menEChango.descuentos');
 	 }
 	 
 	 

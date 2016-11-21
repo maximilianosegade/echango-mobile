@@ -151,9 +151,14 @@ angular.module('app.controllers.chango', [])
 	 };
 	 
 	 function detalleProducto(producto){
+		 if(producto.cantidad) {
+			 var cantidad = producto.cantidad;
+		 }
+		 
 		 ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
 					$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
 						producto =prod;
+						producto.cantidad = cantidad;
 						 $scope.producto = producto;
 						 $scope.isEditing = false;
 						 abrirModal(1);    
@@ -162,7 +167,9 @@ angular.module('app.controllers.chango', [])
 	 
 	 $scope.agregarDesdePendientes = function(producto){
 		 var nuevoProducto = (JSON.parse(JSON.stringify(producto)));
+		 
 		 detalleProducto(nuevoProducto);
+		 
 	 }
 	 
 	 function sacarDePendientes(producto){

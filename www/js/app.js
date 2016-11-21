@@ -1481,6 +1481,16 @@ function agregarTarjetas(BaseLocal){
 "nombre":"Banco Credicoop"
 }
 ]
+},
+{
+"_id":99,
+"nombre":"Efectivo",
+"bancos":[
+{
+"_id":99,
+"nombre":"No aplica"
+}
+]
 }
 ]});
 	         });

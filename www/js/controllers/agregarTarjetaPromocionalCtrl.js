@@ -61,7 +61,7 @@ $scope.closeModal = function(item) {
 };
 
 $scope.$on('$destroy', function() {
-        $scope.modal.remove();
+        $scope.modal1.remove();
 })
 
 /* Funciones modal FIN*/

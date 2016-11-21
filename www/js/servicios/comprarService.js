@@ -31,11 +31,25 @@ angular.module('app.services.compras', [])
         })
 	}
 	
+	this.actualizarParametrosSimulacion = function (doc) {
+
+		return actualizarParametrosSimulacion(doc);
+	}
+
 	function actualizarParametrosSimulacion(doc){		
 			this.comercio = doc.comercio;
 			this.lista = doc.lista;
 			this.medioDePago = doc.medioDePago;
-			this.descuento = doc.descuento;			
+			this.descuento = doc.descuento;
+			BaseLocal.get('parametrosSimulacion').then(function(obj){
+				obj.comercio = doc.comercio;
+				obj.descuento = doc.descuento;
+				obj.lista = doc.lista;
+				obj.medioDePago = doc.medioDePago;
+
+				return BaseLocal.put(obj);
+
+			});
 	}
 	
 	this.seleccionarComercio = function (com){		
@@ -135,44 +149,177 @@ angular.module('app.services.compras', [])
 	function aplicarPromociones (precio, cantidad, promociones, medioDePago,descuento,fecha){
 
 		var descuentoActual  = 0;
-		var precioASumar = precio * cantidad ;
+		var precioASumar = 0;
+		var precioFinal = precio * cantidad;
 		var dia = fecha.getDay();
+		var flag_tp = false;
+		var flag_pc = false;
+		var flag_cant = false;
+		var flag_tarj = false;
+		var flag_tc = false;
+		//var precioParcial = 0;
+
+		if (!descuento) {
+			flag_tarj = true;
+			descuento = {
+				_id: 0,
+				nombre: "Sin Tarjeta"
+			}
+		} else {
+			if (!descuento._id){
+				flag_tarj = true;
+				descuento._id = 0;
+			}
+		}
+
 		for(var l = 0; promociones && promociones.length > l ;l++){
 			var promocion = promociones[l];
-			if(promocion.plastico < 1 || promocion.plastico == medioDePago.tarjeta._id){
-				//La promoción no implica plástico o tiene el plástico de la promoción
-				if(promocion.banco < 1 || promocion.banco == medioDePago.banco._id){
-					//La promoción no implica ningún banco o el plastico es del banco de la promoción										
-						if(promocion.tarjeta < 1 || promocion.tarjeta == descuento._id){
-							//La promoción no implica tarjeta de descuento o tiene la tarjeta de descuento
-														
-							if (promocion.dias.indexOf(dia)>-1){
-								if(promocion.valor > 0){
-									//promocion estilo precios cuidados
-									descuentoActual = (precio -  promocion.valor) * cantidad ;
-									precioASumar = promocion.valor * cantidad;
-								}else if (promocion.cantidad > 0 && cantidad>=promocion.cantidad){
-									//promocion tipo 2x1
-									descuentoActual = precio * cantidad * promocion.porcentaje;
-									precioASumar = precio * cantidad -descuentoActual;
-								}else if(promocion.porcentaje > 0){
-									//promociones tipo 20% de descuento con credito
-									descuentoActual = precio * cantidad * promocion.porcentaje;
-									precioASumar = precio * cantidad -descuentoActual;
-								}		
-								//se aplicó alguno de los tipos de promoción, salimso del for de promociones
-								l = 64000; //para salir de promociones	
-							}
-																	
+			
+			if (promocion.dias.indexOf(dia)>-1){
+
+				//Aplico primero promocion precios cuidados (FLAG_PC)
+				if(promocion.valor > 0 && !flag_pc){
+					//promocion estilo precios cuidados
+					descuentoActual = (precio -  promocion.valor) * cantidad
+					//precioParcial = promocion.valor * cantidad;
+					//precioASumar = precioParcial;
+					precioASumar = promocion.valor * cantidad;
+					flag_pc = true;
+					flag_tp = true;
+				}
+
+				//Aplico promoción de cantidad (FLAG_CANT) 
+				if (promocion.cantidad > 0 && cantidad>=promocion.cantidad && !flag_cant ){
+
+					if (promocion.tarjeta >= 1 && promocion.tarjeta == descuento._id ) {
+
+						if (flag_pc && promocion.acumulable == 1) {
+							descuentoActual = descuentoActual * (1 - promocion.porcentaje);
+							precioASumar = precioASumar * (1 - promocion.porcentaje);
+							flag_cant = true;
+							flag_tp = true;
+							flag_tarj = true;
+						} else {
+							if (!flag_pc)
+								descuentoActual = precio * promocion.porcentaje * cantidad;
+								precioASumar = precio * (1 - promocion.porcentaje) * cantidad;
+								flag_cant = true;
+								flag_tp = true;
+								flag_tarj = true;
 						}
+					} else {
+							
+						if (flag_pc && promocion.acumulable == 1) {
+							descuentoActual = descuentoActual * (1 - promocion.porcentaje);
+							precioASumar = precioASumar * (1 - promocion.porcentaje);
+							flag_cant = true;
+							flag_tp = true;
+						} else {
+							if (!flag_pc)
+								descuentoActual = precio * promocion.porcentaje * cantidad;
+								precioASumar = precio * (1 - promocion.porcentaje) * cantidad;
+								flag_cant = true;
+								flag_tp = true;
+						}
+					}
+				}
+				
+
+				//Aplico promoción de comunidad (FLAG_TARJ)
+				if(promocion.tarjeta >= 1 && promocion.tarjeta == descuento._id && !flag_tarj){
+
+					if (flag_pc || flag_cant) {
+
+						if (promocion.acumulable == 1) {
+							descuentoActual = descuentoActual * (1 - promocion.porcentaje);
+							precioASumar = precioASumar * (1 - promocion.porcentaje);
+							flag_tarj = true;
+							flag_tp = true;
+						} 
+
+					} else {
+						descuentoActual = precio * promocion.porcentaje * cantidad;
+						precioASumar = precio * (1 - promocion.porcentaje) * cantidad;
+						flag_tarj = true;
+						flag_tp = true;
+					}
+
+				}
+
+				//Aplico promoción de bancos (FLAG_TC)
+
+				if(promocion.plastico >= 1 && promocion.plastico == medioDePago.tarjeta._id && !flag_tc){
+				//La promoción implica plástico y se tiene el plástico de la promoción
+					if(promocion.banco >= 1 && promocion.banco == medioDePago.banco._id && !flag_tc){
+					//La promoción implica banco y se tiene el banco de la promoción
+							
+						if (flag_pc || flag_cant || flag_tarj) {
+
+							if (promocion.acumulable == 1) {
+								descuentoActual = descuentoActual * (1 - promocion.porcentaje);
+								precioASumar = precioASumar * (1 - promocion.porcentaje);
+								flag_tc = true;
+								flag_tp = true;
+							} 
+
+						} else {
+							descuentoActual = precio * promocion.porcentaje * cantidad;
+							precioASumar = precio * (1 - promocion.porcentaje) * cantidad;
+							flag_tc = true;
+							flag_tp = true;
+						} 
+					} else {
+						if (promocion.banco == 0 && !flag_tc){
+
+							if (flag_pc || flag_cant || flag_tarj) {
+
+								if (promocion.acumulable == 1) {
+									descuentoActual = descuentoActual * (1 - promocion.porcentaje);
+									precioASumar = precioASumar * (1 - promocion.porcentaje);
+									flag_tc = true;
+									flag_tp = true;
+								} 
+
+							} else {
+								descuentoActual = precio * promocion.porcentaje * cantidad;
+								precioASumar = precio * (1 - promocion.porcentaje) * cantidad;
+								flag_tc = true;
+								flag_tp = true;
+							}
+						}
+					}
+				} else {
+					
+					if(promocion.plastico == 0 && !flag_tc) {
+						if (flag_pc || flag_cant || flag_tarj) {
+
+							if (promocion.acumulable == 1) {
+								descuentoActual = descuentoActual * (1 - promocion.porcentaje);
+								precioASumar = precioASumar * (1 - promocion.porcentaje);
+								flag_tc = true;
+								flag_tp = true;
+							} 
+
+						} else {
+							descuentoActual = precio * promocion.porcentaje * cantidad;
+							precioASumar = precio * (1 - promocion.porcentaje) * cantidad;
+							flag_tc = true;
+							flag_tp = true;
+						}
+					}
 				}
 			}
 		}
+				
+		if (flag_tp){
+			precioFinal = precioASumar;
+		}
+
 		var resultado = [];
 		descuentoActual = Number(descuentoActual.toFixed(2));
-		precioASumar = Number(precioASumar.toFixed(2));
+		precioFinal = Number(precioFinal.toFixed(2));
 		resultado.push(descuentoActual);
-		resultado.push(precioASumar);
+		resultado.push(precioFinal);
 		return  resultado;
 	}
 	
