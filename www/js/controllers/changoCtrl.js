@@ -11,7 +11,7 @@ angular.module('app.controllers.chango', [])
 	$scope.busqueda = {};
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
-		
+		//$scope.producto.editar = false;
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
 			 $scope.comercio = doc.comercio;
 			 $scope.medioDePago = doc.medioDePago;
@@ -72,6 +72,7 @@ angular.module('app.controllers.chango', [])
 
  $scope.seleccionarProductoDeBusqueda = function(producto) {
 	 $scope.modal2.hide();
+	 producto.editar = false;
 	 detalleProducto(producto);
  }
 	
@@ -93,9 +94,10 @@ angular.module('app.controllers.chango', [])
 
 	  function agregarAlChangoYCerrarModal(){
 		  	sacarDePendientes($scope.producto);
-			 agregarAlChango($scope.producto);
-		    $scope.$apply();
-		    $scope.modal1.hide();
+			 agregarAlChango($scope.producto, true).then(function(){
+				 $scope.$apply();
+				 $scope.modal1.hide();
+			 });
 	  }
 	  
 	$scope.cerrarYagregar = function() {
@@ -105,14 +107,14 @@ angular.module('app.controllers.chango', [])
 	$scope.cerrar = function() {
 		if($scope.producto.editar){
 			//vuelvo a agregar el producto que saqué al entrar en la pantalla de edición
-			agregarAlChango($scope.producto);			
+			agregarAlChango($scope.producto, false);			
 		}
 		 $scope.modal1.hide();
 	}
 	
 	$scope.editar = function(producto){
-		$scope.producto = producto;		
-		$scope.producto.editar = true;
+		producto.editar = true;
+		$scope.producto = producto;			
 		 sacarDelChango($scope.producto);
 		abrirModal(1);
 	}
@@ -129,6 +131,7 @@ angular.module('app.controllers.chango', [])
 	 $scope.escannear = function(){
 		 EscannerService.scanBarcode().then(function(codigo){
 			 ProductoService.getProductoPorEAN(codigo).then(function (producto){	
+				 producto.editar = false;
 				  detalleProducto(producto);
 			 });
 			 
@@ -145,12 +148,13 @@ angular.module('app.controllers.chango', [])
 	 }
 	 
 	 $scope.agregarDesdePendientes = function(producto){
+		 producto.editar = false;
 		 var nuevoProducto = (JSON.parse(JSON.stringify(producto)));
 		 detalleProducto(nuevoProducto);
 	 }
 	 
 	 function sacarDePendientes(producto){
-		 if($scope.lista == null){
+		 if($scope.lista == null || producto.editar){
 			 return;
 		 }
 		 
@@ -166,7 +170,7 @@ angular.module('app.controllers.chango', [])
 		 
 	 }
  
-	 function agregarAlChango(producto){
+	 function agregarAlChango(producto, generarAlertas){
 		 
 		 producto.ean = producto._id;
 		 producto.precio_lista = producto.lista;
@@ -183,18 +187,45 @@ angular.module('app.controllers.chango', [])
 		 $scope.chango.total =Number($scope.chango.total.toFixed(2)) ;
 		 $scope.chango.totalLista = Number($scope.chango.totalLista.toFixed(2));
 		 $scope.chango.descuentoTotal =  Number($scope.chango.descuentoTotal.toFixed(2));
-		 
-		 for(var i = 0; $scope.chango.productos.length> i;i++){
+		 var i = 0
+		 for(; $scope.chango.productos.length> i;i++){
 			 if($scope.chango.productos[i]._id == producto._id){
 				 $scope.chango.productos[i].cantidad+= producto.cantidad;
-				 return;
+				 producto.cantidad = $scope.chango.productos[i].cantidad;
+				 i = 6000;
 			 }
 		 }	
-		 $scope.chango.productos.push(producto)	 
-		ComprarService.verificarMejorPrecio(producto,$scope.comercio,$scope.comerciosCercanos,
-				$scope.medioDePago,$scope.descuento,new Date() , $scope.alertas).then(function(alertas){
-					$scope.alertas = alertas;
-				});
+		 if(i<5999){
+			 //No lo encontró, lo agrego
+			 $scope.chango.productos.push(producto)	 ;			 
+		 }
+		 if(generarAlertas){
+			 if($scope.comerciosCercanos.length < 1){
+				 //si no tiene comercios cercanos, por las dudas lo buscamos e nuevo
+				 ComerciosService.comerciosCercanosPorUbicacion([{
+	                 lat: comercio.ubicacion.coordinates[0],
+	                 long: comercio.ubicacion.coordinates[1]
+	             }] ).then(function(resp){
+	            	 if(resp.length > 0){
+	                	 $scope.comerciosCercanos = resp[0].comerciosCercanos;
+	            	 }
+	            	 $scope.$apply();
+	            	 return ComprarService.verificarMejorPrecio(producto,$scope.comercio,$scope.comerciosCercanos,
+	 						$scope.medioDePago,$scope.descuento,new Date() , $scope.alertas).then(function(alertas){
+	 							$scope.alertas = alertas;
+	 							return ;
+	 						});
+				 });
+			 }else{
+				 return ComprarService.verificarMejorPrecio(producto,$scope.comercio,$scope.comerciosCercanos,
+							$scope.medioDePago,$scope.descuento,new Date() , $scope.alertas).then(function(alertas){
+								$scope.alertas = alertas;
+								return ;
+							});
+			 }
+			 
+		 }
+		
 	 }
 	 
 	 function sacarDelChango(producto){
