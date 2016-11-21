@@ -73,10 +73,6 @@ angular.module('app.controllers.parametrizar', [])
 								});
 				 	};
 		 }		*/
-		 if(!$scope.medioDePago) {
-			 alert('No se seleccionó Medio de Pago.\nSeleccione uno para continuar.');
-			 return;
-		 }
 		 ComprarService.simularCompra($scope.lista,$scope.comercio,
 					$scope.medioDePago, $scope.descuento,new Date() ).then(function(simulaciones){
 						ComprarService.simulaciones = simulaciones;
@@ -84,15 +80,6 @@ angular.module('app.controllers.parametrizar', [])
 						$state.go('menEChango.listaSimulaciones');
 					});
 	 	};
-
-		 $scope.irAlChango = function() {
-			 if(!$scope.medioDePago) {
-				 
-				 alert('No se seleccionó Medio de Pago.\nSeleccione uno para continuar.');
-				 return;
-			 }
-			 $state.go('menEChango.eChango');
-		 }
 	 
 })
 .controller('listaSimulacionCtrl', function($scope,$state, ComprarService) {
