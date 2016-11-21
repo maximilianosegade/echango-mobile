@@ -394,8 +394,8 @@ angular.module('app.services.compras', [])
 	}
 	
 	function crearAlerta(producto, precioAComparar, descuentoAcomparar, comercioId, alertas){
-		var deltaPrecioPorcentual = 0.9;
-		var deltaPrecioAbsoluto = 50;
+		var deltaPrecioPorcentual = 0.97;
+		var deltaPrecioAbsoluto = 1;
 		
 		if(precioAComparar / (producto.precio_final * producto.cantidad) < deltaPrecioPorcentual &&
 				producto.precio_final * producto.cantidad - precioAComparar > deltaPrecioAbsoluto){
@@ -410,9 +410,12 @@ angular.module('app.services.compras', [])
 							//si lo tiene lo borro y lo vuelvo a calcular por si cambió la cantidad
 							alertas[i].descuento-=alertas[i].productos[j].descuento;
 							alertas[i].productos.splice(j, 1);
+							
+							j=500;
 						}
 							alertas[i].descuento += descuentoAcomparar;
 							alertas[i].productos.push({ean: producto.ean, nombre: producto.nombre, precio_final: precioAComparar, descuento: descuentoAcomparar});
+							
 						}					
 				}
 			}
