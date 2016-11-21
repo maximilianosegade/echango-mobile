@@ -397,31 +397,33 @@ angular.module('app.services.compras', [])
 		var deltaPrecioPorcentual = 0.9;
 		var deltaPrecioAbsoluto = 50;
 		
-		if(precioAComparar / producto.precio_final < deltaPrecioPorcentual &&
-				producto.precio_final - precioAComparar > deltaPrecioAbsoluto){
+		if(precioAComparar / (producto.precio_final * producto.cantidad) < deltaPrecioPorcentual &&
+				producto.precio_final * producto.cantidad - precioAComparar > deltaPrecioAbsoluto){
 			//agrego la alerta
 			var alerta = {};
+			var tieneComercio = false;
 			for(var i = 0; alertas.length > i; i++){
 				if (alertas[i].comercioId == comercioId){
-					if(alertas[i].productos[producto.ean]){
-						//si lo tiene que onda? asumo que es repetido y lo ignoro, creo
-					}else{
-						alertas[i].descuento += descuentoAcomparar;
-						alertas[i].productos.push({ean: producto.ean, nombre: producto.nombre, precio_final: precioAComparar, descuento: descuentoAcomparar});
-					}
+					tieneComercio = true
+					for(var j = 0;alertas[i].productos.length > j;j++ ){
+						if(alertas[i].productos[j].ean == producto.ean){
+							//si lo tiene lo borro y lo vuelvo a calcular por si cambió la cantidad
+							alertas[i].descuento-=alertas[i].productos[j].descuento;
+							alertas[i].productos.splice(j, 1);
+						}
+							alertas[i].descuento += descuentoAcomparar;
+							alertas[i].productos.push({ean: producto.ean, nombre: producto.nombre, precio_final: precioAComparar, descuento: descuentoAcomparar});
+						}					
 				}
 			}
-			if(alertas[comercioId]){
-				//ya tengo alertas para este comercio
-				
-			}else{
+			if(!tieneComercio){
 				//no tengo alertas para este comercio
 				alerta = {
 						comercioId: comercioId,
 						descuento : descuentoAcomparar,
 						productos: []						
 				}
-				alertas = [];
+				//alertas = [];
 				alerta.productos.push({ean: producto.ean, nombre: producto.nombre, precio_final: precioAComparar, descuento: descuentoAcomparar});
 				alertas.push(alerta);
 			}
