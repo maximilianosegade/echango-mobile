@@ -171,8 +171,9 @@ angular.module('app.controllers.chango', [])
 	 };
 	 
 	 function detalleProducto(producto){
+		 var cantidad = 1;
 		 if(producto.cantidad) {
-			 var cantidad = Number(producto.cantidad);
+			 cantidad = Number(producto.cantidad);
 		 }
 		 
 		 ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
@@ -199,7 +200,7 @@ angular.module('app.controllers.chango', [])
 		 }
 		 
 		 for(var i = 0; $scope.lista.productos.length> i;i++){
-			 if($scope.lista.productos[i]._id == producto._id){
+			 if($scope.lista.productos[i].ean == producto.ean){
 				 $scope.lista.productos[i].cantidad -= producto.cantidad;
 				 if($scope.lista.productos[i].cantidad<1){
 					 $scope.lista.productos.splice(i, 1);
@@ -212,7 +213,6 @@ angular.module('app.controllers.chango', [])
  
 	 function agregarAlChango(producto, generarAlertas){
 		 
-		 producto.ean = producto._id;
 		 producto.precio_lista = producto.lista;
 		 producto.desc_valor = producto.descuento;
 		 //producto.precio_final = producto.precio_final;
@@ -229,7 +229,7 @@ angular.module('app.controllers.chango', [])
 		 $scope.chango.descuentoTotal =  Number($scope.chango.descuentoTotal.toFixed(2));
 		 var i = 0
 		 for(; $scope.chango.productos.length> i;i++){
-			 if($scope.chango.productos[i]._id == producto._id){
+			 if($scope.chango.productos[i].ean == producto.ean){
 				 $scope.chango.productos[i].cantidad+= producto.cantidad;
 				 producto.cantidad = $scope.chango.productos[i].cantidad;
 				 i = 6000;
@@ -242,7 +242,7 @@ angular.module('app.controllers.chango', [])
 		 if(generarAlertas){
 			 if($scope.comerciosCercanos.length < 1){
 				 //si no tiene comercios cercanos, por las dudas lo buscamos e nuevo
-				 ComerciosService.comerciosCercanosPorUbicacion([{
+				return ComerciosService.comerciosCercanosPorUbicacion([{
 	                 lat: comercio.ubicacion.coordinates[0],
 	                 long: comercio.ubicacion.coordinates[1]
 	             }] ).then(function(resp){
