@@ -160,14 +160,14 @@ angular.module('app.services.compras', [])
 		//var precioParcial = 0;
 
 		if (!descuento) {
-			flag_tarj = true;
+			//flag_tarj = true;
 			descuento = {
 				_id: 0,
 				nombre: "Sin Tarjeta"
 			}
 		} else {
 			if (!descuento._id){
-				flag_tarj = true;
+				//flag_tarj = true;
 				descuento._id = 0;
 			}
 		}
