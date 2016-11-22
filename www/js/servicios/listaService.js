@@ -24,7 +24,7 @@ angular.module('app.services.lista', [])
 		   
 		   nuevaLista.descripcion = $desc;
 		   nuevaLista.productos = $lista;
-		   nuevaLista._id = $nombre;
+		   nuevaLista._id = $nombre + (new Date()).getTime();
 		   nuevaLista.totalProductos = calcularTotalElementos($lista);
 		   if($editando){
 			   return database.get($nombre).then(function(doc) {
