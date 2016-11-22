@@ -26,6 +26,9 @@ angular.module('app.services', [])
 .factory('BasePreciosPorComercio', function() {
   return preciosPorComercioLocal = new PouchDB('basePreciosPorComercio');
 })
+.factory('BaseRelevamiento', function() {
+  return new PouchDB('baseRelevamiento');
+})
 .factory('DBSync', function(BaseProductos, BaseComercios, BasePreciosPorComercio, ComerciosService) {
 
 
