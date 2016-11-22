@@ -423,9 +423,11 @@ angular.module('app.services.compras', [])
 			simulacion.cantidad_total_articulos = cantidad_total_articulos;
 			simulacion.lista = lista;
 			simulacion.comercio = comercio;
-			simulacion.fecha = fecha.toISOString()
-			  .replace(/T/, ' ')
-			  .replace(/\..+/, '');
+			//simulacion.fecha = fecha.toISOString()
+			//  .replace(/T/, ' ')
+			//  .replace(/\..+/, '');
+			// FIX 20161122: Se usa la fecha en el GMT actual.
+			simulacion.fecha = moment(fecha).format().replace(/T/, ' ').replace(/-\d\d:\d\d/, '');
 			
 			if(medioDePago){
 				simulacion.banco = {_id: medioDePago.banco._id,
@@ -477,10 +479,12 @@ angular.module('app.services.compras', [])
 		compra.productos = chango.productos;
 		
 		compra.comercio = comercio;
-		compra.fecha = fecha.toISOString()
-		  .replace(/T/, ' ')
-		  .replace(/\..+/, '');
-		
+		//compra.fecha = fecha.toISOString()
+		//  .replace(/T/, ' ')
+		//  .replace(/\..+/, '');
+		// FIX 20161122: Se usa la fecha en el GMT actual.
+		compra.fecha = moment(fecha).format().replace(/T/, ' ').replace(/-\d\d:\d\d/, '');
+				
 		if(medioDePago){
 			compra.banco = {_id: medioDePago.banco._id,
 					nombre: medioDePago.banco.nombre} ;
