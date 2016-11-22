@@ -3,6 +3,9 @@ angular.module('app.controllers.parametrizar', [])
 	
 	 $scope.$on("$ionicView.beforeEnter", function(event, data){
 		 ComprarService.simulacion = ListaService.simular;
+		 ComprarService.chango = null;
+		 ComprarService.lista = null;
+		 ComprarService.alertas = [];
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
 			 $scope.comercio = doc.comercio;
 			 $scope.medioDePago = doc.medioDePago;

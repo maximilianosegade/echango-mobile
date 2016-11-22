@@ -63,7 +63,7 @@ angular.module('app.services.producto', [])
 			for(var k = 0; producto.precios.length > k;k++){
 				if(producto.precios[k].id == comercio._id){
 					// estamos en el comercio seleccionado
-					producto.lista = producto.precios[k].precio;
+					producto.lista = Number(producto.precios[k].precio);
 					var result =ComprarService.aplicarPromociones(producto.precios[k].precio	,producto.cantidad,
 							producto.precios[k].promociones,medioDePago,descuento,fecha);
 					 

@@ -11,6 +11,7 @@
                    <i class="icon ion-alert-circled"></i>
             </ion-item>                
             </ion-list>
+            <p ng-if="alertas.length <1">No hay alertas disponibles</p>
         </div>
     </ion-content>
     <script id="alertas-modal.html" type="text/ng-template">
@@ -27,6 +28,7 @@
               <p>Te ahorras: {{item.descuento}}</p> 
                    <i class="icon ion-alert-circled"></i>
             </ion-item> 
+            <a ng-click="sacarYHacerLista(alerta)"  id="eChango-button138" style="font-weight:600;color:#FFFFFF;font-size:14px;border-radius:40px 40px 40px 40px;" class="button button-balanced  button-block icon-right ion-android-arrow-dropright-circle">Sacar productos del Chango</a>
           </ion-content>
         </ion-modal-view>
       </script>
