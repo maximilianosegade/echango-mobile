@@ -565,6 +565,7 @@ angular.module('app.services.compras', [])
 							j=500;
 						}
 							alertas[i].descuento += descuentoAcomparar;
+							alertas[i].descuento  = Number(alertas[i].descuento.toFixed(2));
 							alertas[i].productos.push({ean: producto.ean, nombre: producto.nombre, precio_final: precioAComparar, descuento: descuentoAcomparar});
 							
 						}					
@@ -578,6 +579,7 @@ angular.module('app.services.compras', [])
 						productos: []						
 				}
 				//alertas = [];
+				alerta.descuento  = Number(alerta.descuento.toFixed(2));
 				alerta.productos.push({ean: producto.ean, nombre: producto.nombre, precio_final: precioAComparar, descuento: descuentoAcomparar});
 				alertas.push(alerta);
 			}
