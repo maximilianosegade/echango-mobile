@@ -94,7 +94,7 @@ angular.module('app.controllers.chango', [])
 	  };
 
 	  function agregarAlChangoYCerrarModal(){
-		  	if(!$scope.producto.cantidad) {
+		  	if(isNaN($scope.producto.cantidad)) {
 				  alert('Se debe especificar una cantidad.')
 				  return;
 			  }
