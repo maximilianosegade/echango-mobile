@@ -9,7 +9,8 @@ angular.module('app.controllers.chango', [])
 	$scope.alertas = [];
 	$scope.comerciosCercanos = [];
 	$scope.busqueda = {};
-	
+	$scope.isEditing = false;
+
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		//$scope.producto.editar = false;
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
@@ -112,13 +113,29 @@ angular.module('app.controllers.chango', [])
 		 $scope.modal1.hide();
 	}
 	
+	$scope.salirModal = function(){
+		$scope.modal1.hide();
+	}
+
 	$scope.editar = function(producto){
 		producto.editar = true;
 		$scope.producto = producto;			
+		$scope.producto.editar = true;
+		$scope.isEditing = true;
 		 sacarDelChango($scope.producto);
 		abrirModal(1);
 	}
 	
+	$scope.actualizarPrecioFinal = function() {
+		if($scope.producto){
+			if($scope.producto.precio_final == 0 || ($scope.producto.precio_final != ($scope.producto.lista - $scope.producto.descuento))){
+				//No había precio y lo modifico a mano el usuario
+				$scope.producto.precio_final = $scope.producto.lista - $scope.producto.descuento;
+				$scope.$apply();
+				}
+			}
+
+	}
 	
 	
 	/*MODAL selección productos*/
@@ -139,10 +156,16 @@ angular.module('app.controllers.chango', [])
 	 };
 	 
 	 function detalleProducto(producto){
+		 if(producto.cantidad) {
+			 var cantidad = producto.cantidad;
+		 }
+		 
 		 ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
 					$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
 						producto =prod;
+						producto.cantidad = cantidad;
 						 $scope.producto = producto;
+						 $scope.isEditing = false;
 						 abrirModal(1);    
 					})
 	 }
@@ -150,7 +173,9 @@ angular.module('app.controllers.chango', [])
 	 $scope.agregarDesdePendientes = function(producto){
 		 producto.editar = false;
 		 var nuevoProducto = (JSON.parse(JSON.stringify(producto)));
+		 
 		 detalleProducto(nuevoProducto);
+		 
 	 }
 	 
 	 function sacarDePendientes(producto){
@@ -177,7 +202,7 @@ angular.module('app.controllers.chango', [])
 		 producto.desc_valor = producto.descuento;
 		 //producto.precio_final = producto.precio_final;
 		 $scope.chango.totalProductosComprados += producto.cantidad ;
-		 if($scope.producto.precio_final == 0 || ($scope.producto.precio_final != ($scope.producto.lista - $scope.producto.descuento))){
+		 if($scope.producto.precio_final == 0){
 			 //No había precio y lo modifico a mano el usuario
 			 $scope.producto.precio_final = $scope.producto.lista;
 		 }
@@ -333,7 +358,7 @@ angular.module('app.controllers.chango', [])
 	};
 
 	$scope.$on('$destroy', function() {
-	        $scope.modal.remove();
+	        $scope.modal1.remove();
 	})
 	
 	$scope.abrirModal = function(alerta){

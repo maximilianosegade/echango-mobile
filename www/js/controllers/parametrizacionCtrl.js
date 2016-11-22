@@ -28,7 +28,16 @@ angular.module('app.controllers.parametrizar', [])
 	 
 	 $scope.elegirDescuento = function(){
 		 ComprarService.simular = true;
-	     $state.go('menEChango.descuentos');
+		 var parametros = {
+			 comercio: $scope.comercio,
+			 medioDePago: $scope.medioDePago,
+			 descuento: null,
+			 lista: $scope.lista
+		 }
+		 ComprarService.actualizarParametrosSimulacion(parametros);
+		 $scope.descuento = null;
+		 $scope.$apply();
+		 $state.go('menEChango.descuentos');
 	 }
 	 
 	 
@@ -64,6 +73,10 @@ angular.module('app.controllers.parametrizar', [])
 								});
 				 	};
 		 }		*/
+		 if(!$scope.medioDePago) {
+			 alert('No se seleccionó Medio de Pago.\nSeleccione uno para continuar.');
+			 return;
+		 }
 		 ComprarService.simularCompra($scope.lista,$scope.comercio,
 					$scope.medioDePago, $scope.descuento,new Date() ).then(function(simulaciones){
 						ComprarService.simulaciones = simulaciones;
@@ -71,6 +84,15 @@ angular.module('app.controllers.parametrizar', [])
 						$state.go('menEChango.listaSimulaciones');
 					});
 	 	};
+
+		 $scope.irAlChango = function() {
+			 if(!$scope.medioDePago) {
+				 
+				 alert('No se seleccionó Medio de Pago.\nSeleccione uno para continuar.');
+				 return;
+			 }
+			 $state.go('menEChango.eChango');
+		 }
 	 
 })
 .controller('listaSimulacionCtrl', function($scope,$state, ComprarService) {
