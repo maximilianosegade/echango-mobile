@@ -10,14 +10,25 @@ angular.module('app.controllers.chango', [])
 	$scope.comerciosCercanos = [];
 	$scope.busqueda = {};
 	$scope.isEditing = false;
+	ComprarService.chango = null;
+	 ComprarService.lista = null;
 
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		//$scope.producto.editar = false;
+		
+		
 		ComprarService.obtenerParametrosSimulacion().then(function(doc){
 			 $scope.comercio = doc.comercio;
 			 $scope.medioDePago = doc.medioDePago;
 			 $scope.descuento = doc.descuento;
 			 $scope.lista = doc.lista;
+			 $scope.alertas = [];
+			 if(ComprarService.chango != null){
+					$scope.chango = ComprarService.chango;
+					$scope.lista = ComprarService.lista;
+					$scope.alertas = ComprarService.alertas;
+				};
+			 
 			 EscannerService.setCurrentComercioById(doc.comercio._id);
 			 ComerciosService.comerciosCercanosPorUbicacion([{
                  lat: comercio.ubicacion.coordinates[0],
@@ -161,7 +172,7 @@ angular.module('app.controllers.chango', [])
 	 
 	 function detalleProducto(producto){
 		 if(producto.cantidad) {
-			 var cantidad = producto.cantidad;
+			 var cantidad = Number(producto.cantidad);
 		 }
 		 
 		 ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
@@ -281,11 +292,15 @@ angular.module('app.controllers.chango', [])
 			ComprarService.simulacion = compra;
 			ComprarService.simulada = false;*/
 		 ComprarService.alertas = $scope.alertas;
+		  ComprarService.chango = $scope.chango;
+		  ComprarService.lista= $scope.lista;
 			$state.go('menEChango.verificarChango');								
 		 }	
 	 
 	 $scope.cerrarChango = function () {
-		 
+		 ComprarService.chango = null;
+		 ComprarService.lista = null;
+		 ComprarService.alertas = [];
 			var compra = ComprarService.cerrarChango($scope.chango,$scope.comercio,
 										$scope.medioDePago, $scope.descuento,new Date() );
 			$scope.chango =  {productos:[],
@@ -340,11 +355,12 @@ angular.module('app.controllers.chango', [])
 	
 	
 })
-.controller('verificarChangoCtrl', function($scope,$state,$ionicModal,ComprarService,ComerciosService ) {
+.controller('verificarChangoCtrl', function($scope,$state,$ionicModal,ComprarService,ComerciosService, ListaService ) {
 	
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		//las alertas solo tienen los ids de comercios
 		$scope.alertas = ComprarService.alertas;
+		$scope.chango = ComprarService.chango;
 		$scope.$apply();		
 	 });
 	
@@ -374,6 +390,42 @@ angular.module('app.controllers.chango', [])
 		
 	}
 	
+	$scope.sacarYHacerLista = function(alerta){
+		console.log('Comienza remoción de productos');
+		for(var i = 0; alerta.productos.length > i; i++){
+			sacarDelChango(alerta.productos[i]);
+		}
+		console.log('productos fuera del chango - comienza creación de lista');
+		ListaService.guardarLista("Comprar luego " + alerta.comercio.direccion,
+				"Para ahorrar " +alerta.descuento + " pesos",
+				alerta.productos, false).then(function(){
+					console.log('Lista creada');
+					alert("Sacamos los productos del chango");
+					 $scope.modal1.hide();
+					 ComprarService.alertas = [];
+					$state.go('menEChango.eChango');	
+				});
+	}
+	
+	function sacarDelChango(producto){
+		var productoASacar = null;
+		for(var i = 0; $scope.chango.productos.length> i;i++){
+			 if($scope.chango.productos[i].ean == producto.ean){
+				 productoASacar = $scope.chango.productos[i];
+				 producto.cantidad = productoASacar.cantidad;
+				 $scope.chango.productos.splice(i, 1);
+				 console.log('Producto eliminado --- ' +producto._id );
+			 }
+		 }	
+		 $scope.chango.totalProductosComprados -= productoASacar.cantidad ;
+		 $scope.chango.total -= productoASacar.precio_final * productoASacar.cantidad ;
+		 $scope.chango.totalLista -= productoASacar.lista * productoASacar.cantidad ;
+		 $scope.chango.descuentoTotal -= productoASacar.descuento * productoASacar.cantidad ;
+		 $scope.chango.total =Number($scope.chango.total.toFixed(2)) ;
+		 $scope.chango.totalLista = Number($scope.chango.totalLista.toFixed(2));
+		 $scope.chango.descuentoTotal =  Number($scope.chango.descuentoTotal.toFixed(2));
+		 
+	 }
 	
 	
 })
