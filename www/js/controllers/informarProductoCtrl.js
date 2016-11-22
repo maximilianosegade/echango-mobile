@@ -1,5 +1,5 @@
 angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
-		'informarProductoCtrl', function($scope, EscannerService, $state, ProductoService, BasePreciosPorComercio) {
+		'informarProductoCtrl', function($scope, EscannerService, $state, ProductoService, BasePreciosPorComercio, BaseRelevamiento, BaseCompras, LoginService) {
 
             var currentEAN;
             var idComercio = EscannerService.getCurrentComercio()._id; // TODO: debería inicializarse con la ID correcta
@@ -85,20 +85,35 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
                 
                 preciosComercio.precios[currentEAN].precio = $scope.data.currentPrice;
                 //alert(JSON.stringify(preciosComercio.precios[currentEAN]));
-                BasePreciosPorComercio.put(
+                // TODO: Guardar en una DB aparte para que no rompa los reportes
+                var usuario = LoginService.getNombreUsuario();
+                var fecha = new Date();
+                var idRelevamiento = usuario +  fecha.getTime() + idComercio;
+                BaseRelevamiento.put(
                             {
-                                _id: preciosComercio._id,
-                                _rev: preciosComercio._rev,
-                                precios: preciosComercio.precios
+                                
+                                "_id": idRelevamiento,
+                                "usuario": usuario,
+                                "productos": [
+                                                {
+                                                "ean": currentEAN,
+                                                "precio_lista": $scope.data.currentPrice
+                                                }
+                                            ],
+                                "comercio": {
+                                                "_id": idComercio
+                                            },
+                                "fecha": moment(fecha).format().replace(/T/, ' ').replace(/-\d\d:\d\d/, '')
+
                             }
                         ).then(function(){
-                            				BasePreciosPorComercio.replicate.to('https://webi.certant.com/echango/novedades_subida', {
-					      live: false,
-					      retry: true
+                            	BaseRelevamiento.replicate.to('https://webi.certant.com/echango/novedades_subida', {
+                                live: false,
+                                retry: true
 				    	}).then(function(){
-				    		console.log('[Guardadas las novedades en precios - Sync FINISH].')
+				    		    console.log('[Guardadas relevamiento - Sync FINISH].')
 				    	}).catch(function(){
-				    		console.log('[Error al Guardar novedades en precios - Sync FINISH].')
+				    		    console.log('[Error al relevar - Sync FINISH].')
 				    	});
                             });
                       
