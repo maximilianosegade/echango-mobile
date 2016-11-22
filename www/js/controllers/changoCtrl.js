@@ -94,6 +94,10 @@ angular.module('app.controllers.chango', [])
 	  };
 
 	  function agregarAlChangoYCerrarModal(){
+		  	if(!$scope.producto.cantidad) {
+				  alert('Se debe especificar una cantidad.')
+				  return;
+			  }
 		  	sacarDePendientes($scope.producto);
 			 agregarAlChango($scope.producto, true).then(function(){
 				 $scope.$apply();
