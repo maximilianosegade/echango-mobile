@@ -157,7 +157,7 @@ angular.module('app.controllers.chango', [])
 
 	
 	$scope.imagenProducto = function(){
-		return 'https://imagenes.preciosclaros.gob.ar/productos/'+$scope.producto.ean +'.jpg' ; 
+		return 'https://imagenes.preciosclaros.gob.ar/productos/' + $scope.producto.ean + '.jpg' ; 
 	}
 	
 	 $scope.escannear = function(){
@@ -178,7 +178,7 @@ angular.module('app.controllers.chango', [])
 		 ProductoService.obtenerDetalleProducto(producto,$scope.comercio,
 					$scope.medioDePago, $scope.descuento,new Date()).then(function(prod){
 						producto =prod;
-						producto.cantidad = cantidad;
+						producto.cantidad = parseInt(cantidad);
 						 $scope.producto = producto;
 						 $scope.isEditing = false;
 						 abrirModal(1);    
@@ -324,6 +324,9 @@ angular.module('app.controllers.chango', [])
 	$scope.$on("$ionicView.beforeEnter", function(event, data){
 		$scope.compra = ComprarService.simulacion;
 		$scope.compra.simulada = ComprarService.simulada;
+		$scope.compra.valorLista = $scope.compra.valorLista.toFixed(2);
+		$scope.compra.descuentoTotal = $scope.compra.descuentoTotal.toFixed(2); 
+		$scope.compra.valorTotal = $scope.compra.valorTotal.toFixed(2);
 		
 	 });
 	
@@ -361,6 +364,9 @@ angular.module('app.controllers.chango', [])
 		//las alertas solo tienen los ids de comercios
 		$scope.alertas = ComprarService.alertas;
 		$scope.chango = ComprarService.chango;
+		for (var i=0; i< $scope.alertas.length; i++){
+			$scope.alertas[i].descuento = $scope.alertas[i].descuento.toFixed(2); 
+		}
 		$scope.$apply();		
 	 });
 	

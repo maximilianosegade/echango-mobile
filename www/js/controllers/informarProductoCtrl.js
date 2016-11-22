@@ -60,6 +60,7 @@ angular.module('app.controllers.informarProducto', [ 'ngCordova' ]).controller(
                 BasePreciosPorComercio.get(idComercio).then(function(obj){
                         
                         preciosComercio = obj;
+                        obj.precios[currentEAN].precio = Number(obj.precios[currentEAN].precio);                        
                         //currentProd = precios.precios[currentEAN];
                         //alert(JSON.stringify(currentProd));
                         $scope.data.currentPrice = obj.precios[currentEAN].precio;
